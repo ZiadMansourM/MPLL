@@ -36,6 +36,9 @@ AUTH_USER_MODEL ='users.CustomUser'
 # Application definition
 
 INSTALLED_APPS = [
+    'ckeditor',
+    'crispy_forms',
+    'crispy_bootstrap5',
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
     'main.apps.MainConfig',
@@ -135,3 +138,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Media Settings
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
+
+# crispy forms SETTINGS
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+# Log In redirect
+LOGIN_REDIRECT_URL = 'blog-home'
+LOGIN_URL = 'login'
