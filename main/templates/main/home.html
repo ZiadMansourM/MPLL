@@ -1,27 +1,24 @@
-{% extends "main/base.html" %}
-{% load static %}
-
-{% block content %}
-    <div class="row justify-content-center align-items-center">
-        <!-- First Col :: Text -->
-        <div class="col-md-5 text-center text-md-start">
-            <h1>
-                <div class="display-2">Luxor Library</div>
-                <div class="display-5 text-muted">Your Reading Place</div>
-            </h1>
-            <p class="lead my-4 text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-            <a href="#" class="btn btn-secondary btn-lg">Buy Now</a>
-            <!-- Open Sidebar / offcanvas -->
-            <!-- <a href="#" class="d-block mt-3" data-bs-toggle="offcanvas" role="button" aria-controls="sidebar">
+{% extends "main/base.html" %} {% load static %} {% block content %}
+<div class="row justify-content-center align-items-center">
+    <!-- First Col :: Text -->
+    <div class="col-md-5 text-center text-md-start">
+        <h1>
+            <div class="display-2">Luxor Library</div>
+            <div class="display-5 text-muted">Your Reading Place</div>
+        </h1>
+        <p class="lead my-4 text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+        <a href="#" class="btn btn-secondary btn-lg">Buy Now</a>
+        <!-- Open Sidebar / offcanvas -->
+        <!-- <a href="#" class="d-block mt-3" data-bs-toggle="offcanvas" role="button" aria-controls="sidebar">
                 Explore our site
             </a> -->
-        </div>
-        <!-- Second Col :: Image -->
-        <div class="col-md-5 text-center d-none d-md-block">
-            <!-- ToolTip -->
-            <span class="tt" data-bs-placement="bottom" title="Net Ninja Book Cover">
-                <img class="img-fluid" src="{% static 'main/assets/main.png' %}" alt="ebook cover">
-            </span>
-        </div>
     </div>
+    <!-- Second Col :: Image -->
+    <div class="col-md-5 text-center d-none d-md-block">
+        <!-- ToolTip -->
+        <span class="tt" data-bs-placement="bottom" title="Net Ninja Book Cover">
+                <img class="img-fluid" src="{% static 'main/assets/home.png' %}" alt="ebook cover">
+            </span>
+    </div>
+</div>
 {% endblock content %}
