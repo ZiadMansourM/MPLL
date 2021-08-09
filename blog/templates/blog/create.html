@@ -1,4 +1,5 @@
 {% extends "main/base.html" %}
+{% load crispy_forms_tags %}
 {% load static %}
 
 {% block content %}
@@ -6,26 +7,21 @@
     <!-- First Column: Posts -->
     <div class="col-8 text-start">
         <!-- Header: Author - date -->
-        {% for post in posts %}
         <div class="card mb-3">
-            <h5 class="card-header fs-4">{{ post.title }} <span class="fs-6 mt-1 right-adjust text-muted">{{ post.date_posted|date:"F d, Y - P" }}</span></h5>
+            <!-- <h5 class="card-header fs-4">{{ post.title }} <span class="fs-6 mt-1 right-adjust text-muted">{{ post.date_posted|date:"F d, Y - P" }}</span></h5> -->
             <div class="card-body">
-                <div class="row justify-content-center">
-                    <div class="col-3">
-                        <img src="{{ post.image.url }}" class="img-fluid" alt="Error">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4"> Blog Post </legend>
+                        {{ form|crispy }}
+                    </fieldset>
+                    <div class="form-group">
+                        <button class="btn btn-outline-info" type="submit"> Post </button>
                     </div>
-                    <div class="col-9">
-                        <h5 class="card-title">{{ post.author }}</h5>
-                        <p class="card-text">{{ post.content|truncatechars:450 }}</p>
-                        <a href="{{ post.id }}" class="btn btn-primary mb-3">Details</a>
-                        {% if post.last_modified %}
-                            <p class="text-muted right-adjust mt-2">Last modified: {{ post.last_modified }}</p>
-                        {% endif %}
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
-        {% endfor %}
     </div>
     <!-- Second Column: Sidebar -->
     <div class="col-4 text-center">
@@ -39,6 +35,7 @@
                     <li class="list-group-item list-group-item-light">etc</li>
                 </ul>
             </p>
+            
         </div>
     </div>
 </div>

@@ -6,7 +6,6 @@
     <!-- First Column: Posts -->
     <div class="col-8 text-start">
         <!-- Header: Author - date -->
-        {% for post in posts %}
         <div class="card mb-3">
             <h5 class="card-header fs-4">{{ post.title }} <span class="fs-6 mt-1 right-adjust text-muted">{{ post.date_posted|date:"F d, Y - P" }}</span></h5>
             <div class="card-body">
@@ -16,8 +15,7 @@
                     </div>
                     <div class="col-9">
                         <h5 class="card-title">{{ post.author }}</h5>
-                        <p class="card-text">{{ post.content|truncatechars:450 }}</p>
-                        <a href="{{ post.id }}" class="btn btn-primary mb-3">Details</a>
+                        <p class="card-text">{{ post.content|safe }}</p>
                         {% if post.last_modified %}
                             <p class="text-muted right-adjust mt-2">Last modified: {{ post.last_modified }}</p>
                         {% endif %}
@@ -25,7 +23,6 @@
                 </div>
             </div>
         </div>
-        {% endfor %}
     </div>
     <!-- Second Column: Sidebar -->
     <div class="col-4 text-center">
