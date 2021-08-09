@@ -13,3 +13,4 @@ class Post(models.Model):
     date_posted = models.DateTimeField(default=timezone.now)
     # TODO: Look me up
     last_modifed = models.DateTimeField(auto_now=True)
+    #checking comment
