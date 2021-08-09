@@ -36,6 +36,7 @@ AUTH_USER_MODEL ='users.CustomUser'
 # Application definition
 
 INSTALLED_APPS = [
+    'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
     'main.apps.MainConfig',
     'django.contrib.admin',
@@ -112,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Egypt'
 
 USE_I18N = True
 
@@ -130,3 +131,7 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Media Settings
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/'
