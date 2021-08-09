@@ -10,4 +10,4 @@ def home(request):
 
 def about(request):
     #return HttpResponse("<h1> Hello world from about page </h1>")    
-     return render(request,'main/about.html')
+    return render(request,'main/about.html')
