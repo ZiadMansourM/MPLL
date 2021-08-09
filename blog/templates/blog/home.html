@@ -1,0 +1,45 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <!-- First Column: Posts -->
+    <div class="col-8 text-start">
+        <!-- Header: Author - date -->
+        {% for post in posts %}
+        <div class="card mb-3">
+            <h5 class="card-header fs-4">{{ post.title }} <span class="fs-6 mt-1 right-adjust text-muted">{{ post.date_posted }}</span></h5>
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <div class="col-3">
+                        <img src="{% static '{{ post.image }}' %}" class="img-fluid" alt="Error">
+                    </div>
+                    <div class="col-9">
+                        <h5 class="card-title">{{ post.author }}</h5>
+                        <p class="card-text">{{ post.content|truncatechars:450 }}</p>
+                        <a href="#" class="btn btn-primary mb-3">Details</a>
+                        {% if post.last_modified %}
+                            <p class="text-muted right-adjust mt-2">Last modified: {{ post.last_modified }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- Second Column: Sidebar -->
+    <div class="col-4 text-center">
+        <div class="content-section">
+            <h3>Our Sidebar</h3>
+            <p class='text-muted'>You can put any information here you'd like.
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-light">Latest Posts</li>
+                    <li class="list-group-item list-group-item-light">Announcements</li>
+                    <li class="list-group-item list-group-item-light">Calendars</li>
+                    <li class="list-group-item list-group-item-light">etc</li>
+                </ul>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock content %}
