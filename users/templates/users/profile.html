@@ -1,0 +1,16 @@
+{% extends 'main/base.html' %} {% load crispy_forms_tags %} {% block content %}
+<div class="content-section">
+    <div class="media">
+        <img class="rounded-circle account-img" src="{{ user.image.url }}">
+        <div class="media-body">
+            <h2 class="account-heading">{{ user.username }}</h2>
+            <p class="text-secondary">{{ user.email }}</p>
+        </div>
+    </div>
+    {% if user.is_manager %}
+    <p> create manager user <a class="btn btn-outline-info" href="{% url 'register-manager' %}">click here </a></p>
+    <p> create editor user <a class="btn btn-outline-info" href="{% url 'register-editor' %}">click here </a></p>
+    {% endif %}
+    <!-- FORM HERE -->
+</div>
+{% endblock content %}
