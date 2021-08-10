@@ -1,7 +1,4 @@
-{% extends "main/base.html" %}
-{% load static %}
-
-{% block content %}
+{% extends "main/base.html" %} {% load static %} {% block content %}
 <div class="row justify-content-center">
     <!-- First Column: Posts -->
     <div class="col-8 text-start">
@@ -16,10 +13,9 @@
                     </div>
                     <div class="col-9">
                         <h5 class="card-title">{{ post.author }}</h5>
-                        <p class="card-text">{{ post.content|truncatechars:450 }}</p>
-                        <a href="{{ post.id }}" class="btn btn-primary mb-3">Details</a>
-                        {% if post.last_modified %}
-                            <p class="text-muted right-adjust mt-2">Last modified: {{ post.last_modified }}</p>
+                        <p class="card-text">{{ post.content|truncatechars:450|safe }}</p>
+                        <a href="{{ post.id }}" class="btn btn-primary mb-3">Details</a> {% if post.last_modified %}
+                        <p class="text-muted right-adjust mt-2">Last modified: {{ post.last_modified }}</p>
                         {% endif %}
                     </div>
                 </div>
