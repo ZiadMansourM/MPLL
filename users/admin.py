@@ -7,8 +7,10 @@ from django.contrib.auth.admin import UserAdmin
 
 @admin.register(CustomUser)
 class CustomUSerAdmin(UserAdmin):
-    list_display = ('username', 'is_superuser', 'is_active', 'is_editor')
-    list_filter = ('is_superuser', 'is_active', 'is_editor', 'is_staff')
+    list_display = ('username', 'is_superuser',
+                    'is_active', 'is_editor', 'is_manager')
+    list_filter = ('is_superuser', 'is_active',
+                   'is_editor', 'is_staff', 'is_manager')
     search_fields = ('username',)
     ordering = ('username',)
 
@@ -23,9 +25,9 @@ class CustomUSerAdmin(UserAdmin):
                                        'is_staff',
                                        'is_superuser',
                                        'is_editor',
+                                       'is_manager',
                                        'groups',
                                        'user_permissions',
-
                                        )}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
@@ -42,6 +44,7 @@ class CustomUSerAdmin(UserAdmin):
                        'is_staff',
                        'is_superuser',
                        'is_editor',
+                       'is_manager',
                        'groups',
                        'user_permissions',
                        )}
