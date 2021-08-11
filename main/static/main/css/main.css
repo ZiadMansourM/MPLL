@@ -1,4 +1,4 @@
-section {
+section.main-section {
     padding: 60px 0;
 }
 .content-section {
@@ -12,4 +12,19 @@ section {
 .right-adjust {
     display: inline-block;
     float: right;
+}
+
+.pin-card {
+    background-size: cover;
+    height: 350px;
+}
+
+.detailed-card {
+    background-size: cover;
+    max-height: 400px;
+}
+
+a.a-cat {
+    text-decoration: none;
+    color: #636461;
 }
