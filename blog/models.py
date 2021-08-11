@@ -3,6 +3,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.urls import reverse
 from ckeditor.fields import RichTextField
+from django.utils.translation import gettext_lazy as _
 
 User = settings.AUTH_USER_MODEL
 
@@ -15,8 +16,13 @@ class Post(models.Model):
     date_posted = models.DateTimeField(default=timezone.now)
     # TODO: Look me up
     last_modifed = models.DateTimeField(auto_now=True)
+    is_pinned = models.BooleanField(
+        _('pinned status'),
+        default=False,
+        help_text=_('Designates whether the post is pinned'),
+    )
 
-    def _str_(self):
+    def __str__(self):
         return self.title
         
     def get_absolute_url(self):
