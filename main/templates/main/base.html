@@ -26,47 +26,37 @@
 </head>
 
 <body>
-    <!-- navbar -->
-    <nav class="navbar navbar-dark bg-dark navbar-expand-md ">
-        <div class="container-xxl">
-            <!-- Brand Name -->
-            <a href="{% url 'home' %}" class="navbar-brand">
-                <span class="fw-bold text-secondary">
-                    <i class="bi bi-book-half"></i>
-                    Misr Public Library Luxor - MPLL
-                </span>
-            </a>
-            <!-- toggle button for mobile nav -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <!-- navbar links -->
-            <div class="collapse navbar-collapse justify-content-end align-center" id="main-nav">
-                <ul class="navbar-nav">
-                    <!-- About -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'about' %}">About</a>
-                    </li>
-                    <!-- Blog -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'blog-home' %}">Blog</a>
-                    </li>
-                    <!-- Animal Index -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Animal Index</a>
-                    </li>
-                    <!-- Booking -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Booking</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand d-none d-lg-inline" href="{% url 'home' %}">Misr Public Library Luxor - MPLL</a>
+            <a class="navbar-brand d-lg-none" href="{% url 'home' %}">Misr Public Library Luxor</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'blog-home' %}">Blog</a></li>
+                    <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Services
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">                        
+                        <li><a class="dropdown-item" href="#">Contact Us</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Animal Index</a></li>
+                        <li><a class="dropdown-item" href="#">Booking</a></li>
+                    </ul>
                     </li>
                     {% if user.is_authenticated %}
                     <!-- profile -->
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+                        <a class="nav-link active" href="{% url 'profile' %}">Profile</a>
                     </li>
                     <!-- log out -->
-                    <li class="nav-item">
+                    <li class="nav-item d-lg-none">
                         <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                    </li>
+                    <li class="nav-item ms-2 d-none d-lg-inline">
+                        <a class="btn btn-secondary" href="{% url 'logout' %}">Log Out</a>
                     </li>
                     {% else %}
                     <!-- Sign in -->
@@ -82,9 +72,9 @@
             </div>
         </div>
     </nav>
-    <!-- navbar END -->
+    {% block header %}{% endblock header %}
     <!-- main -->
-    <section>
+    <section class="main-section">
         <div class="container-lg">
             {% if messages %} {% for message in messages %}
             <div class="alert alert-{{ message.tags }}">
@@ -93,6 +83,10 @@
             {% endfor %} {% endif %} {% block content %}{% endblock content %}
         </div>
     </section>
+    <!-- Footer-->
+    <footer class="py-5 bg-dark">
+        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Misr Public Library Luxor - MPLL 2021</p></div>
+    </footer>
     <!-- End main -->
     <!-- JavaScript Files -->
     <script src="{% static 'main/js/bootstrap.bundle.min.js' %}"></script>

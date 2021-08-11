@@ -1,4 +1,18 @@
-{% extends "main/base.html" %} {% load static %} {% block content %}
+{% extends "main/base.html" %} 
+{% load static %}
+
+{% block header %}
+<header class="py-5 bg-light border-bottom mb-4">
+    <div class="container">
+        <div class="text-center my-5">
+            <h1 class="fw-bolder">Welcome to Misr Public Library in Luxor</h1>
+            <p class="lead mb-0">Founded in May 19, 2007</p>
+        </div>
+    </div>
+</header>
+{% endblock header %}
+
+{% block content %}
 <div class="row justify-content-center align-items-center">
     <!-- First Col :: Text -->
     <div class="col-md-5 text-center text-md-start">
@@ -8,10 +22,6 @@
         </h1>
         <p class="lead my-4 text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
         <a href="#" class="btn btn-secondary btn-lg">Buy Now</a>
-        <!-- Open Sidebar / offcanvas -->
-        <!-- <a href="#" class="d-block mt-3" data-bs-toggle="offcanvas" role="button" aria-controls="sidebar">
-                Explore our site
-            </a> -->
     </div>
     <!-- Second Col :: Image -->
     <div class="col-md-5 text-center d-none d-md-block">
