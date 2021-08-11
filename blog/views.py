@@ -18,9 +18,8 @@ class PostDetailView(DetailView):
     context_object_name = 'post'
 
 
-class PostCreateView(LoginRequiredMixin, CreateView):
+class PostCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Post
-    # fields = ['title', 'content', 'image']
     template_name = 'blog/create.html'
     context_object_name = 'post'
     form_class = PostCreateForm
@@ -29,6 +28,8 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+    def test_func(self):
+        return self.request.user.is_editor
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
@@ -37,7 +38,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         post = self.get_object()
-        return (self.request.user == post.author)
+        return (self.request.user.is_editor and self.request.user == post.author)
 
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -51,4 +52,4 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def test_func(self):
         post = self.get_object()
-        return (self.request.user == post.author)
+        return (self.request.user.is_editor and self.request.user == post.author)
