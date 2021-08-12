@@ -33,13 +33,7 @@ a.a-cat:hover {
     color: #0f0f0f;
 }
 
-.ellipses-handler+p,
-.ellipses-handler+h1,
-.ellipses-handler+h2,
-.ellipses-handler+h3,
-.ellipses-handler+h4,
-.ellipses-handler+h5,
-.ellipses-handler+h6 {
+.ellipses-handler{
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -50,4 +44,10 @@ a.a-cat:hover {
 
 .marker {
     background-color: rgb(255, 255, 0, .8);
+}
+
+.imagefifty {
+    width: 50px;
+    height: 50px;
+    background-size: cover;
 }
