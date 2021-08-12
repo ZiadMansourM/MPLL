@@ -1,6 +1,7 @@
 section.main-section {
     padding: 60px 0;
 }
+
 .content-section {
     background: #ffffff;
     padding: 10px 20px;
@@ -11,7 +12,6 @@ section.main-section {
 
 .right-adjust {
     display: inline-block;
-    float: right;
 }
 
 .pin-card {
@@ -26,5 +26,28 @@ section.main-section {
 
 a.a-cat {
     text-decoration: none;
-    color: #636461;
+    color: #787976;
+}
+
+a.a-cat:hover {
+    color: #0f0f0f;
+}
+
+.ellipses-handler+p,
+.ellipses-handler+h1,
+.ellipses-handler+h2,
+.ellipses-handler+h3,
+.ellipses-handler+h4,
+.ellipses-handler+h5,
+.ellipses-handler+h6 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    font-size: 16px;
+}
+
+.marker {
+    background-color: rgb(255, 255, 0, .8);
 }
