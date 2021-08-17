@@ -1,7 +1,119 @@
 {% extends "main/base.html" %}
+{% load static %}
 
 {% block content %}
-    <div class="justify-content-center align-items-center">
-        <h1>About Page</h1>
+<!-- opening -->
+<h1 class="border-bottom p-3 about-h1">Luxor Library</h1>
+<br>
+<div class="opening mb-5">
+    <img src="{% static 'main/assets/about-us.jpg' %}" alt="" class="image-size mx-auto d-block ">
+    <h3 class="mb-2 about-h3">Opening</h3>
+    <p class="fs-5">The library opened on 19/5/2007.</p>
+</div>
+<!-- Location -->
+<div class="mb-5">
+    <h3  class="mb-2 about-h3">Location</h3>
+    <p class="fs-5 " style="text-align: justify; max-width: 100%;">The Library and Cultural Heritage Center is located at the northern entrance to Luxor City on Karnak Temple Street. 
+        It is located in the most prestigious location in the city, about 200 meters away from the banks of the Nile. 
+        The area behind the library was developed by implementing the first phase of Rams Road.
+    </p>
+</div>
+<!-- space -->
+<div class="mb-5">
+    <h3 class="mb-2 about-h3">Space</h3>
+    <p class="fs-5">
+        The total area of ​​the library is 2339 square meters.
+    </p>
+</div>
+<!-- Library components -->
+<div class="mb-5">
+    <h3 class="mb-2 about-h3">Library components</h3>
+    <!-- Accordion -->
+    <div class="accordion" id="accordionPanelsStayOpenExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                    Basement 
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                <div class="accordion-body">
+                    <ol>
+                        <li class="mb-2"><p><span class="bg-secondary text-white mb-2 p-1 rounded">Cultural Heritage Hall:</span>  It is a panorama showroom of the cultural heritage and archaeological monuments of Egypt to Luxor before and after the development and it contains 218 seats and 9 data show devices.</p></li>
+                        <li class="mb-2"><p><span class="bg-secondary text-white mb-2 p-1 rounded">Knights of the Sky:</span> Knights of the Sky: It is a hall that highlights the great scientific progress of Arab inventions that preceded the world, especially in the field of monitoring and navigation.</p></li>
+                        <li class="mb-2"><p><span class="bg-secondary text-white mb-2 p-1 rounded">Stereoscopic display:</span> Stereoscopic display: It consists of three rooms dedicated to seeing the shows in three dimensions of the live and stereo presentation of the cultural heritage using special glasses that in turn embody the display for the viewer as if it were on the ground.</p></li>
+                        <li class="mb-2"><p><span class="bg-secondary text-white mb-2 p-1 rounded">Eternal Egypt:</span> Eternal Egypt: It is a corner equipped with a set of computers that allows viewing the Eternal Egypt website and provides the visitor with all the information related to the various ancient Egyptian civilizations and helps him to provide his historical information. There is also a cafeteria in the basement to serve visitors.</p></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                    Ground Floor
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                <div class="accordion-body">
+                    <p>
+                        It includes a foyer, entrance hall, information and security, a corner for ongoing briefing, which is equipped with a set of computers, the administration office, and a number of halls:
+                    </p>
+                    <ol>
+                        <li class="mb-2">
+                            <p>
+                                <span class="bg-secondary text-white mb-2 p-1 rounded">Egyptology Hall:</span>  It is the first hall in Egypt for Egyptology to serve Egyptian and foreign scholars and researchers in the history and civilization of ancient Egypt in various languages. It also contains a set of pictures of Luxor, which dates back more than a hundred years. 
+                                It contains about 10,000 information containers specialized in the history of Egypt through the ages, especially with regard to the Pharaonic era.
+                            </p>
+                        </li>
+                        <li class="mb-2"><p><span class="bg-secondary text-white mb-2 p-1 rounded">Map Hall:</span>  It includes a set of paper and digital maps of Luxor and its archaeological sites, as well as maps of all parts of Egypt.</p></li>
+                        <li class="mb-2"><p><span class="bg-secondary text-white mb-2 p-1 rounded">Senior Information Hall (1):</span> The hall accommodates 35 people. </p></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                    First Floor
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                <div class="accordion-body">
+                    <span style="font-weight: bold;">First Floor:</span>  
+                    <p> It consists of an adult information room (2), a children's information room, a green corner, a children's activities hall, a computer education room, a language teaching room, and an Internet corner for adults and children.</p>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="panelsStayOpen-headingFour">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                    Second Floor
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                <div class="accordion-body">
+                    <!-- Second Floor -->
+                    <span style="font-weight: bold;">Second Floor:</span>  
+                    <p>It includes lecture halls and a training center.</p>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
+
+<!-- Working Hours -->
+<div>
+    <h3 class="mb-2 p-3 about-h3">Working Hours</h3>
+    <p class="fs-5">The library operates from 10-9 pm and the weekly rest is on Tuesdays.</p>
+</div>
+<!-- Telephone & Fax -->
+<div>
+    <h3 class="mb-2 p-3 about-h3">Telephone</h3>
+    <p class="fs-5">0592373375-0592373086</p>
+</div>
+<!-- Address -->
+<div>
+    <h3 class="mb-2 p-3 about-h3">Address</h3>
+    <p class="fs-5">Nile Corniche - Luxor Governorate</p>
+</div>
 {% endblock content %}

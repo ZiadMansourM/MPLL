@@ -1,8 +1,30 @@
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Comment, Post
+from django.shortcuts import render, redirect
+from django.views.generic import (
+    ListView, DetailView, CreateView, 
+    UpdateView, DeleteView, FormView
+    )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .forms import PostCreateForm, CommentCreateForm
+from django.contrib import messages
+from django.urls import reverse_lazy
+from .models import Comment, Post
+from .forms import PostCreateForm, CommentCreateForm, ReplyCreateForm, ContactUsForm
+
+
+def contact_us(request):
+    if request.POST:
+        form = ContactUsForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'your message has been sent successfully')
+            return redirect('blog-home')
+        else:
+            messages.warning(request, 'Error! ... Please, Try again')
+    else:
+        form = ContactUsForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'blog/contact_us.html', context)
 
 
 class PostListView(ListView):
@@ -13,45 +35,47 @@ class PostListView(ListView):
     paginate_by = 5
 
 
+class CommentCreateView(LoginRequiredMixin, FormView):
+    form_class = CommentCreateForm
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        form.instance.post = Post.objects.get(id=self.kwargs['pk'])
+        form.save()
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse_lazy('blog-detail', kwargs={'pk': self.kwargs['pk']})
+    
+    def get_template_names(self):
+        return ['blog/empty_form.html']
+
+
+class ReplyCreateView(LoginRequiredMixin, FormView):
+    form_class = ReplyCreateForm
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        form.instance.comment = Comment.objects.get(id=self.kwargs['id'])
+        form.save()
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse_lazy('blog-detail', kwargs={'pk': self.kwargs['pk']})
+    
+    def get_template_names(self):
+        return ['blog/empty_form.html']
+
+
 class PostDetailView(DetailView):
     model = Post
     template_name = 'blog/detailed.html'
     context_object_name = 'post'
 
-    # TODO: to be fixed
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['form'] = CommentCreateForm
-
-    #     return context
-
-    # def get(self, request, *args, **kwargs):
-    #     form = CommentCreateForm()
-    #     self.object = self.get_object()
-    #     context = super().get_context_data(**kwargs)
-    #     context['form'] = CommentCreateForm
-
-    #     return self.render_to_response(context=context)
-
-    # def post(self, request, *args, **kwargs):
-    #     form = CommentCreateForm(request.POST)
-
-    #     if form.is_valid():
-    #         comment = form.save(commit=False)
-    #         comment.owner = request.user
-    #         comment.post = self.get_object()
-    #         comment.save()
-    #         self.object = self.get_object()
-    #         context = super().get_context_data(**kwargs)
-    #         context['form'] = CommentCreateForm
-
-    #     else:
-    #         self.object = self.get_object()
-    #         context = super().get_context_data(**kwargs)
-    #         context['form'] = form
-
-
-    #     return self.render_to_response(context=context)
+    def get_context_data(self, **kwargs):
+        context = super(PostDetailView, self).get_context_data(**kwargs)
+        context['form'] = CommentCreateForm
+        return context
 
 
 class PostCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -66,6 +90,7 @@ class PostCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
     def test_func(self):
         return self.request.user.is_editor
+
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post

@@ -1,3 +1,13 @@
+/* to be fixed for cdn */
+.about-h1{
+    font-family: 'Open Sans', sans-serif;
+}
+
+.about-h3 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 800;
+}
+
 section.main-section {
     padding: 60px 0;
 }
@@ -52,8 +62,8 @@ a.a-cat:hover {
 }
 
 .imagefifty {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     background-size: cover;
 }
 
@@ -64,4 +74,64 @@ a.a-cat:hover {
 .date-published-handler{
     font-weight: bold;
     color: brown;
+}
+.image-size {
+    width: 100%;
+    height: calc(100vh - 225px);
+    object-fit: cover;
+    margin-bottom: 30px;
+}
+
+@media (max-width: 768px) {
+    .about-h1 {
+        text-align: center;
+    }
+    .about-h3 {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    .about-h3+p {
+        text-align: center;
+    }
+}
+
+.form-floating {
+    position: relative;
+}
+
+.form-floating:before {
+    content: '';
+    position: absolute;
+    top: 1px; /* border-width (default by BS) */
+    left: 1px; /* border-width (default by BS) */
+    width: calc(100% - 14px); /* to show scrollbar */
+    height: 32px;
+    border-radius: 4px; /* (default by BS) */
+    background-color: #ffffff;
+}
+
+.form-floating textarea.form-control {
+    padding-top: 32px; /* height of pseudo element */
+    min-height: 80px; /* not relevant */
+}
+
+.aligning-citing {
+    text-align: right;
+}
+
+@media (max-width: 959px){
+    .aligning-citing {
+        text-align: center;
+    }
+}
+
+.section-height-adjustment {
+    background-color: #212529; 
+    height: calc(100vh - 176px);
+}
+
+@media (max-width: 477px){
+    .section-height-adjustment {
+        height: calc(100vh - 200px);
+    }
 }

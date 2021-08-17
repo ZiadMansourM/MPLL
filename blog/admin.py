@@ -13,7 +13,7 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('get_title', 'get_username', 'date_posted')
+    list_display = ('get_title', 'get_username', 'comment', 'date_posted')
     list_filter = ('owner__username', 'post__title')
     search_fields = ('owner__username', 'post__title')
     ordering = ('-date_posted',)
@@ -30,7 +30,7 @@ class CommentAdmin(admin.ModelAdmin):
 
 @admin.register(Reply)
 class ReplyAdmin(admin.ModelAdmin):
-    list_display = ('get_username', 'get_title', 'date_posted')
+    list_display = ('get_username', 'get_title', 'reply', 'date_posted')
     list_filter = ('owner__username', 'comment__post__title')
     search_fields = ('owner__username', 'comment__post__title')
     ordering = ('-date_posted',)

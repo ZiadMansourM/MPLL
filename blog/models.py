@@ -51,7 +51,7 @@ class Comment(models.Model):
     date_posted = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
-        return f"{self.post}-{self.owner}"
+        return f"{self.post}-{self.owner}:{self.comment}"
 
     class Meta:
         db_table = 'comments'
@@ -68,3 +68,21 @@ class Reply(models.Model):
     class Meta:
         db_table = 'replies'
         verbose_name_plural = "Replies"
+
+class ContactUs(models.Model):
+    # Basic Info
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    # Contact Info
+    telephone = models.CharField(max_length=30, null=True, blank=True)
+    email = models.EmailField(_('email address'))
+    # Data
+    message = models.TextField()
+    date_sent = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f'{ self.first_name } { self.last_name }'
+    
+    class Meta:
+        db_table = 'contact_us'
+        verbose_name_plural = "Contact Us"
