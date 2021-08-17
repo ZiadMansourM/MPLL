@@ -1,3 +1,13 @@
+/* to be fixed for cdn */
+h1{
+    font-family: 'Open Sans', sans-serif;
+}
+
+h3 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 800;
+}
+
 section.main-section {
     padding: 60px 0;
 }
@@ -50,4 +60,24 @@ a.a-cat:hover {
     width: 50px;
     height: 50px;
     background-size: cover;
+}
+
+.image-size {
+    width: 100%;
+    height: calc(100vh - 225px);
+    object-fit: cover;
+    margin-bottom: 30px;
+}
+
+@media (max-width: 768px) {
+    h1 {
+        text-align: center;
+    }
+    h3 {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    h3+p {
+        text-align: center;
+    }
 }
