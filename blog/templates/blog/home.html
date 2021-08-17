@@ -14,7 +14,8 @@
         {% for post in posts %} {% if post.is_pinned %}
         <!-- Featured blog post-->
         <div class="card mb-4">
-            <a href="{% url 'blog-detail' post.id %}"><img class="pin-card img-fluid card-img-top" src="{{ post.image.url }}" alt="..." /></a>
+            <a href="{% url 'blog-detail' post.id %}"><img class="pin-card-post img-fluid card-img-top"
+                    src="{{ post.image.url }}" alt="..." /></a>
             <div class="card-body">
                 <div class="small text-muted">{{ post.date_posted|date:"F d, Y - P" }}</div>
                 <h2 class="card-title">{{ post.title }}</h2>
@@ -29,7 +30,8 @@
             <div class="col-lg-6">
                 <!-- Blog post-->
                 <div class="card mb-4">
-                    <a href="{% url 'blog-detail' post.id %}"><img class="pin-card img-fluid card-img-top" src="{{ post.image.url }}" alt="..." /></a>
+                    <a href="{% url 'blog-detail' post.id %}"><img class="pin-card-post img-fluid card-img-top"
+                            src="{{ post.image.url }}" alt="..." /></a>
                     <div class="card-body">
                         <div class="small text-muted">{{ post.date_posted|date:"F d, Y - P" }}</div>
                         <h2 class="card-title h4">{{ post.title }}</h2>
@@ -46,20 +48,22 @@
             <hr class="my-0" />
             <ul class="pagination justify-content-center my-4">
                 {% if page_obj.has_previous %}
-                    <li class="page-item "><a class="page-link" href="?page=1" tabindex="-1" aria-disabled="true">First</a></li>
-                    <li class="page-item "><a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1" aria-disabled="true">Previous</a></li>
-                {% endif %}
-                {% for num in page_obj.paginator.page_range %}
-                    {% if page_obj.number == num %}
-                        <li class="page-item active" aria-current="page"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
-                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                <li class="page-item "><a class="page-link" href="?page=1" tabindex="-1" aria-disabled="true">First</a>
+                </li>
+                <li class="page-item "><a class="page-link" href="?page={{ page_obj.previous_page_number }}"
+                        tabindex="-1" aria-disabled="true">Previous</a></li>
+                {% endif %} {% for num in page_obj.paginator.page_range %} {% if page_obj.number == num %}
+                <li class="page-item active" aria-current="page"><a class="page-link" href="?page={{ num }}">{{ num
+                        }}</a></li>
+                {% elif num > page_obj.number|add:'-3' and num
+                < page_obj.number|add: '3' %} <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num
+                        }}</a></li>
+                    {% endif %} {% endfor %} {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                    </li>
                     {% endif %}
-                {% endfor %}
-                {% if page_obj.has_next %}
-                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
-                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
-                {% endif %}
             </ul>
         </nav>
         {% endif %}
@@ -72,7 +76,8 @@
             <div class="card-header">Search</div>
             <div class="card-body">
                 <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" />
+                    <input class="form-control" type="text" placeholder="Enter search term..."
+                        aria-label="Enter search term..." aria-describedby="button-search" />
                     <button class="btn btn-primary" id="button-search" type="button">Go!</button>
                 </div>
             </div>
@@ -102,7 +107,8 @@
         <!-- Side widget-->
         <div class="card mb-4">
             <div class="card-header">Side Widget</div>
-            <div class="card-body">You can put anything you want inside of these side widgets. They are easy to use, and feature the Bootstrap 5 card component!</div>
+            <div class="card-body">You can put anything you want inside of these side widgets. They are easy to use, and
+                feature the Bootstrap 5 card component!</div>
         </div>
     </div>
 </div>
