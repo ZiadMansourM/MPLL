@@ -36,36 +36,39 @@
                     <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'blog-home' %}">Blog</a></li>
                     <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Services
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">                        
-                        <li><a class="dropdown-item" href="#">Contact Us</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Animal Index</a></li>
-                        <li><a class="dropdown-item" href="#">Booking</a></li>
-                    </ul>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                            <li><a class="dropdown-item" href="#">Contact Us</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Animal Index</a></li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'booking-home' %}">Booking</a></li>
+                        </ul>
                     </li>
                     {% if user.is_authenticated %}
                     <!-- profile -->
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'profile' %}">Profile</a>
+                    <li class="nav-item ">
+                        <a class="nav-link active " href="{% url 'profile' %} ">Profile</a>
                     </li>
                     <!-- log out -->
-                    <li class="nav-item d-lg-none">
-                        <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                    <li class="nav-item d-lg-none ">
+                        <a class="nav-link " href="{% url 'logout' %} ">Log Out</a>
                     </li>
-                    <li class="nav-item ms-2 d-none d-lg-inline">
-                        <a class="btn btn-secondary" href="{% url 'logout' %}">Log Out</a>
+                    <li class="nav-item ms-2 d-none d-lg-inline ">
+                        <a class="btn btn-secondary " href="{% url 'logout' %} ">Log Out</a>
                     </li>
                     {% else %}
                     <!-- Sign in -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Sign In</a>
+                    <li class="nav-item ">
+                        <a class="nav-link " href="{% url 'login' %} ">Sign In</a>
                     </li>
                     <!-- SignUp -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'register' %}">Sign Up</a>
+                    <li class="nav-item ">
+                        <a class="nav-link " href="{% url 'register' %} ">Sign Up</a>
                     </li>
                     {% endif %}
                 </ul>
@@ -74,22 +77,24 @@
     </nav>
     {% block header %}{% endblock header %}
     <!-- main -->
-    <section class="main-section">
-        <div class="container-lg">
+    <section class="main-section ">
+        <div class="container-lg ">
             {% if messages %} {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">
+            <div class="alert alert-{{ message.tags }} ">
                 {{ message }}
             </div>
             {% endfor %} {% endif %} {% block content %}{% endblock content %}
         </div>
     </section>
     <!-- Footer-->
-    <footer class="py-5 bg-dark">
-        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Misr Public Library Luxor - MPLL 2021</p></div>
+    <footer class="py-5 bg-dark ">
+        <div class="container ">
+            <p class="m-0 text-center text-white ">Copyright &copy; Misr Public Library Luxor - MPLL 2021</p>
+        </div>
     </footer>
     <!-- End main -->
     <!-- JavaScript Files -->
-    <script src="{% static 'main/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'main/js/bootstrap.bundle.min.js' %} "></script>
 </body>
 
 </html>
