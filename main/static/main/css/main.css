@@ -47,7 +47,27 @@ a.a-cat:hover {
 }
 
 .imagefifty {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     background-size: cover;
+}
+
+.form-floating {
+    position: relative;
+}
+
+.form-floating:before {
+    content: '';
+    position: absolute;
+    top: 1px; /* border-width (default by BS) */
+    left: 1px; /* border-width (default by BS) */
+    width: calc(100% - 14px); /* to show scrollbar */
+    height: 32px;
+    border-radius: 4px; /* (default by BS) */
+    background-color: #ffffff;
+}
+
+.form-floating textarea.form-control {
+    padding-top: 32px; /* height of pseudo element */
+    min-height: 80px; /* not relevant */
 }
