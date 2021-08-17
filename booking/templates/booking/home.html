@@ -1,0 +1,57 @@
+{% extends 'main/base.html' %}
+{% block header %}
+<header class="py-5 bg-light border-bottom mb-4">
+    <div class="container">
+        <div class="text-center my-5">
+            <h1 class="fw-bolder">Books</h1>
+            <p class="lead mb-0">Here you can explore our books treasures </p>
+        </div>
+    </div>
+</header>
+{% endblock header %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="row">
+            {%for book in books%}
+            <div class="col-lg-3">
+                <div class="card mb-2">
+                    <a href="{% url 'booking-detail' book.id%}"><img class="pin-card-book img-fluid card-img-top"
+                            src="{{book.image.url}}" alt="..." /></a>
+                    <div class="card-body">
+                        <h2 class="card-title">{{book.name}}</h2>
+                        <div class="small text-muted">
+                            for {%if book.author%} {{book.author}} {%else%} unknown {%endif%}
+                        </div>
+                        <p class="card-text ellipses-handler">{{book.snippet}}</p>
+                        <a class="btn btn-primary book-read-more" href="{% url 'booking-detail' book.id%}">Read more
+                            →</a>
+                    </div>
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <!-- Categories widget-->
+        <div class="card mb-4">
+            <div class="card-header">Categories</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                        <ul class="list-group">
+                            {%for code in codes %}
+                            <li class="list-group-item list-group-item-light">
+                                <a class="a-cat" href="#">
+                                    {{code.name}}
+                                </a>
+                            </li>
+                            {%endfor%}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
