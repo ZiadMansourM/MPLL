@@ -1,63 +1,68 @@
 {% extends "main/base.html" %} {% load static %} {% block content %}
-<div class="row">
-    <div class="col-lg-8">
+<section class="main-section">
+    <div class="container-lg">
         <div class="row">
-            <div class="col-lg-4">
-                <!-- Preview image figure-->
-                <figure class="mb-4"><img class="img-fluid rounded" src="{{ book.image.url }}" alt="..." /></figure>
-            </div>
             <div class="col-lg-8">
-
-                <!-- Book content-->
-                <article>
-                    <div class='row'>
-                        <!-- Book header-->
-                        <header class="mb-4">
-                            <!-- Book title-->
-                            <h1 class="fw-bolder mb-1">{{ book.name }}</h1>
-                            <!-- Book meta content-->
-                            <div class="text-muted fst-italic mb-2">published on
-                                <span class="date-published-handler">
-                                    {{book.date_published|date:"F d, Y " }}
-                                </span>
-                                by {{ book.author }}
-                            </div>
-                            <!-- Book categories-->
-                            <a class="badge bg-secondary text-decoration-none link-light"
-                                href="#!">{{book.section.name}}</a>
-                        </header>
-                        <!-- Book content-->
-                        <section class="mb-5">
-                            {{ book.content|safe }}
-                        </section>
-                    </div>
-                </article>
-            </div>
-        </div>
-    </div>
-    <!-- Side widgets-->
-    <div class="col-lg-4">
-
-        <!-- Categories widget-->
-        <div class="card mb-4">
-            <div class="card-header">Categories</div>
-            <div class="card-body">
                 <div class="row">
-                    <div class="col-sm-12 text-center">
-                        <ul class="list-group">
-                            <li class="list-group-item list-group-item-light"><a class="a-cat"
-                                    href="{% url 'blog-update' book.id %}">Update Book</a></li>
-                            <li class="list-group-item list-group-item-light"><a class="a-cat"
-                                    href="{% url 'blog-delete' book.id %}">Delete Book</a></li>
-                            <li class="list-group-item list-group-item-light"><a class="a-cat" href="#">Report
-                                    Book</a></li>
-                            <li class="list-group-item list-group-item-light"><a class="a-cat" href="#">Contact
-                                    Us</a></li>
-                        </ul>
+                    <div class="col-lg-4">
+                        <!-- Preview image figure-->
+                        <figure class="mb-4"><img class="img-fluid rounded" src="{{ book.image.url }}" alt="..." />
+                        </figure>
+                    </div>
+                    <div class="col-lg-8">
+
+                        <!-- Book content-->
+                        <article>
+                            <div class='row'>
+                                <!-- Book header-->
+                                <header class="mb-4">
+                                    <!-- Book title-->
+                                    <h1 class="fw-bolder mb-1">{{ book.name }}</h1>
+                                    <!-- Book meta content-->
+                                    <div class="text-muted fst-italic mb-2">published on
+                                        <span class="date-published-handler">
+                                            {{book.date_published|date:"F d, Y " }}
+                                        </span>
+                                        by {{ book.author }}
+                                    </div>
+                                    <!-- Book categories-->
+                                    <a class="badge bg-secondary text-decoration-none link-light"
+                                        href="#!">{{book.section.name}}</a>
+                                </header>
+                                <!-- Book content-->
+                                <section class="mb-5">
+                                    {{ book.content|safe }}
+                                </section>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+            <!-- Side widgets-->
+            <div class="col-lg-4">
+
+                <!-- Categories widget-->
+                <div class="card mb-4">
+                    <div class="card-header">Categories</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 text-center">
+                                <ul class="list-group">
+                                    <li class="list-group-item list-group-item-light"><a class="a-cat"
+                                            href="{% url 'blog-update' book.id %}">Update Book</a></li>
+                                    <li class="list-group-item list-group-item-light"><a class="a-cat"
+                                            href="{% url 'blog-delete' book.id %}">Delete Book</a></li>
+                                    <li class="list-group-item list-group-item-light"><a class="a-cat" href="#">Report
+                                            Book</a></li>
+                                    <li class="list-group-item list-group-item-light"><a class="a-cat" href="#">Contact
+                                            Us</a></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 {% endblock content %}
