@@ -82,18 +82,22 @@
     </nav>
     {% block header %}{% endblock header %}
     <!-- main -->
-    <section class="main-section">
-        <div class="container-lg">
-            {% if messages %} 
+    {% if messages %} 
+        <section class="main-section">
+            <div class="container-lg">
                 {% for message in messages %}
                     <div class="alert alert-{{ message.tags }}">
                         {{ message }}
                     </div>
                 {% endfor %} 
-            {% endif %} 
-            {% block content %}{% endblock content %}
+            </div>
+        </section>
+    {% endif %} 
+    {% block content %}{% endblock content %}
+    <!-- <section class="main-section">
+        <div class="container-lg">
         </div>
-    </section>
+    </section> -->
     <!-- Footer-->
     <footer class="py-5 bg-dark">
         <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Misr Public Library Luxor - MPLL 2021</p></div>
@@ -101,6 +105,13 @@
     <!-- End main -->
     <!-- JavaScript Files -->
     <script src="{% static 'main/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- Js ToolTip Enable Script -->
+    <script>
+        const tooltips = document.querySelectorAll('.tt')
+        tooltips.forEach(t => {
+        new bootstrap.Tooltip(t)
+        })
+    </script>
 </body>
 
 </html>
