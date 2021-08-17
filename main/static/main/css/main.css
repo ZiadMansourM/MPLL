@@ -14,9 +14,14 @@ section.main-section {
     display: inline-block;
 }
 
-.pin-card {
+.pin-card-post {
     background-size: cover;
     height: 350px;
+}
+
+.pin-card-book {
+    background-size: cover;
+    height: 175px;
 }
 
 .detailed-card {
@@ -33,7 +38,7 @@ a.a-cat:hover {
     color: #0f0f0f;
 }
 
-.ellipses-handler{
+.ellipses-handler {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -50,4 +55,13 @@ a.a-cat:hover {
     width: 50px;
     height: 50px;
     background-size: cover;
+}
+
+.book-read-more {
+    font-size: 12px
+}
+
+.date-published-handler{
+    font-weight: bold;
+    color: brown;
 }
