@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.fields.related import ForeignKey
-
+from ckeditor.fields import RichTextField
+from blog.parser import cleanhtml
 # Create your models here.
 # publisher.facebook
 #
@@ -79,6 +80,10 @@ class Book(models.Model):
     available_borrowing = models.BooleanField()
     available = models.BooleanField()
     image = models.ImageField(default='default.jpg', upload_to='book_pics')
-
+    brief= RichTextField()
+    snippet=models.TextField()
     def __str__(self):
         return self.name
+    def save(self, *args, **kwargs):
+        self.snippet = cleanhtml(self.brief)
+        super(Book, self).save(*args, **kwargs)
