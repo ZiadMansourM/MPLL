@@ -1,0 +1,41 @@
+[{
+        "family": "Computer science, information and general work",
+        "family_num": "000"
+    },
+    {
+        "family": "Philosophy and psychology",
+        "family_num": "100"
+    },
+    {
+        "family": "Religion",
+        "family_num": "200"
+    },
+    {
+        "family": "Social sciences",
+        "family_num": "300"
+    },
+    {
+        "family": "Language",
+        "family_num": "400"
+    },
+    {
+        "family": "Science",
+        "family_num": "500"
+    },
+    {
+        "family": "Technology",
+        "family_num": "600"
+    },
+    {
+        "family": "Art and recreation",
+        "family_num": "700"
+    },
+    {
+        "family": "Literature",
+        "family_num": "800"
+    },
+    {
+        "family": "History and geography",
+        "family_num": "900"
+    }
+]
