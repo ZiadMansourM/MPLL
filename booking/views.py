@@ -1,15 +1,8 @@
 from django.shortcuts import render
-from booking.models import Code, Book
+from booking.models import DeweyDecimalClassification, Book
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 # Create your views here.
 
-
-# def home(request):
-#     codes=Code.objects.all()
-#     return render(request, 'booking/home.html', {
-#         'title': 'booking',
-#         'codes': codes
-#     })
 
 
 class BookListView(ListView):
@@ -19,7 +12,7 @@ class BookListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['codes'] = Code.objects.all()
+        context['codes'] = DeweyDecimalClassification.objects.all()
         context['title'] = 'Booking'
         return context
 
