@@ -135,3 +135,13 @@ a.a-cat:hover {
         height: calc(100vh - 200px);
     }
 }
+.hidden-toggler{
+    height: 0;
+    overflow: hidden;
+    padding: 0px;
+    border:none
+}
+
+.row .text-center .list-group .list-group-item{
+    transition: all 0.8s ease-out;
+}
