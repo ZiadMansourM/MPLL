@@ -1,23 +1,24 @@
 from django.contrib import admin
-from .models import Book, Code, Author, Publisher, Account, SocialSite, City
+from .models import Book, DeweyDecimalClassification, Author, Publisher, Account, SocialSite, City
 
 # Register your models here.
 
 
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
-    list_display = ('code', 'section', 'name', 'author', 'available', 'pages_num',
+    list_display = ('classification', 'code', 'name', 'author', 'available', 'pages_num',
                     'date_published', 'date_added', 'publisher', 'available_copies', 'available_borrowing')
     list_filter = ('code', 'available', 'date_added',
                    'publisher', 'available_borrowing')
     # search_fields = ('')
     ordering = ('name',)
+    exclude=('snippet',)
 
 
-@admin.register(Code)
-class CodeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'value')
-    ordering = ('value',)
+@admin.register(DeweyDecimalClassification)
+class DeweyDecimalClassificationAdmin(admin.ModelAdmin):
+    list_display = ('family', 'family_num')
+    ordering = ('family_num',)
 
 
 @admin.register(Author)
