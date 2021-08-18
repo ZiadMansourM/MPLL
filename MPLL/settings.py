@@ -148,3 +148,23 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 # Log In redirect
 LOGIN_REDIRECT_URL = 'blog-home'
 LOGIN_URL = 'login'
+
+# CkEditor Config 
+CKEDITOR_CONFIGS = {
+    'default': {
+        'width': '100%'
+    },
+}
+
+# CKEDITOR_CONFIGS = {
+#     'default': {
+#         'toolbar': 'Custom',
+#         'toolbar_Custom': [
+#             ['Bold', 'Italic', 'Underline'],
+#             ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+#             ['Link', 'Unlink'],
+#             ['RemoveFormat', 'Source']
+#         ],
+#         'width': '100%'
+#     },
+# }
