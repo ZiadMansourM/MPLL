@@ -1,8 +1,10 @@
 from django.contrib import admin
 from .models import Post, Comment, Reply, ContactUs
+from django.utils.translation import ugettext_lazy as _
 
 # Register your models here.
 admin.site.site_header = 'MPLL administration'
+
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
@@ -10,6 +12,32 @@ class PostAdmin(admin.ModelAdmin):
     list_filter = ('author__username', 'is_pinned')
     search_fields = ('author__username', 'title')
     ordering = ('-date_posted',)
+    fieldsets = (
+        (_('Post info'), {'fields': (
+            'title',
+            'content',
+            'image',
+            'is_pinned',
+        )}),
+        (_('meta'), {'fields': (
+            'author',
+            'date_posted',
+        )})
+    )
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('title',
+                       'content',
+                       'author',
+                       'image',
+                       'date_posted',
+                       'is_pinned',
+                       )}
+         ),
+    )
+    exclude = ('snippet',)
+
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
@@ -20,13 +48,14 @@ class CommentAdmin(admin.ModelAdmin):
 
     def get_title(self, obj):
         return obj.post.title
-    get_title.admin_order_field = 'post'  #Allows column order sorting
-    get_title.short_description = 'post title'  #Renames column head
+    get_title.admin_order_field = 'post'  # Allows column order sorting
+    get_title.short_description = 'post title'  # Renames column head
 
     def get_username(self, obj):
         return obj.owner.username
-    get_username.admin_order_field = 'owner'  #Allows column order sorting
-    get_username.short_description = 'comment owner username'  #Renames column head
+    get_username.admin_order_field = 'owner'  # Allows column order sorting
+    get_username.short_description = 'comment owner username'  # Renames column head
+
 
 @admin.register(Reply)
 class ReplyAdmin(admin.ModelAdmin):
@@ -37,17 +66,18 @@ class ReplyAdmin(admin.ModelAdmin):
 
     def get_title(self, obj):
         return obj.comment.post.title
-    get_title.admin_order_field = 'comment'  #Allows column order sorting
-    get_title.short_description = 'post title'  #Renames column head
+    get_title.admin_order_field = 'comment'  # Allows column order sorting
+    get_title.short_description = 'post title'  # Renames column head
 
     def get_username(self, obj):
         return obj.owner.username
-    get_username.admin_order_field = 'owner'  #Allows column order sorting
-    get_username.short_description = 'reply owner username'  #Renames column head
+    get_username.admin_order_field = 'owner'  # Allows column order sorting
+    get_username.short_description = 'reply owner username'  # Renames column head
+
 
 @admin.register(ContactUs)
 class ContactUsAdmin(admin.ModelAdmin):
-    list_display = ('get_fullname','is_urgent', 'message', 'date_sent')
+    list_display = ('get_fullname', 'is_urgent', 'message', 'date_sent')
     list_filter = ('is_urgent',)
     ordering = ('-date_sent',)
 
