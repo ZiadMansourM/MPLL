@@ -50,28 +50,7 @@
                     {% endif %} {% endfor %}
                 </div>
                 <!-- Pagination-->
-                {% if is_paginated %}
-                    <nav aria-label="Pagination">
-                        <hr class="my-0"/>
-                        <ul class="pagination justify-content-center my-4">
-                            {% if page_obj.has_previous %}
-                                <li class="page-item "><a class="page-link" href="?page=1" tabindex="-1" aria-disabled="true">First</a></li>
-                                <li class="page-item "><a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1" aria-disabled="true">Previous</a></li>
-                            {% endif %} 
-                            {% for num in page_obj.paginator.page_range %} 
-                                {% if page_obj.number == num %}
-                                    <li class="page-item active" aria-current="page"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
-                                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num}}</a></li>
-                                {% endif %} 
-                            {% endfor %} 
-                            {% if page_obj.has_next %}
-                                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
-                                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
-                            {% endif %}
-                        </ul>
-                    </nav>
-                {% endif %}
+                {% include 'blog/components/paginator.html' with is_paginated=is_paginated page_obj=page_obj %}
             </div>
             <!-- Second Column: Sidebar -->
             <!-- Side widgets-->
