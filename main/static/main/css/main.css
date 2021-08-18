@@ -82,11 +82,13 @@ a.a-cat:hover {
     }
 }
 
+/* Fixed bug in bootstrap 5 in form floating validation */
 .form-floating {
     position: relative;
 }
 
 .form-floating:before {
+    z-index: -1;
     content: '';
     position: absolute;
     top: 1px; /* border-width (default by BS) */
