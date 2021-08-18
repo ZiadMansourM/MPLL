@@ -70,15 +70,17 @@ class Reply(models.Model):
         verbose_name_plural = "Replies"
 
 class ContactUs(models.Model):
-    # Basic Info
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
-    # Contact Info
-    telephone = models.CharField(max_length=30, null=True, blank=True)
-    email = models.EmailField(_('email address'))
-    # Data
-    message = models.TextField()
+    email = models.EmailField(_('email address'), help_text=_('We will use this email to reach out to you.'))
+    username = models.CharField(max_length=20, blank=True)
+    message = models.TextField(help_text=_('Please provide your query here.'))
     date_sent = models.DateTimeField(default=timezone.now)
+    is_urgent = models.BooleanField(
+        _('urgent status'),
+        default=False,
+        help_text=_('Designates whether the request is URGENT.'),
+    )
 
     def __str__(self):
         return f'{ self.first_name } { self.last_name }'

@@ -1,0 +1,31 @@
+<!-- 
+    To use this field component you need to pass:
+    is_bound: bool e.g. form.is_bound
+    field: form.field e.g. form.first_name
+-->
+
+{% load widget_tweaks %}
+
+{% if is_bound %}
+    {% if field.errors %}
+        {% render_field field class+="is-invalid" %}
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {% for err in field.errors %}
+            <div class="invalid-feedback">
+                {{ err }}
+            </div>
+        {% endfor %}
+    {% else %}
+        {% render_field field class+="is-valid" %}
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+    {% endif %}
+{% else %}
+    {{ field }}
+    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+{% endif %}
+{% if field.help_text %}
+    <small class="ms-1 form-text text-muted">{{ field.help_text }}</small>
+{% endif %}

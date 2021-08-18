@@ -38,10 +38,12 @@ AUTH_USER_MODEL ='users.CustomUser'
 INSTALLED_APPS = [
     'ckeditor',
     'crispy_forms',
+    'widget_tweaks',
     'crispy_bootstrap5',
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
     'main.apps.MainConfig',
+    'booking.apps.BookingConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
