@@ -1,76 +1,54 @@
 {% extends "main/base.html" %}
 {% load crispy_forms_tags %}
-
 {% block content %}
     <div class="content-section">
         <form method="POST">
             {% csrf_token %}
-            {{ form.non_field_errors }}
+            <legend class="border-bottom mb-4">Contact Us</legend>
+            <!-- First Name -->
             <div class="form-floating mb-3">
-                <input class="form-control" id="floatingInputfname">
-                <label for="floatingInputfname">First Name</label>
+                {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.first_name %}
             </div>
-            <!-- email  -->
+            <!-- Last Name -->
             <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="floatingInputemail">
-                <label for="floatingInputemail">Email address</label>
+                {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.last_name %}
             </div>
-            <div class="col-auto">
-                <label class="visually-hidden" for="autoSizingInput">Second Name</label>
-                <input type="text" class="form-control" id="autoSizingInput" placeholder="Masnour">
+            <!-- Email  -->
+            <div class="form-floating mb-3">
+                {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.email %}
             </div>
-            <div class="col-auto">
-                <label class="visually-hidden" for="autoSizingInputGroup">Username</label>
+            <!-- Username -->
+            <div class="mb-3">
+                <label class="visually-hidden" for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
                 <div class="input-group">
                     <div class="input-group-text">@</div>
-                    <input type="text" class="form-control" id="autoSizingInputGroup" placeholder="Username">
+                    {{ form.username }}
                 </div>
+                <!-- Errors if is-invalid class given to input "BOOTSTRAP feature" -->
+                {% if form.username.errors %}
+                    {% for err in form.username.errors %}
+                        <div class="invalid-feedback">
+                            {{ err }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {% if form.username.help_text %}
+                    <small class="ms-1 form-text text-muted">{{ form.username.help_text }}</small>
+                {% endif %}
             </div>
-            <div class="col-auto">
+            <!-- is_urgent -->
+            <div class="mb-3">
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="autoSizingCheck">
-                    <label class="form-check-label" for="autoSizingCheck">
-                    Urgent
-                    </label>
+                    {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.is_urgent %}
                 </div>
             </div>
-            <div class="form-floating">
-                <textarea name="message" class="form-control" id="floatingInputmessage"></textarea>
-                <label for="floatingInputmessage">message</label>
+            <!-- Message -->
+            <div class="form-floating mb-3">
+                {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.message %}
             </div>
             <div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </form>
     </div>
-    <article class="media content-section">
-        <div class="media-body">
-            <div class="article-metadata">
-                <form method="post">
-                    {% csrf_token %}
-                    <legend class="border-bottom mb-4">Contact Us</legend>
-                    <div class="form-row">
-                        <div class="col-md-4 mb-3">
-                            {{ form.first_name|as_crispy_field }}
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            {{ form.last_name|as_crispy_field }}
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            {{ form.email|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-md-6">
-                            {{ form.telephone|as_crispy_field }}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        {{ form.message|as_crispy_field }}
-                    </div>
-                    <button type="submit" class="btn btn-primary mb-2">Send</button>
-                </form>
-            </div>
-        </div>
-    </article>
 {% endblock %}
