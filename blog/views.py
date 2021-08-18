@@ -17,10 +17,7 @@ def contact_us(request):
             form.save()
             messages.success(request, 'your message has been sent successfully')
             return redirect('blog-home')
-        else:
-            messages.warning(request, 'Error! ... Please, Try again')
-    else:
-        form = ContactUsForm()
+    form = ContactUsForm()
     context = {
         'form': form
     }
