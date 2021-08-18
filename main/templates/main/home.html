@@ -1,34 +1,25 @@
 {% extends "main/base.html" %} 
 {% load static %}
 
-{% block header %}
-<header class="py-5 bg-light border-bottom mb-4">
-    <div class="container">
-        <div class="text-center my-5">
-            <h1 class="fw-bolder">Welcome to Misr Public Library in Luxor</h1>
-            <p class="lead mb-0">Founded in May 19, 2007</p>
+{% block content %}
+<section class="main-section section-height-adjustment d-flex">
+    <div class="container-lg d-flex">
+        <div class="row justify-content-center align-items-center">
+            <!-- First Col :: Text -->
+            <div class="col-md-5 text-center text-md-start">
+                <h1>
+                    <div class="display-5 text-muted"><q>A Library is a place vibrating with ideas</q></div>
+                </h1>
+                <p class="lead my-4 text-muted aligning-citing">Nancy Kundhardt Lodge</p>
+            </div>
+            <!-- Second Col :: Image -->
+            <div class="col-md-5 text-center d-none d-md-block">
+                <!-- ToolTip -->
+                <span class="tt" data-bs-placement="bottom" title="the seated script">
+                        <img class="img-fluid" src="{% static 'main/assets/the seated scrip.png' %}" alt="ebook cover">
+                </span>
+            </div>
         </div>
     </div>
-</header>
-{% endblock header %}
-
-{% block content %}
-<div class="row justify-content-center align-items-center">
-    <!-- First Col :: Text -->
-    <div class="col-md-5 text-center text-md-start">
-        <h1>
-            <div class="display-2">Luxor Library</div>
-            <div class="display-5 text-muted">Your Reading Place</div>
-        </h1>
-        <p class="lead my-4 text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-        <a href="#" class="btn btn-secondary btn-lg">Buy Now</a>
-    </div>
-    <!-- Second Col :: Image -->
-    <div class="col-md-5 text-center d-none d-md-block">
-        <!-- ToolTip -->
-        <span class="tt" data-bs-placement="bottom" title="Net Ninja Book Cover">
-                <img class="img-fluid" src="{% static 'main/assets/home.png' %}" alt="ebook cover">
-            </span>
-    </div>
-</div>
+</section>
 {% endblock content %}

@@ -1,9 +1,9 @@
 /* to be fixed for cdn */
-h1{
+.about-h1{
     font-family: 'Open Sans', sans-serif;
 }
 
-h3 {
+.about-h3 {
     font-family: 'Open Sans', sans-serif;
     font-weight: 800;
 }
@@ -24,9 +24,14 @@ section.main-section {
     display: inline-block;
 }
 
-.pin-card {
+.pin-card-post {
     background-size: cover;
     height: 350px;
+}
+
+.pin-card-book {
+    background-size: cover;
+    height: 175px;
 }
 
 .detailed-card {
@@ -43,7 +48,7 @@ a.a-cat:hover {
     color: #0f0f0f;
 }
 
-.ellipses-handler{
+.ellipses-handler {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -62,6 +67,14 @@ a.a-cat:hover {
     background-size: cover;
 }
 
+.book-read-more {
+    font-size: 12px
+}
+
+.date-published-handler{
+    font-weight: bold;
+    color: brown;
+}
 .image-size {
     width: 100%;
     height: calc(100vh - 225px);
@@ -70,14 +83,14 @@ a.a-cat:hover {
 }
 
 @media (max-width: 768px) {
-    h1 {
+    .about-h1 {
         text-align: center;
     }
-    h3 {
+    .about-h3 {
         text-align: center;
         margin-bottom: 10px;
     }
-    h3+p {
+    .about-h3+p {
         text-align: center;
     }
 }
@@ -102,4 +115,25 @@ a.a-cat:hover {
 .form-floating textarea.form-control {
     padding-top: 32px; /* height of pseudo element */
     min-height: 80px; /* not relevant */
+}
+
+.aligning-citing {
+    text-align: right;
+}
+
+@media (max-width: 959px){
+    .aligning-citing {
+        text-align: center;
+    }
+}
+
+.section-height-adjustment {
+    background-color: #212529; 
+    height: calc(100vh - 176px);
+}
+
+@media (max-width: 477px){
+    .section-height-adjustment {
+        height: calc(100vh - 200px);
+    }
 }
