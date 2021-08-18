@@ -3,14 +3,11 @@ from django.contrib import messages
 from users.forms import UserRegisterForm, MLERegisterForm
 from django.contrib.auth.decorators import login_required
 from users.models import CustomUser
-from .genpassword import generatePassword
-# Create your views here.
-
-
-def CreateUser(request):
-    return CustomUser.objects.create(
-        username=request.POST['username'],
+from .services.user_factory import (
+    ManagerRegistrationStrategy,
+    EditorRegistrationStrategy
     )
+# Create your views here.
 
 
 def register(request):
@@ -32,25 +29,13 @@ def registermanager(request):
     if request.method == "POST":
         form = MLERegisterForm(request.POST)
         if form.is_valid():
-            # [1]: Create User
-            manager = CreateUser(request)
-
-            # [2]: Assign Password
-            password = generatePassword()
-            manager.set_password(password)
-
-            # [3]: Define Type
-            manager.is_manager = True
-
-            # [4]: Deactivate Account && save
-            # gamma.is_active = False
-            manager.save()
+            password = ManagerRegistrationStrategy().create_user(username=request.POST['username'])
 
             #TODO: 
-            # # [5]: Send Email
+            # Send Email
             # ActivationMailer(recipient_list=zeta.email).send_email()
 
-            # [6]: redirect
+            # redirect
             messages.success(
                 request, f'The manager user were added successfully, password: {password}')
             return redirect('profile')
@@ -63,24 +48,13 @@ def registermanager(request):
     }
     return render(request, 'users/register.html', context)
 
+
 @login_required
 def registereditor(request):
     if request.method == "POST":
         form = MLERegisterForm(request.POST)
         if form.is_valid():
-            # [1]: Create User
-            editor = CreateUser(request)
-
-            # [2]: Assign Password
-            password = generatePassword()
-            editor.set_password(password)
-
-            # [3]: Define Type
-            editor.is_editor = True
-
-            # [4]: Deactivate Account && save
-            # gamma.is_active = False
-            editor.save()
+            password = EditorRegistrationStrategy().create_user(username=request.POST['username'])
 
             #TODO: 
             # # [5]: Send Email
