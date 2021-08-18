@@ -6,6 +6,7 @@
 <section class="main-section">
     <div class="container-lg">
         <div class="row">
+            <!-- Post Detail -->
             <div class="col-lg-8">
                 <!-- Post content-->
                 <article>
@@ -49,7 +50,7 @@
                                     <li class="list-group-item list-group-item-light"><a class="a-cat" href="{% url 'blog-update' post.id %}">Update Post</a></li>
                                     <li class="list-group-item list-group-item-light"><a class="a-cat" href="{% url 'blog-delete' post.id %}">Delete Post</a></li>
                                     <li class="list-group-item list-group-item-light"><a class="a-cat" href="#">Report Post</a></li>
-                                    <li class="list-group-item list-group-item-light"><a class="a-cat" href="#">Contact Us</a></li>
+                                    <li class="list-group-item list-group-item-light"><a class="a-cat" href="{% url 'contact-us' %}">Contact Us</a></li>
                                 </ul>
                             </div>
                         </div>
