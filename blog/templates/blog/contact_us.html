@@ -1,54 +1,59 @@
 {% extends "main/base.html" %}
 {% load crispy_forms_tags %}
+
 {% block content %}
-    <div class="content-section">
-        <form method="POST">
-            {% csrf_token %}
-            <legend class="border-bottom mb-4">Contact Us</legend>
-            <!-- First Name -->
-            <div class="form-floating mb-3">
-                {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.first_name %}
-            </div>
-            <!-- Last Name -->
-            <div class="form-floating mb-3">
-                {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.last_name %}
-            </div>
-            <!-- Email  -->
-            <div class="form-floating mb-3">
-                {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.email %}
-            </div>
-            <!-- Username -->
-            <div class="mb-3">
-                <label class="visually-hidden" for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
-                <div class="input-group">
-                    <div class="input-group-text">@</div>
-                    {{ form.username }}
+<section class="main-section">
+    <div class="container-lg">
+        <div class="content-section">
+            <form method="POST">
+                {% csrf_token %}
+                <legend class="border-bottom mb-4">Contact Us</legend>
+                <!-- First Name -->
+                <div class="form-floating mb-3">
+                    {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.first_name %}
                 </div>
-                <!-- Errors if is-invalid class given to input "BOOTSTRAP feature" -->
-                {% if form.username.errors %}
-                    {% for err in form.username.errors %}
-                        <div class="invalid-feedback">
-                            {{ err }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
-                {% if form.username.help_text %}
-                    <small class="ms-1 form-text text-muted">{{ form.username.help_text }}</small>
-                {% endif %}
-            </div>
-            <!-- is_urgent -->
-            <div class="mb-3">
-                <div class="form-check">
-                    {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.is_urgent %}
+                <!-- Last Name -->
+                <div class="form-floating mb-3">
+                    {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.last_name %}
                 </div>
-            </div>
-            <!-- Message -->
-            <div class="form-floating mb-3">
-                {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.message %}
-            </div>
-            <div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-        </form>
+                <!-- Email  -->
+                <div class="form-floating mb-3">
+                    {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.email %}
+                </div>
+                <!-- Username -->
+                <div class="mb-3">
+                    <label class="visually-hidden" for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+                    <div class="input-group">
+                        <div class="input-group-text">@</div>
+                        {{ form.username }}
+                    </div>
+                    <!-- Errors if is-invalid class given to input "BOOTSTRAP feature" -->
+                    {% if form.username.errors %}
+                        {% for err in form.username.errors %}
+                            <div class="invalid-feedback">
+                                {{ err }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% if form.username.help_text %}
+                        <small class="ms-1 form-text text-muted">{{ form.username.help_text }}</small>
+                    {% endif %}
+                </div>
+                <!-- is_urgent -->
+                <div class="mb-3">
+                    <div class="form-check">
+                        {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.is_urgent %}
+                    </div>
+                </div>
+                <!-- Message -->
+                <div class="form-floating mb-3">
+                    {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.message %}
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
     </div>
+</section>
 {% endblock %}
