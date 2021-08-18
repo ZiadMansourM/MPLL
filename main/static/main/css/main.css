@@ -137,3 +137,8 @@ a.a-cat:hover {
         height: calc(100vh - 200px);
     }
 }
+
+/* to make CKEDITOR reponsive */
+.django-ckeditor-widget {
+    width: 100%;
+}
