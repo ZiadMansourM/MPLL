@@ -4,7 +4,7 @@ default_State=0;
 element.onclick = function () {
     for (i = 0; i < elements.length; i++) {
         if((elements[i] != element)){
-            elements[i].parentElement.classList.toggle("d-none");
+            elements[i].parentElement.classList.toggle("hidden-toggler");
         }
     }
     if(default_State==0)
