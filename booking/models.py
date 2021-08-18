@@ -55,9 +55,9 @@ class Author(models.Model):
         return self.name
 
 
-class Code(models.Model):
-    name = models.CharField(max_length=50)
-    value = models.CharField(max_length=3)
+class DeweyDecimalClassification(models.Model):
+    family = models.CharField(max_length=50)
+    family_num = models.CharField(max_length=3)
 
     def __str__(self):
         return self.value
@@ -65,8 +65,8 @@ class Code(models.Model):
 
 class Book(models.Model):
 
-    section = models.ForeignKey(
-        Code, on_delete=models.CASCADE, related_name="books")
+    classification = models.ForeignKey(
+        DeweyDecimalClassification, on_delete=models.CASCADE, related_name="books")
     code = models.CharField(max_length=15)
     name = models.CharField(max_length=200)
     author = models.ForeignKey(
