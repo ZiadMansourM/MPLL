@@ -95,11 +95,13 @@ a.a-cat:hover {
     }
 }
 
+/* Fixed bug in bootstrap 5 in form floating validation */
 .form-floating {
     position: relative;
 }
 
 .form-floating:before {
+    z-index: -1;
     content: '';
     position: absolute;
     top: 1px; /* border-width (default by BS) */
@@ -144,4 +146,8 @@ a.a-cat:hover {
 
 .row .text-center .list-group .list-group-item{
     transition: all 0.8s ease-out;
+}
+/* to make CKEDITOR reponsive */
+.django-ckeditor-widget {
+    width: 100%;
 }

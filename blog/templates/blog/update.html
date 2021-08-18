@@ -3,40 +3,63 @@
 {% load static %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <!-- First Column: Posts -->
-    <div class="col-8 text-start">
-        <!-- Header: Author - date -->
-        <div class="card mb-3">
-            <!-- <h5 class="card-header fs-4">{{ post.title }} <span class="fs-6 mt-1 right-adjust text-muted">{{ post.date_posted|date:"F d, Y - P" }}</span></h5> -->
-            <div class="card-body">
-                <form method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <fieldset class="form-group">
-                        <legend class="border-bottom mb-4"> Blog Post </legend>
-                        {{ form.media }} {{ form|crispy }}
-                    </fieldset>
-                    <div class="form-group">
-                        <button class="btn btn-outline-info" type="submit"> Update </button>
+<section class="main-section">
+    <div class="container-lg">
+        <div class="row justify-content-center">
+            <!-- First Column: Posts -->
+            <div class="col-lg-8 text-start">
+                <!-- Header: Author - date -->
+                <div class="card mb-3">
+                    <!-- <h5 class="card-header fs-4">{{ post.title }} <span class="fs-6 mt-1 right-adjust text-muted">{{ post.date_posted|date:"F d, Y - P" }}</span></h5> -->
+                    <div class="card-body">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <fieldset class="form-group">
+                                <legend class="border-bottom mb-4"> Blog Post </legend>
+                                {{ form.media }} {{ form|crispy }}
+                            </fieldset>
+                            <div class="form-group">
+                                <button class="btn btn-outline-info" type="submit"> Update </button>
+                            </div>
+                        </form>
                     </div>
-                </form>
+                </div>
+            </div>
+            <!-- Side widgets-->
+            <div class="col-lg-4">
+                <!-- Search widget-->
+                <div class="card mb-4">
+                    <div class="card-header">Search</div>
+                    <div class="card-body">
+                        <div class="input-group">
+                            <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" />
+                            <button class="btn btn-primary" id="button-search" type="button">Go!</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Categories widget-->
+                <div class="card mb-4">
+                    <div class="card-header">Categories</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 text-center">
+                                <ul class="list-group">
+                                    <li class="list-group-item list-group-item-light"><a class="a-cat" href="{% url 'blog-update' post.id %}">Update Post</a></li>
+                                    <li class="list-group-item list-group-item-light"><a class="a-cat" href="{% url 'blog-delete' post.id %}">Delete Post</a></li>
+                                    <li class="list-group-item list-group-item-light"><a class="a-cat" href="#">Report Post</a></li>
+                                    <li class="list-group-item list-group-item-light"><a class="a-cat" href="{% url 'contact-us' %}">Contact Us</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Side widget-->
+                <div class="card mb-4">
+                    <div class="card-header">Side Widget</div>
+                    <div class="card-body">You can put anything you want inside of these side widgets. They are easy to use, and feature the Bootstrap 5 card component!</div>
+                </div>
             </div>
         </div>
     </div>
-    <!-- Second Column: Sidebar -->
-    <div class="col-4 text-center">
-        <div class="content-section">
-            <h3>Our Sidebar</h3>
-            <p class='text-muted'>You can put any information here you'd like.
-                <ul class="list-group">
-                    <li class="list-group-item list-group-item-light">Latest Posts</li>
-                    <li class="list-group-item list-group-item-light">Announcements</li>
-                    <li class="list-group-item list-group-item-light">Calendars</li>
-                    <li class="list-group-item list-group-item-light">etc</li>
-                </ul>
-            </p>
-            
-        </div>
-    </div>
-</div>
+</section>
 {% endblock content %}

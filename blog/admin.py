@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Comment, Reply
+from .models import Post, Comment, Reply, ContactUs
 
 # Register your models here.
 admin.site.site_header = 'MPLL administration'
@@ -45,3 +45,11 @@ class ReplyAdmin(admin.ModelAdmin):
     get_username.admin_order_field = 'owner'  #Allows column order sorting
     get_username.short_description = 'reply owner username'  #Renames column head
 
+@admin.register(ContactUs)
+class ContactUsAdmin(admin.ModelAdmin):
+    list_display = ('get_fullname','is_urgent', 'message', 'date_sent')
+    list_filter = ('is_urgent',)
+    ordering = ('-date_sent',)
+
+    def get_fullname(self, obj):
+        return f"{obj.first_name} {obj.last_name}"

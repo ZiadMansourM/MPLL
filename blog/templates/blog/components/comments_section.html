@@ -1,0 +1,116 @@
+<!-- 
+    To use this paginator component you need to pass:
+    form: used to create new comments and replies
+    obj: object that has comments with replies
+-->
+<section class="bg-light">
+    <!-- Suggested Comment Section -->
+    <div class="my-3 p-3 bg-body rounded shadow">
+        <!-- button Add comment -->
+        <div class="d-flex justify-content-between border-bottom pb-2 ">
+            <h6>Comments Section</h6>
+            <small><a class="a-cat" data-bs-toggle="modal" data-bs-target="#commentModal" href="#">Add Comment</a></small>
+        </div>
+        <!-- commentModal -->
+        <div class="modal fade" id="commentModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="commentModalLabel">Comment</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{% url 'comment-create' obj.id %}" method="POST">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <div class="form-floating">
+                                <textarea name="comment" class="form-control" id="floatingInput"></textarea>
+                                <label for="floatingInput">Comment</label>
+                                {% for err in form.comment.errors %}
+                                    <small class="text-danger">{{ err }}</small>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-outline-info">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% if obj.comments %}
+            {% for comment in obj.comments.all %}
+                <div class="d-flex text-muted pt-3">
+                    <img class="imagefifty me-1" src="{{ comment.owner.image.url }}" alt="..." />
+                    <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                        <div class="d-flex mb-1 justify-content-between">
+                            <strong class="text-gray-dark">@{{ comment.owner }}</strong>
+                            <!-- Comments options Button -->
+                            <div class="btn-group">
+                                <a class="a-cat dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#replyModal{{comment.id}}" href="#">Reply</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#">Report</a></li>
+                                    <li><a class="dropdown-item" href="#">Upvote</a></li>
+                                    <li><a class="dropdown-item" href="#">Downvote</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <span class="d-block">{{ comment.comment }}</span>
+                    </div>
+                </div>
+                <!-- replyModal -->
+                <div class="modal fade" id="replyModal{{comment.id}}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="replyModal{{comment.id}}Label" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="replyModal{{comment.id}}Label">Reply</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="{% url 'reply-create' obj.id comment.id %}" method="POST">
+                                {% csrf_token %}
+                                <div class="modal-body">
+                                    <div class="form-floating">
+                                        <textarea name="reply" class="form-control" id="floatingInput"></textarea>
+                                        <label for="floatingInput">Reply</label>
+                                        {% for err in form.comment.errors %}
+                                            <small class="text-danger">{{ err }}</small>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-outline-info">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% if comment.replies %}
+                    {% for reply in comment.replies.all %}
+                        <!-- Child comment -->
+                        <div class="mx-5 d-flex text-muted pt-3 pb-1 border-bottom">
+                            <img class="rounded-circle me-1 imagefifty" src="{{ reply.owner.image.url }}" alt="..." />
+                            <div class="pb-3 mb-0 small lh-sm w-100">
+                                <div class="d-flex mb-1 justify-content-between">
+                                    <strong class="text-gray-dark">@{{ comment.owner }}</strong>
+                                    <!-- replies options Button -->
+                                    <div class="btn-group">
+                                        <a class="a-cat dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#">Report</a></li>
+                                            <li><a class="dropdown-item" href="#">Upvote</a></li>
+                                            <li><a class="dropdown-item" href="#">Downvote</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <span class="d-block">{{ reply.reply }}</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+</section>

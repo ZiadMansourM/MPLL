@@ -24,14 +24,19 @@ class ContactUsForm(forms.ModelForm):
         fields = [
             'first_name', 
             'last_name',
+            'username',
             'email',
-            'telephone',
+            'is_urgent',
             'message',
         ]
         widgets = {
-            'first_name': forms.TextInput(attrs={'placeholder': 'First name'}),
-            'last_name': forms.TextInput(attrs={'placeholder': 'Last name'}),
-            'email': forms.EmailInput(attrs={'placeholder': 'Email'}),
-            'telephone': forms.NumberInput(attrs={'placeholder': 'Telephone'}),
-            'message': forms.Textarea(attrs={'rows': '5'})
+            'first_name': forms.TextInput(attrs={'placeholder': 'e.g. Ziad', "class": "form-control"}),
+            'last_name': forms.TextInput(attrs={'placeholder': 'e.g. Masnour', "class": "form-control"}),
+            'username': forms.TextInput(attrs={'placeholder': 'username', "class": "form-control"}),
+            'email': forms.EmailInput(attrs={'placeholder': 'ziad@devopsgeek.xyz', "class": "form-control"}),
+            'is_urgent': forms.CheckboxInput(attrs={"class": "form-check-input"}),
+            'message': forms.Textarea(attrs={"class": "form-control"})
+        }
+        labels = {
+            'is_urgent': 'Urgent',
         }
