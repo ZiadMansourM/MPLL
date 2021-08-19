@@ -1,23 +1,27 @@
-from django.db import models
+import uuid
+
 from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.db import models
 from django.db.models.fields.related import ForeignKey
+from ckeditor.fields import RichTextField
 from django.utils import timezone
 from django.urls import reverse
-from ckeditor.fields import RichTextField
 from django.utils.translation import gettext_lazy as _
+
 from .services.parser import cleanhtml
 
-User = settings.AUTH_USER_MODEL
+User = get_user_model()
 
 # Create your models here.
 class Post(models.Model):
-    title = models.CharField(max_length=120)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(max_length=120, unique=True)
     content = RichTextField()
     snippet = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
     image = models.ImageField(default='default.jpg', upload_to='pics')
     date_posted = models.DateTimeField(default=timezone.now)
-    # TODO: Look me up
     last_modifed = models.DateTimeField(auto_now=True)
     is_pinned = models.BooleanField(
         _('pinned status'),
@@ -36,15 +40,12 @@ class Post(models.Model):
         db_table = 'posts'
 
     def save(self, *args, **kwargs):
-        # try:
-        #     this = Post.objects.get(id=self.id)
-        #     if this.image.name != self.image.name and this.image.name != "default.jpg":
-        #         this.MyImageFieldName.delete()
-        # except: pass
         self.snippet = cleanhtml(self.content)
         super(Post, self).save(*args, **kwargs)
 
+
 class Comment(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
     owner =  models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
     comment = models.TextField()
@@ -56,7 +57,9 @@ class Comment(models.Model):
     class Meta:
         db_table = 'comments'
 
+
 class Reply(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name="replies")
     owner =  models.ForeignKey(User, on_delete=models.CASCADE, related_name="replies")
     reply = models.TextField()
@@ -69,7 +72,9 @@ class Reply(models.Model):
         db_table = 'replies'
         verbose_name_plural = "Replies"
 
+
 class ContactUs(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     email = models.EmailField(_('email address'), help_text=_('We will use this email to reach out to you.'))
