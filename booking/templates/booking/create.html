@@ -1,0 +1,45 @@
+{% extends "main/base.html" %} 
+{% load crispy_forms_tags %} 
+{% load static %} 
+
+{% block content %}
+<section class="main-section">
+    <div class="container-lg">
+        <div class="row justify-content-center">
+            <!-- First Column: Posts -->
+            <div class="col-8 text-start">
+                <!-- Header: Author - date -->
+                <div class="card mb-3">
+                    <!-- <h5 class="card-header fs-4">{{ post.title }} <span class="fs-6 mt-1 right-adjust text-muted">{{ post.date_posted|date:"F d, Y - P" }}</span></h5> -->
+                    <div class="card-body">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <fieldset class="form-group">
+                                <legend class="border-bottom mb-4"> Adding Book </legend>
+                                {{ form.media }} {{ form|crispy }}
+                            </fieldset>
+                            <div class="form-group">
+                                <button class="btn btn-outline-info" type="submit"> Create </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Second Column: Sidebar -->
+            <div class="col-4 text-center">
+                <div class="content-section">
+                    <h3>Our Sidebar</h3>
+                    <p class='text-muted'>You can put any information here you'd like.
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-light">Latest Posts</li>
+                            <li class="list-group-item list-group-item-light">Announcements</li>
+                            <li class="list-group-item list-group-item-light">Calendars</li>
+                            <li class="list-group-item list-group-item-light">etc</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
