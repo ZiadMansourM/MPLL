@@ -56,14 +56,15 @@
             <div class="col-lg-4">
                 <!-- Search widget-->
                 <div class="card mb-4">
-                    <div class="card-header">Search</div>
-                    <div class="card-body">
-                        <div class="input-group">
-                            <input class="form-control" type="text" placeholder="Enter search term..."
-                                aria-label="Enter search term..." aria-describedby="button-search" />
-                            <button class="btn btn-primary" id="button-search" type="button">Go!</button>
+                    <form action="{% url 'blog-home' %}" method="GET">
+                        <div class="card-header">Search</div>
+                        <div class="card-body">
+                            <div class="input-group">
+                                <input name="serachkey" class="form-control" type="search" placeholder="Enter search key..." aria-label="Enter search key..." aria-describedby="button-search"/>
+                                <button class="btn btn-outline-secondary" id="button-search" type="submit">Go!</button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
                 <!-- Categories widget-->
                 <div class="card mb-4">
