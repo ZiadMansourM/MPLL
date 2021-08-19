@@ -30,7 +30,7 @@ class PostListView(ListView):
     template_name = 'blog/home.html'
     context_object_name = 'posts'
     ordering = ['-is_pinned','-date_posted']
-    paginate_by = 5
+    paginate_by = 7
 
 
 class CommentCreateView(LoginRequiredMixin, FormView):
