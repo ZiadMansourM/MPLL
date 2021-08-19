@@ -32,7 +32,7 @@ class Post(models.Model):
         return reverse('blog-detail', kwargs={'pk':self.pk})
 
     class Meta:
-        ordering = ['title']
+        ordering = ['-is_pinned', '-date_posted']
         db_table = 'posts'
 
     def save(self, *args, **kwargs):
