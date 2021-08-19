@@ -29,8 +29,14 @@ class PostListView(ListView):
     model = Post
     template_name = 'blog/home.html'
     context_object_name = 'posts'
-    ordering = ['-is_pinned','-date_posted']
     paginate_by = 5
+
+    def get_queryset(self):
+        query = self.request.GET.get('serachkey')
+        if query:
+            return self.model.objects.filter(title__icontains=query)
+        else:
+            return self.model.objects.all()
 
 
 class CommentCreateView(LoginRequiredMixin, FormView):
