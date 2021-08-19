@@ -164,6 +164,10 @@ a.a-cat-book-info {
   min-height: calc(100vh - 176px);
 }
 
+.section-height-adjustment-header {
+  min-height: calc(100vh - 176px - 303px);
+}
+
 .section-color-adjustment {
   background-color: #212529;
 }
