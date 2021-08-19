@@ -32,7 +32,7 @@ class PostListView(ListView):
     paginate_by = 7
 
     def get_queryset(self):
-        query = self.request.GET.get('serachkey')
+        query = self.request.GET.get('searchkey')
         if query:
             return self.model.objects.filter(title__icontains=query)
         else:
