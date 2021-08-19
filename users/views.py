@@ -1,27 +1,54 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from users.forms import UserRegisterForm, MLERegisterForm
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from users.models import CustomUser
+# email imports
+from django.http import HttpResponse
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_decode
+from django.utils.encoding import force_text
+
 from .services.user_factory import (
+    NormalRegistrationStrategy,
     ManagerRegistrationStrategy,
     EditorRegistrationStrategy
     )
+from .services.mailers import ActivationMailer
+
+from users.forms import (
+    UserRegisterForm, 
+    MLERegisterForm, 
+    )
 # Create your views here.
 
+User = get_user_model()
 
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            messages.success(
-                request, "Your Account has been Created! You are now able to Log In")
-            return redirect('login')
+            # [1]: create user
+            username, user = NormalRegistrationStrategy().create_user(form)
+            # [2]: send email
+            ActivationMailer(get_current_site(request).domain, user).send_email()
+            return HttpResponse(f'Please Mr/Ms {username} confirm your email address to complete the registration')
     else:
         form = UserRegisterForm()
     return render(request, 'users/register.html', {"form": form})
+
+def activate(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        messages.success(request, "Thank you for your email confirmation. Now you can login your account.")
+        return redirect('login')
+    else:
+        return HttpResponse('Activation link is invalid!')
 
 
 @login_required
@@ -29,13 +56,11 @@ def registermanager(request):
     if request.method == "POST":
         form = MLERegisterForm(request.POST)
         if form.is_valid():
-            password = ManagerRegistrationStrategy().create_user(username=request.POST['username'])
-
-            #TODO: 
-            # Send Email
-            # ActivationMailer(recipient_list=zeta.email).send_email()
-
-            # redirect
+            # [1]: create user
+            password, manager = ManagerRegistrationStrategy().create_user(form)
+            # [2]: Send Email
+            ActivationMailer(get_current_site(request).domain, manager).send_email()
+            # [3]: redirect
             messages.success(
                 request, f'The manager user were added successfully, password: {password}')
             return redirect('profile')
@@ -54,13 +79,11 @@ def registereditor(request):
     if request.method == "POST":
         form = MLERegisterForm(request.POST)
         if form.is_valid():
-            password = EditorRegistrationStrategy().create_user(username=request.POST['username'])
-
-            #TODO: 
-            # # [5]: Send Email
-            # ActivationMailer(recipient_list=zeta.email).send_email()
-
-            # [6]: redirect
+            # [1]: create user
+            password, editor = EditorRegistrationStrategy().create_user(form)
+            # [2]: Send Email
+            ActivationMailer(get_current_site(request).domain, editor).send_email()
+            # [3]: redirect
             messages.success(
                 request, f'The editor user were added successfully, password: {password}')
             return redirect('profile')
@@ -72,6 +95,7 @@ def registereditor(request):
         'type': 'editor'
     }
     return render(request, 'users/register.html', context)
+
 
 @login_required
 def profile(request):
