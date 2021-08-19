@@ -1,5 +1,5 @@
 {% extends "main/base.html" %} {% load static %} {% block content %}
-<section class="main-section">
+<section class="main-section section-height-adjustment">
     <div class="container-lg">
         <div class="row">
             <div class="col-lg-8">
@@ -27,11 +27,11 @@
                                     </div>
                                     <!-- Book categories-->
                                     <a class="badge bg-secondary text-decoration-none link-light"
-                                        href="#!">{{book.section.name}}</a>
+                                        href="#!">{{book.classification.family}}</a>
                                 </header>
                                 <!-- Book content-->
                                 <section class="mb-5">
-                                    {{ book.content|safe }}
+                                    {{ book.brief|safe }}
                                 </section>
                             </div>
                         </article>
@@ -43,19 +43,92 @@
 
                 <!-- Categories widget-->
                 <div class="card mb-4">
-                    <div class="card-header">Categories</div>
+                    <div class="card-header">Book Info</div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-12 text-center">
+                            <div class="col-sm-12 ">
                                 <ul class="list-group">
-                                    <li class="list-group-item list-group-item-light"><a class="a-cat"
-                                            href="{% url 'blog-update' book.id %}">Update Book</a></li>
-                                    <li class="list-group-item list-group-item-light"><a class="a-cat"
-                                            href="{% url 'blog-delete' book.id %}">Delete Book</a></li>
-                                    <li class="list-group-item list-group-item-light"><a class="a-cat" href="#">Report
-                                            Book</a></li>
-                                    <li class="list-group-item list-group-item-light"><a class="a-cat" href="#">Contact
-                                            Us</a></li>
+
+                                    {% if book.pages_num %}
+                                    <li class="list-group-item list-group-item-light   ">
+                                        <a class="a-cat-book-info " href="#">
+                                            pages number: {{book.pages_num}}
+                                        </a>
+                                    </li>
+                                    {% endif %}
+
+                                    {% if book.date_added %}
+                                    <li class="list-group-item list-group-item-light   ">
+                                        <a class="a-cat-book-info " href="#">
+                                            was added to the library in: {{book.date_added|date:"F d, Y " }}
+                                        </a>
+                                    </li>
+                                    {% endif %}
+
+                                    {% if book.publisher %}
+                                    <li class="list-group-item list-group-item-light  ">
+                                        <a class="a-cat-book-info " href="#">
+                                            publisher: {{book.publisher}}
+                                        </a>
+                                    </li>
+                                    {% endif %}
+
+                                    <!--avialble book start -->
+                                    {% if book.available %}
+                                    <li class="list-group-item list-group-item-light   
+                                    a-cat-book-success">
+                                        <a class="a-cat-book-info  " href="#">
+                                            the book is available in the library
+                                        </a>
+                                    </li>
+                                    <!--avialble borrowing start -->
+                                    {%if book.available_borrowing %}
+                                    <li class="list-group-item list-group-item-light  a-cat-book-success">
+                                        <a class="a-cat-book-info " href="#">
+                                            the book is available for borrowing
+                                        </a>
+                                    </li>
+                                    {% else %}
+                                    <li class="list-group-item list-group-item-light  a-cat-book-danger">
+                                        <a class="a-cat-book-info " href="#">
+                                            the book isn't available for borrowing
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                    <!--avialble borrowing end -->
+                                    {% else %}
+                                    <li class="list-group-item list-group-item-light  a-cat-book-danger
+                                    ">
+                                        <a class="a-cat-book-info " href="#">
+                                            the book isn't available
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                    <!--avialble book end -->
+
+
+                                    {% if user.is_editor %}
+                                    <li class="list-group-item list-group-item-light border border-secondary border-2 text-center">
+                                        <a class="a-cat-book-info edit-database " href="#">
+                                            Edit Database
+                                        </a>
+                                    </li>
+                                    <li class="list-group-item list-group-item-light hidden-toggler ">
+                                        <a class="a-cat-book-info clickable" href="{% url 'book-create'%}">
+                                            Add Book
+                                        </a>
+                                    </li>
+                                    <li class="list-group-item list-group-item-light hidden-toggler">
+                                        <a class="a-cat-book-info clickable" href="{% url 'book-update' book.id %}">
+                                            Update Book
+                                        </a>
+                                    </li>
+                                    <li class="list-group-item list-group-item-light hidden-toggler">
+                                        <a class="a-cat-book-info clickable" href="{% url 'book-delete' book.id %}">
+                                            Delete Book
+                                        </a>
+                                    </li>
+                                    {% endif %}
                                 </ul>
                             </div>
                         </div>
@@ -65,4 +138,5 @@
         </div>
     </div>
 </section>
+<script src="{% static 'main/js/booking-detailed.js' %}"></script>
 {% endblock content %}
