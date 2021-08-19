@@ -11,30 +11,30 @@
 </header>
 {% endblock header %}
 {% block content %}
-<section class="main-section">
+<section class="main-section section-height-adjustment">
     <div class="container-lg">
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="row">
-                    {%for book in books%}
+                    {% for book in books %}
                     <div class="col-lg-3">
                         <div class="card mb-2">
-                            <a href="{% url 'booking-detail' book.id%}"><img
+                            <a href="{% url 'book-detail' book.id%}"><img
                                     class="pin-card-book img-fluid card-img-top" src="{{book.image.url}}"
                                     alt="..." /></a>
                             <div class="card-body">
                                 <h2 class="card-title">{{book.name}}</h2>
                                 <div class="small text-muted">
-                                    By {%if book.author%} {{book.author}} {%else%} unknown {%endif%}
+                                    By {% if book.author %} {{ book.author }} {% else %} unknown {% endif %}
                                 </div>
                                 <p class="card-text ellipses-handler">{{book.snippet}}</p>
-                                <a class="btn btn-primary book-read-more" href="{% url 'booking-detail' book.id%}">Read
+                                <a class="btn btn-primary book-read-more" href="{% url 'book-detail' book.id%}">Read
                                     more
                                     →</a>
                             </div>
                         </div>
                     </div>
-                    {%endfor%}
+                    {% endfor %}
                 </div>
             </div>
             <div class="col-lg-4">
@@ -45,14 +45,14 @@
                         <div class="row">
                             <div class="col-sm-12 text-center">
                                 <ul class="list-group">
-                                    {%for code in codes %}
+                                    {% for code in codes %}
                                     <li class="list-group-item list-group-item-light">
                                         <a class="a-cat" href="#">
-                                            {{code.name}}
+                                            {{ code.family }}
                                         </a>
                                     </li>
-                                    {%endfor%}
-                                    {%if user.is_editor%}
+                                    {% endfor %}
+                                    {% if user.is_editor %}
                                     <li class="list-group-item list-group-item-light border border-secondary border-2 ">
                                         <a class="a-cat edit-database" href="#">
                                             Edit Database
@@ -60,7 +60,7 @@
                                     </li>
                                     <li class="list-group-item list-group-item-light hidden-toggler">
                                         <a class="a-cat " href="#">
-                                            Add a Book  
+                                            Add a Book
                                         </a>
                                     </li>
                                     <li class="list-group-item list-group-item-light hidden-toggler">
@@ -83,7 +83,7 @@
                                             Add an Account
                                         </a>
                                     </li>
-                                    {%endif%}
+                                    {% endif %}
 
                                 </ul>
                             </div>
