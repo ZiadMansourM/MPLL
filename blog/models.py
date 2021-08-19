@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.urls import reverse
 from ckeditor.fields import RichTextField
 from django.utils.translation import gettext_lazy as _
-from .parser import cleanhtml
+from .services.parser import cleanhtml
 
 User = settings.AUTH_USER_MODEL
 
