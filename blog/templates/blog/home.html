@@ -2,7 +2,7 @@
 {% load static %} 
 
 {% block css %}
-    <link rel="stylesheet" href="{% static 'main/css/test-unpinned-card.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/css/blog-home.css' %}">
 {% endblock css %}
 
 {% block header %}
@@ -17,7 +17,7 @@
 {% endblock header %} 
 
 {% block content %}
-<section class="main-section">
+<section class="main-section section-height-adjustment-header">
     <div class="container-lg">
         <!-- Start Search -->
         <form action="{% url 'blog-home' %}" method="GET">
@@ -36,13 +36,15 @@
                 <div class="row justify-content-center">
                     {% for post in posts %} {% if post.is_pinned %}
                     <!-- Featured blog post-->
-                        <div class="cardo cardo-pinned col-lg-10">
+                        <div class="cardo cardo-pinned col-lg-10 col-md-10 col-sm-10 col-10">
                             <div style='background-image: url(" {{ post.image.url }} ");' class="cardo-image"></div>
                             <div class="cardo-text">
                                 <div class="small text-muted">{{ post.date_posted|date:"F d, Y - P" }}</div>
                                 <h2 class="card-title ellipses-handler-title">{{ post.title }}</h2>
                                 <p class="card-text ellipses-handler">{{ post.snippet|safe }}</p>
                                 <a class="btn btn-primary" href="{% url 'blog-detail' post.id %}">Read more</a>
+                                <link rel="icon" type="image/svg" href="{% static 'blog/assets/pin-angle-fill.svg' %}" />
+                                <!-- <i class="bi bi-pin-angle-fill"></i> -->
                             </div>
                         </div>
                     {% endif %} {% endfor %}
