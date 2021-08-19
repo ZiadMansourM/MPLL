@@ -2,9 +2,8 @@ from django.db import models
 from django.db.models.fields.related import ForeignKey
 from ckeditor.fields import RichTextField
 from blog.parser import cleanhtml
+from django.urls import reverse
 # Create your models here.
-# publisher.facebook
-#
 
 
 class SocialSite(models.Model):
@@ -60,7 +59,7 @@ class DeweyDecimalClassification(models.Model):
     family_num = models.CharField(max_length=3)
 
     def __str__(self):
-        return self.value
+        return self.family_num
 
 
 class Book(models.Model):
@@ -80,10 +79,15 @@ class Book(models.Model):
     available_borrowing = models.BooleanField()
     available = models.BooleanField()
     image = models.ImageField(default='default.jpg', upload_to='book_pics')
-    brief= RichTextField()
-    snippet=models.TextField()
+    brief = RichTextField()
+    snippet = models.TextField()
+
     def __str__(self):
         return self.name
+
     def save(self, *args, **kwargs):
         self.snippet = cleanhtml(self.brief)
         super(Book, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('book-detail', kwargs={'pk': self.pk})
