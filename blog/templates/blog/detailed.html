@@ -5,15 +5,27 @@
 {% block content %}
 <section class="main-section">
     <div class="container-lg">
-        <div class="row">
+        <div class="row justify-content-center">
             <!-- Post Detail -->
-            <div class="col-lg-8">
+            <div class="col-lg-8 col-md-9 col-sm-10 col-11">
                 <!-- Post content-->
                 <article>
                     <!-- Post header-->
                     <header class="mb-4">
                         <!-- Post title-->
-                        <h1 class="fw-bolder mb-1">{{ post.title }}</h1>
+                        <div class="d-flex mb-1 justify-content-between">
+                            <h1 class="fw-bolder mb-1">{{ post.title }}</h1>
+                            <div class="btn-group align-items-center">
+                                <a class="a-cat dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{% url 'blog-update' post.id %}">Update</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'blog-delete' post.id %}">Delete</a></li>
+                                    <li><a class="dropdown-item" href="#">Report</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{% url 'contact-us' %}">Contact us</a></li>
+                                </ul>
+                            </div>
+                        </div>
                         <!-- Post meta content-->
                         <div class="text-muted fst-italic mb-2">Posted on {{ post.date_posted|date:"F d, Y - P" }} by {{ post.author }}</div>
                         <!-- Post categories-->
@@ -23,48 +35,19 @@
                     <!-- Preview image figure-->
                     <figure class="mb-4"><img class="img-fluid rounded" src="{{ post.image.url }}" alt="..." /></figure>
                     <!-- Post content-->
-                    <section class="mb-4">
+                    <section style="text-align: justify;" class="mb-4">
                         {{ post.content|safe }}
                     </section>
                 </article>
             </div>
-            <!-- Side widgets-->
-            <div class="col-lg-4">
-                <!-- Search widget-->
-                <div class="card mb-4">
-                    <div class="card-header">Search</div>
-                    <div class="card-body">
-                        <div class="input-group">
-                            <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" />
-                            <button class="btn btn-primary" id="button-search" type="button">Go!</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Categories widget-->
-                <div class="card mb-4">
-                    <div class="card-header">Categories</div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-12 text-center">
-                                <ul class="list-group">
-                                    <li class="list-group-item list-group-item-light"><a class="a-cat" href="{% url 'blog-update' post.id %}">Update Post</a></li>
-                                    <li class="list-group-item list-group-item-light"><a class="a-cat" href="{% url 'blog-delete' post.id %}">Delete Post</a></li>
-                                    <li class="list-group-item list-group-item-light"><a class="a-cat" href="#">Report Post</a></li>
-                                    <li class="list-group-item list-group-item-light"><a class="a-cat" href="{% url 'contact-us' %}">Contact Us</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Side widget-->
-                <div class="card mb-4">
-                    <div class="card-header">Side Widget</div>
-                    <div class="card-body">You can put anything you want inside of these side widgets. They are easy to use, and feature the Bootstrap 5 card component!</div>
-                </div>
-            </div>
         </div>
         <!-- Comment Section -->
-        {% include 'blog/components/comments_section.html' with form=form obj=post %}
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-9 col-sm-10 col-11">
+                {% include 'blog/components/comments_section.html' with form=form obj=post %}
+            </div>
+        </div>
+        
     </div>
 </section>
 {% endblock content %}
