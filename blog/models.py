@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.urls import reverse
 from ckeditor.fields import RichTextField
 from django.utils.translation import gettext_lazy as _
-from .parser import cleanhtml
+from .services.parser import cleanhtml
 
 User = settings.AUTH_USER_MODEL
 
@@ -32,7 +32,7 @@ class Post(models.Model):
         return reverse('blog-detail', kwargs={'pk':self.pk})
 
     class Meta:
-        ordering = ['title']
+        ordering = ['-is_pinned', '-date_posted']
         db_table = 'posts'
 
     def save(self, *args, **kwargs):

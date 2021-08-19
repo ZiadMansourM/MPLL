@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models.fields.related import ForeignKey
 from ckeditor.fields import RichTextField
-from blog.parser import cleanhtml
+from blog.services.parser import cleanhtml
 from django.urls import reverse
 # Create your models here.
 

@@ -21,9 +21,11 @@
     <div class="container-lg">
         <!-- Start Search -->
             <div class="input-group mb-4">
-                <input class="form-control" type="text" placeholder="Enter search term..."
-                    aria-label="Enter search term..." aria-describedby="button-search" />
-                <button class="btn btn-primary" id="button-search" type="button">Go!</button>
+                <form action="{% url 'blog-home' %}" method="GET">
+                    <input class="form-control" type="text" placeholder="Enter search term..."
+                    aria-label="Enter search term..." aria-describedby="button-search" name="searchkey"/>
+                    <button class="btn btn-primary" id="button-search" type="button">Go!</button>
+                </form>
             </div>
         <!-- End Search -->
         <div class="row">
