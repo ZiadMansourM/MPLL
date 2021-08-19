@@ -1,5 +1,12 @@
 from django.conf import settings
 from django.core.mail import send_mail
+# ---------------> ActivationMailer
+from django.template.loader import render_to_string
+from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+
 
 
 class BaseMailer:
@@ -14,7 +21,6 @@ class BaseMailer:
             subject=self.subject,
             message=self.message,
             from_email=settings.EMAIL_HOST_USER,
-            # '"ODHR" <odhr.egypt@gmail.com>',
             recipient_list=self.recipient_list,
             html_message=self.html_message,
             fail_silently=False,
@@ -32,10 +38,14 @@ class SearchedMailer(BaseMailer):
 
 
 class ActivationMailer(BaseMailer):
-    def __init__(self, recipient_list):
+    def __init__(self, domain: str, user):
         super().__init__(
-            subject='ODHR: Activate Your Account',
-            recipient_list=[recipient_list],  
-            message='Hey there!\nWe are sending you this email to let you activate your email', 
-            html_message='<p><strong>Hey there!</strong><br>We are sending you this email to let you <mark>activate your email</mark></p>'
+            subject='MPLL: Activate your blog account.',
+            recipient_list=[user.email],  
+            message = render_to_string('users/acc_active_email.html', {
+                'user': user,
+                'domain': domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': default_token_generator.make_token(user),
+            }),
         )
