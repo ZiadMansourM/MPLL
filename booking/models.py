@@ -29,7 +29,7 @@ class Account(models.Model):
                       related_name='accounts')
 
     def __str__(self):
-        return self.account
+        return self.handler
 
 
 class City(models.Model):
@@ -52,6 +52,10 @@ class Author(models.Model):
 
     def __str__(self):
         return self.name
+
+#TODO:reverse to detail view
+    def get_absolute_url(self):
+        return reverse('author-list')
 
 
 class DeweyDecimalClassification(models.Model):
