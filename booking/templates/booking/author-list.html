@@ -6,11 +6,12 @@
 {% endblock css %}
 
 {% block header %}
-<header class="py-5 bg-light border-bottom mb-4">
+<header class="py-5 bg-light border-bottom mb-4 ">
     <div class="container">
         <div class="text-center my-5">
             <h1 class="fw-bolder">Authors</h1>
-            <p class="lead mb-0">Here you can explore all registerd authors </p>
+            <p class="lead mb-3">Here you can explore all registerd authors </p>
+            <a class="btn btn-outline-secondary "> Add Author </a>
         </div>
     </div>
 </header>
@@ -35,12 +36,12 @@
                     <tbody>
                         {% for author in authors %}
                         <tr>
-                            <td>{{ author.id }}</td>
-                            <td>{{ author.name }}</td>
-                            <td>{{ author.birth_place }}</td>
-                            <td>{{ author.bio |truncatechars:30}}</td>
-                            <td><a class="btn btn-info" href="{% url 'author-update' author.id%}"> Edit </a></td>
-                            <td><a class="btn btn-danger" href="{% url 'author-delete' author.id%}"> Delete </a></td>
+                            <td class="align-middle">{{ author.id }}</td>
+                            <td class="align-middle">{{ author.name }}</td>
+                            <td class="align-middle">{{ author.birth_place }}</td>
+                            <td class="align-middle">{{ author.bio |truncatechars:30}}</td>
+                            <td class="align-middle"><a class="btn btn-info" href="{% url 'author-update' author.id%}"> Edit </a></td>
+                            <td class="align-middle"><a class="btn btn-danger" href="{% url 'author-delete' author.id%}"> Delete </a></td>
 
                         </tr>
                         {% endfor %}
