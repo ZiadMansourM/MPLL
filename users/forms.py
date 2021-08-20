@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.conf import settings
 
 CustomUser = get_user_model()
@@ -10,7 +10,19 @@ class UserRegisterForm(UserCreationForm):
 
     class Meta:
         model = CustomUser
-        fields = ['username', 'email','first_name', 'last_name', 'password1', 'password2']
+        fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
+
+class ProfileUpdateForm(UserChangeForm):
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'email', 'first_name', 'last_name', 'telephone']
+        widgets = {
+            'first_name': forms.TextInput(attrs={"class": "form-control bg-light"}),
+            'last_name': forms.TextInput(attrs={"class": "form-control bg-light"}),
+            'username': forms.TextInput(attrs={"class": "form-control bg-light"}),
+            'email': forms.EmailInput(attrs={"class": "form-control bg-light"}),
+            'telephone': forms.TextInput(attrs={"class": "form-control bg-light"}),
+        }
 
 class MLERegisterForm(UserCreationForm): 
     # MLE : manager librarian editor
