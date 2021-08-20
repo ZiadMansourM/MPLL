@@ -1,0 +1,61 @@
+.cardo {
+  display: grid;
+  /* grid-template-columns: 300px; */
+  grid-template-rows: 350px 240px;
+  grid-template-areas: "image" "text";
+  border-radius: 18px;
+  background: white;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+  font-family: roboto;
+  text-align: center;
+  transition: 0.5s ease;
+  cursor: pointer;
+  margin: 30px;
+  padding: 0;
+}
+.cardo-image {
+  grid-area: image;
+  /* background: url("img1.jpg"); */
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  background-size: cover;
+}
+.cardo-text {
+  grid-area: text;
+  margin: 25px;
+}
+.cardo-owner {
+  color: darkred;
+}
+.cardo-text p {
+  color: grey;
+  font-size: 15px;
+  font-weight: 300;
+}
+.cardo-text h2 {
+  margin-top: 0px;
+  font-size: 28px;
+  font-weight: bolder;
+}
+.cardo:hover {
+  transform: scale(1.07);
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.6);
+}
+a.a-cat {
+  display: block;
+  width: 100%;
+}
+.list-group-item.list-group-item-light:hover {
+  cursor: pointer;
+  color: black;
+  font-weight: bold;
+  background-color: rgba(224, 224, 224, 0.315);
+  transition: all ease 0.05s;
+  transform: scale(1.02);
+  z-index: 2;
+  /* box-shadow:  4px 4px rgba(255, 253, 146, 0.329); */
+}
+.ellipses-handler-title {
+    -webkit-line-clamp: 2 !important;
+    min-height: 56px;
+  }

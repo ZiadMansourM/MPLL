@@ -15,7 +15,7 @@
                         <form method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
                             <fieldset class="form-group">
-                                <legend class="border-bottom mb-4"> Adding Book </legend>
+                                <legend class="border-bottom mb-4"> Adding an author </legend>
                                 {{ form.media }} {{ form|crispy }}
                             </fieldset>
                             <div class="form-group">
@@ -23,20 +23,6 @@
                             </div>
                         </form>
                     </div>
-                </div>
-            </div>
-            <!-- Second Column: Sidebar -->
-            <div class="col-4 text-center">
-                <div class="content-section">
-                    <h3>Our Sidebar</h3>
-                    <p class='text-muted'>You can put any information here you'd like.
-                        <ul class="list-group">
-                            <li class="list-group-item list-group-item-light">Latest Posts</li>
-                            <li class="list-group-item list-group-item-light">Announcements</li>
-                            <li class="list-group-item list-group-item-light">Calendars</li>
-                            <li class="list-group-item list-group-item-light">etc</li>
-                        </ul>
-                    </p>
                 </div>
             </div>
         </div>
