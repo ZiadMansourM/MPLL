@@ -17,7 +17,8 @@ from .services.mailers import ActivationMailer
 
 from users.forms import (
     UserRegisterForm, 
-    MLERegisterForm, 
+    MLERegisterForm,
+    ProfileUpdateForm
     )
 # Create your views here.
 
@@ -99,4 +100,15 @@ def registereditor(request):
 
 @login_required
 def profile(request):
-    return render(request, 'users/profile.html')
+    if request.method == "POST":
+        form = ProfileUpdateForm(request.POST, instance=request.user) # request.FILES [2]
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Your Profile Has Been Updated')
+            return redirect('profile')
+    else:
+        form = ProfileUpdateForm(instance=request.user)
+    context = {
+        "form": form
+    }
+    return render(request, 'users/profile.html', context)
