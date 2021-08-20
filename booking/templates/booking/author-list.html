@@ -1,0 +1,56 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'booking/css/author-list.css' %}">
+{% endblock css %}
+
+{% block header %}
+<header class="py-5 bg-light border-bottom mb-4">
+    <div class="container">
+        <div class="text-center my-5">
+            <h1 class="fw-bolder">Authors</h1>
+            <p class="lead mb-0">Here you can explore all registerd authors </p>
+        </div>
+    </div>
+</header>
+{% endblock header %}
+{% block content %}
+<section class="main-section section-height-adjustment-header">
+    <div class="container-lg">
+        <div class="row justify-content-center">
+            <h2>Authors list</h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Birth Place</th>
+                            <th scope="col">Bio</th>
+                            <th scopr="col"></th>
+                            <th scopr="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for author in authors %}
+                        <tr>
+                            <td>{{ author.id }}</td>
+                            <td>{{ author.name }}</td>
+                            <td>{{ author.birth_place }}</td>
+                            <td>{{ author.bio |truncatechars:30}}</td>
+                            <td><a class="btn btn-info" href="{% url 'author-update' author.id%}"> Edit </a></td>
+                            <td><a class="btn btn-danger" href="{% url 'author-delete' author.id%}"> Delete </a></td>
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- Pagination-->
+            {% include 'blog/components/paginator.html' with is_paginated=is_paginated page_obj=page_obj %}
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

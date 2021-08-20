@@ -1,0 +1,61 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'booking/css/author-list.css' %}">
+{% endblock css %}
+
+{% block header %}
+<header class="py-5 bg-light border-bottom mb-4">
+    <div class="container">
+        <div class="text-center my-5">
+            <h1 class="fw-bolder">Publishers</h1>
+            <p class="lead mb-0">Here you can explore all registerd Publishers </p>
+        </div>
+    </div>
+</header>
+{% endblock header %}
+{% block content %}
+<section class="main-section section-height-adjustment-header">
+    <div class="container-lg">
+        <div class="row justify-content-center">
+            <h2>Publishers list</h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">telephone</th>
+                            <th scope="col">accounts</th>
+                            <th scopr="col"></th>
+                            <th scopr="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for publisher in Publishers %}
+                        <tr>
+                            <td>{{ publisher.id }}</td>
+                            <td>{{ publisher.name }}</td>
+                            <td>{{ publisher.telephone }}</td>
+                            <td>
+                                {% for account in publisher.accounts.all %}
+                                {{ account.handler }}
+                                <br>
+                                {% endfor %}
+                            </td>
+                            <td><a class="btn btn-info" href="{% url 'publisher-update' publisher.id%}"> Edit </a></td>
+                            <td><a class="btn btn-danger" href="{% url 'publisher-delete' publisher.id%}"> Delete </a></td>
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- Pagination-->
+            {% include 'blog/components/paginator.html' with is_paginated=is_paginated page_obj=page_obj %}
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
