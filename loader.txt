@@ -1,0 +1,14 @@
+import json
+from django.contrib.auth import get_user_model
+from blog.models import Post
+
+User = get_user_model()
+
+user = User.objects.all().first()
+
+with open('posts.json') as data:
+	posts = json.load(data)
+
+for post in posts:
+	obj = Post(title=post["title"], content=post["content"], is_pinned=post["is_pinned"], author=user)
+	obj.save()
