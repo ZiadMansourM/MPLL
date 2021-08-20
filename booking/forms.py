@@ -33,3 +33,6 @@ class AuthorCreateForm(forms.ModelForm):
     class Meta:
         model = Author
         fields = ['name', 'image', 'bio', 'birth_place',]
+        widgets = {
+            'name': forms.TextInput(attrs={'placeholder': 'e.g. How to sleep', "class": "form-control"}),
+        }
