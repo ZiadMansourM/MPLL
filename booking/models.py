@@ -26,7 +26,7 @@ class Account(models.Model):
         Publisher, on_delete=models.CASCADE, related_name="accounts")
     handler = models.CharField(max_length=50)
     type = ForeignKey(SocialSite, on_delete=models.CASCADE,
-                      related_name='accounts')
+                    related_name='accounts')
 
     def __str__(self):
         return self.handler
@@ -46,9 +46,14 @@ class City(models.Model):
 class Author(models.Model):
     name = models.CharField(max_length=70)
     image = models.ImageField(default='default.jpg', upload_to='site_pics')
-    bio = models.TextField()
+    bio = models.TextField(blank=True)
     birth_place = models.ForeignKey(
-        City, on_delete=models.CASCADE, related_name="authors", blank=True)
+            City, 
+            on_delete=models.CASCADE, 
+            related_name="authors", 
+            blank=True, 
+            null=True
+        )
 
     def __str__(self):
         return self.name
