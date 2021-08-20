@@ -32,6 +32,11 @@ class BookCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     context_object_name = 'book'
     form_class = BookCreateForm
 
+    def get_context_data(self, **kwargs):
+        context = super(BookCreateView, self).get_context_data(**kwargs)
+        context['author_form'] = AuthorCreateForm
+        return context
+
     def test_func(self):
         return self.request.user.is_editor
 
