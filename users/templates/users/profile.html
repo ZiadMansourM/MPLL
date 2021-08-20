@@ -1,22 +1,87 @@
 {% extends 'main/base.html' %} 
-{% load crispy_forms_tags %} 
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'users/css/profile.css' %}">
+{% endblock css %}
+
 
 {% block content %}
-<section class="main-section">
+<section class="main-section section-height-adjustment">
     <div class="container-lg">
-        <div class="content-section">
-            <div class="media">
-                <img class="rounded-circle account-img" src="{{ user.image.url }}">
-                <div class="media-body">
-                    <h2 class="account-heading">{{ user.username }}</h2>
-                    <p class="text-secondary">{{ user.email }}</p>
+        <div class="wrapper bg-white mt-sm-5">
+            <h4 class="pb-4 border-bottom">Account settings</h4>
+            <div class="d-flex align-items-start py-3 border-bottom"> <img src="{{ user.image.url }}" class="img" alt="">
+                <div class="ps-sm-4 ps-2" id="img-section"> 
+                    <div class="d-flex mb-1 justify-content-between">
+                        <b>@ {{ user.username }}</b>
+                        <div class="btn-group align-items-center">
+                            <p>
+                                {% if user.is_manager %}
+                                    Manager
+                                {% elif user.is_editor %}
+                                    Editor
+                                {% elif user.is_superuser %}
+                                    basha 👀 El kol fe El kol
+                                {% else %}
+                                    Normal
+                                {% endif %}
+                            </p> 
+                        </div>
+                    </div>
+                    <p>Accepted file type .png. Less than 1MB</p> 
+                    <button class="btn button border"><b>Upload</b></button>
                 </div>
             </div>
-            {% if user.is_manager %}
-            <p> create manager user <a class="btn btn-outline-info" href="{% url 'register-manager' %}">click here </a></p>
-            <p> create editor user <a class="btn btn-outline-info" href="{% url 'register-editor' %}">click here </a></p>
-            {% endif %}
-            <!-- FORM HERE -->
+            <form action="" method="POSt">
+                <div class="py-2">
+                    <div class="row py-2">
+                        <div class="col-md-6"> 
+                            {{ form.first_name|as_crispy_field }} 
+                        </div>
+                        <div class="col-md-6 pt-md-0 pt-3"> 
+                            {{ form.last_name|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="row py-2">
+                        <div class="col-md-6"> 
+                            {{ form.email|as_crispy_field }}
+                        </div>
+                        <div class="col-md-6 pt-md-0 pt-3">
+                            {{ form.telephone|as_crispy_field }}
+                        </div>
+                    </div>
+                    <!-- <div class="row py-2">
+                        <div class="col-md-6"> <label for="country">Country</label> <select name="country" id="country" class="bg-light">
+                                <option value="india" selected>India</option>
+                                <option value="usa">USA</option>
+                                <option value="uk">UK</option>
+                                <option value="uae">UAE</option>
+                            </select> </div>
+                        <div class="col-md-6 pt-md-0 pt-3" id="lang"> <label for="language">Language</label>
+                            <div class="arrow"> <select name="language" id="language" class="bg-light">
+                                    <option value="english" selected>English</option>
+                                    <option value="english_us">English (United States)</option>
+                                    <option value="enguk">English UK</option>
+                                    <option value="arab">Arabic</option>
+                                </select> </div>
+                        </div>
+                    </div> -->
+                    <div class="py-3 pb-4 border-bottom"> 
+                        <button class="btn btn-primary mr-3" type="submit">Save Changes</button> 
+                        <button class="btn border button">Cancel</button> 
+                    </div>
+                    <div class="d-sm-flex align-items-center pt-3" id="deactivate">
+                        <div> <b>Deactivate your account</b>
+                            <p>Details about your company account and password</p>
+                        </div>
+                        <div class="ms-auto"> 
+                            <button class="btn danger" type="submit">Deactivate</button> 
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </section>
