@@ -19,6 +19,9 @@ class CustomUser(AbstractUser):
         default=False,
         help_text=_('Designates whether the user is a manager'),
     )
+
+    telephone = models.CharField(max_length=12, blank=True)
+
     class Meta:
         db_table = 'users'
 
