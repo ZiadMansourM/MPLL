@@ -20,7 +20,7 @@
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="{% url 'blog-update' post.id %}">Update</a></li>
                                     <li><a class="dropdown-item" href="{% url 'blog-delete' post.id %}">Delete</a></li>
-                                    <li><a class="dropdown-item" href="#">Report</a></li>
+                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ReportModal" href="#">Report</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="{% url 'contact-us' %}">Contact us</a></li>
                                 </ul>
@@ -50,4 +50,30 @@
         
     </div>
 </section>
+<!-- Report Post model -->
+<div class="modal fade" id="ReportModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="ReportModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ReportModalLabel">Report Post</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{% url 'report' %}" method="POST">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <h3 class="mb-2">Are you sure you wants to report this Post?</h3>
+                    <input type="hidden" id="custId" name="id" value="{{ post.id }}">
+                    <div class="form-floating">
+                        <textarea class="form-control" name="message" placeholder="Why are you reporting this Post" id="floatingTextarea2" style="height: 100px"></textarea>
+                        <label for="floatingTextarea2">Why are you reporting this Post</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-outline-danger">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock content %}
