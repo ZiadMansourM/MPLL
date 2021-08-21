@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.contrib.auth.tokens import default_token_generator 
 from django.contrib.auth.decorators import login_required
 # email imports
 from django.http import HttpResponse
