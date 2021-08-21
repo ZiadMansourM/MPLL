@@ -1,14 +1,48 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_http_methods
 from django.views.generic import (
     ListView, DetailView, CreateView, 
     UpdateView, DeleteView, FormView
     )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse_lazy
-from .models import Comment, Post
+from .models import Comment, Post, Reply, Report
 from .forms import PostCreateForm, CommentCreateForm, ReplyCreateForm, ContactUsForm
 
+
+@require_http_methods(["POST"])
+def report(request):
+    uuid = request.POST['id']
+    message = request.POST['message']
+    domain = get_current_site(request).domain
+    url = "http://" + domain + "/"
+    try:
+        post = Post.objects.get(id=uuid)
+        url += f"blog/{post.id}"
+        entity = "Post"
+    except ObjectDoesNotExist:
+        try:
+            comment = Comment.objects.get(id=uuid)
+            post_id = request.POST['post_id']
+            url += f"blog/{post_id}/comment/{comment.id}"
+            entity = "Comment"
+        except ObjectDoesNotExist:
+            try:
+                reply = Reply.objects.get(id=uuid)
+                comment_id = request.POST['comment_id']
+                post_id = request.POST['post_id']
+                url += f"blog/{post_id}/comment/{comment_id}/reply/{reply.id}"
+                entity = "Reply"
+            except:
+                raise Exception("Invalid Please try again")
+    
+    Report.objects.create(entity=entity, url=url, message=message)
+    
+    messages.success(request, 'Thanks, we have received your Report and will be reviewed ASAP')
+    return redirect('blog-home')
 
 def contact_us(request):
     if request.POST:
@@ -80,6 +114,23 @@ class PostDetailView(DetailView):
         context = super(PostDetailView, self).get_context_data(**kwargs)
         context['form'] = CommentCreateForm
         return context
+
+class CommentDetailView(DetailView):
+    model = Comment
+    template_name = 'blog/comment-detailed.html'
+    context_object_name = 'comment'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Comment, pk=self.kwargs['id'])
+
+
+class ReplyDetailView(DetailView):
+    model = Post
+    template_name = 'blog/reply-detailed.html'
+    context_object_name = 'reply'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Reply, pk=self.kwargs['num'])
 
 
 class PostCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
