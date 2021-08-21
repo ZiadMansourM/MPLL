@@ -14,6 +14,16 @@ from .services.parser import cleanhtml
 User = get_user_model()
 
 # Create your models here.
+class Report(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    entity = models.CharField(_('Type'), max_length=20)
+    url = models.URLField()
+    message = RichTextField(blank=True, help_text=_('If you want to leave a note for the reviewer'))
+    date_reported = models.DateTimeField(default=timezone.now)
+
+    def __str__(self) -> str:
+        return f"{self.entity}:{self.url}"
+
 class Post(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=120, unique=True)
