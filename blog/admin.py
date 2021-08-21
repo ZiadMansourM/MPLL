@@ -1,9 +1,20 @@
 from django.contrib import admin
-from .models import Post, Comment, Reply, ContactUs
+from .models import Post, Comment, Reply, ContactUs, Report
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
 # Register your models here.
 admin.site.site_header = 'MPLL administration'
+
+
+@admin.register(Report)
+class ReportAdmin(admin.ModelAdmin):
+    list_display = ('entity', 'active_url', 'message', 'date_reported')
+    list_filter = ('entity',)
+    ordering = ('-date_reported',)
+
+    def active_url(self, obj):
+        return mark_safe(f'<a href="{obj.url}">{obj.url}</a>')
 
 
 @admin.register(Post)
