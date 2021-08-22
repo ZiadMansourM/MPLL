@@ -2,7 +2,7 @@ from django.shortcuts import render
 from booking.models import DeweyDecimalClassification, Book, Author, Publisher
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .forms import AuthorCreateForm, BookCreateForm
+from .forms import AuthorCreateForm, BookCreateForm, PublisherCreateForm
 
 # Create your views here.
 
@@ -35,6 +35,7 @@ class BookCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(BookCreateView, self).get_context_data(**kwargs)
         context['author_form'] = AuthorCreateForm
+        context['publisher_form'] = PublisherCreateForm
         return context
 
     def test_func(self):
