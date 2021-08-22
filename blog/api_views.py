@@ -3,7 +3,7 @@ from django.views.generic import View
 from django.http import JsonResponse
 from django.contrib.auth import get_user_model
 
-from .models import Post, Comment
+from .models import Post, Comment, Reply
 
 User = get_user_model()
 
@@ -34,3 +34,26 @@ class CommmentJsonListView(View):
     def get(self, *args, **kwargs):
         comments = list(Comment.objects.filter(post=self.kwargs['pk']).values())
         return JsonResponse(comments, safe=False)
+
+
+class ReplyJsonCreateView(LoginRequiredMixin, UserPassesTestMixin, View):
+    def post(self, *args, **kwargs):
+        reply_message = self.request.POST['reply']
+        print(reply_message)
+        reply = Reply(reply=reply_message)
+        reply.owner = self.request.user
+        reply.comment = Comment.objects.get(id=self.request.POST['comment_id'])
+        reply.save()
+        # image.url
+        # owner.username
+        # comment.id
+        response_dict = {
+            'image_url': reply.owner.image.url,
+            'owner_username': reply.owner.username,
+            'reply_id': reply.id,
+            'reply': reply.reply
+        }
+        return JsonResponse(response_dict, safe=False)
+
+    def test_func(self):
+        return (self.request.user.is_editor)
