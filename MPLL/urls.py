@@ -21,10 +21,20 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('blog/', include("blog.urls")),
+    path('api/blog/', include('blog.api_urls')),
     path('user/', include("users.urls")),
     path('', include("main.urls")),
     path('booking/', include('booking.urls')),
+    path('api/booking/', include('booking.api_urls')),
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+# /api/booking/author/create
+# /api/booking/author/update
+# /api/booking/author/delete
+# /api/booking/author/<uuid>
+# /api/booking/author/
+
