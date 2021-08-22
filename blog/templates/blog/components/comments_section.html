@@ -11,14 +11,17 @@
             <h6>Comments Section</h6>
             <small>
                 <button class="svg-button" onClick="ToggleAddComment()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                    <svg id ="togglebtn" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
                         <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
+                    </svg>
+                    <svg class="d-none" id="togglebtn" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                        <path d="M0 8a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1z"/>
                     </svg>
                 </button>
             </small>
         </div>
         <!-- Testing Inline comment -->
-        <div id="AddCommentCard" class="my-3 p-3 bg-light rounded shadow">
+        <div id="AddCommentCard" class="my-3 p-3 bg-light rounded shadow d-none">
             <form id="AddCommentForm" class="mt-2">
                 {% csrf_token %}
                 <div class="d-flex justify-content-between pb-2">
