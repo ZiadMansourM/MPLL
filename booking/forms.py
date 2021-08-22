@@ -34,5 +34,13 @@ class AuthorCreateForm(forms.ModelForm):
         model = Author
         fields = ['name', 'image', 'bio', 'birth_place',]
         widgets = {
-            'name': forms.TextInput(attrs={'placeholder': 'e.g. How to sleep', "class": "form-control"}),
+            'name': forms.TextInput(attrs={'placeholder': 'e.g. Naguib Mahfouz', "class": "form-control", 'id': 'AuthorName'}),
+        }
+
+class PublisherCreateForm(forms.ModelForm):
+    class Meta:
+        model = Publisher
+        fields = ['name',]
+        widgets = {
+            'name': forms.TextInput(attrs={'placeholder': 'e.g. El-Nahda', "class": "form-control", 'id': 'PublisherName'}),
         }
