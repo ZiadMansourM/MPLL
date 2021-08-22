@@ -82,16 +82,16 @@
     <!-- Toggle add Comment -->
     <script>
         function ToggleAddComment() {
-            let state = document.getElementById("AddCommentCard").style.display;
-            if (state === "none"){
-                document.getElementById("AddCommentCard").style.display = "block"
-            } else {
-                document.getElementById("AddCommentCard").style.display = "none"
+            let card = document.querySelector("#AddCommentCard");
+            card.classList.toggle("d-none");
+            let icons = document.querySelectorAll("#togglebtn");
+            for(i=0; i<icons.length; i++) {
+                icons[i].classList.toggle("d-none");
             }
         }
 
         function TrashCan() {
-            document.getElementById("AddCommentCard").style.display = "none";
+            document.querySelector("#AddCommentCard #floatingCommentInput").value = "";
         }
     </script>
 {% endblock js %}
