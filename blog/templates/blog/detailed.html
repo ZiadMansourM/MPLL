@@ -77,3 +77,66 @@
     </div>
 </div>
 {% endblock content %}
+
+{% block js %}
+    <!-- Toggle add Comment -->
+    <script>
+        function ToggleAddComment() {
+            let state = document.getElementById("AddCommentCard").style.display;
+            if (state === "none"){
+                document.getElementById("AddCommentCard").style.display = "block"
+            } else {
+                document.getElementById("AddCommentCard").style.display = "none"
+            }
+        }
+
+        function TrashCan() {
+            document.getElementById("AddCommentCard").style.display = "none";
+        }
+    </script>
+{% endblock js %}
+
+{% block ajax %}
+    <script type="text/javascript">
+        $(document).on('submit', '#AddCommentForm', function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '{% url "api-comment-create" post.id %}',
+                data: {
+                    comment: $('#floatingCommentInput').val(),
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val() 
+                },
+                success: function(data) {
+                    // [1]: Append Comment Form 
+                    // [2]: Append Element 
+                    var element = `
+                        <div class="d-flex text-muted pt-3 De7k">
+                            <img class="imagefifty me-1" src="` + data.image_url + `" alt="...">
+                            <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                                <div class="d-flex mb-1 justify-content-between">
+                                    <strong class="text-gray-dark">@` + data.owner_username + `</strong>
+                                    <!-- Comments options Button -->
+                                    <div class="btn-group">
+                                        <a class="a-cat dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" id="` + data.comment_id + `" href="#">Reply</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ReportCommentModal` + data.comment_id +  `" href="#">Report</a></li>
+                                            <li><a class="dropdown-item" href="#">Upvote</a></li>
+                                            <li><a class="dropdown-item" href="#">Downvote</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <span class="d-block text-break">` + data.comment +  `</span>
+                            </div>
+                        </div>
+                    `
+                    $(".AppendCommentsHere").append(element);
+                    // [3]: Remove Comment Form
+                    $(".trash-can").click();
+                }
+            });
+        });
+    </script>
+{% endblock ajax %}
