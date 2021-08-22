@@ -93,6 +93,16 @@
         function TrashCan() {
             document.querySelector("#AddCommentCard #floatingCommentInput").value = "";
         }
+
+        function ToggleReply(id) {
+            let reply_id = "#" + id
+            document.querySelector(reply_id).classList.toggle("d-none");
+        }
+
+        function ReplyTrashCan(id) {
+            let selector = "#" + id + " #floatingReplyInput";
+            document.querySelector(selector).value = "";
+        }
     </script>
 {% endblock js %}
 
@@ -133,8 +143,59 @@
                         </div>
                     `
                     $(".AppendCommentsHere").append(element);
-                    // [3]: Remove Comment Form
-                    $(".trash-can").click();
+                    // [3]: empty Comment Form
+                    TrashCan();
+                    // [4]: close Comment Form
+                    ToggleAddComment();
+                }
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).on('submit', '#AddReplyForm', function(e) {
+            e.preventDefault();
+            // TODO: IAM hard coded solve me
+            // let arguments = "url 'api-reply-create' post.id " + e.target.classList[0];
+            let url_str = "/api/blog/{{ post.id }}/comment/"+ e.target.classList[0] +"/reply/new";
+            let textarea_id = "#AddReplyCard" + e.target.classList[0] + ' #floatingReplyInput'
+            $.ajax({
+                type: 'POST',
+                url: url_str,
+                data: {
+                    comment_id: e.target.classList[0],
+                    reply: $(textarea_id).val(),
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val() 
+                },
+                success: function(data) {
+                    console.log(data);
+                    // [1]: Append Comment Form 
+                    // [2]: Append Element 
+                    var element = `
+                        <div class="mx-5 d-flex text-muted pt-3 pb-1 border-bottom">
+                            <img class="rounded-circle me-1 imagefifty" src="` + data.image_url + `" alt="..." />
+                            <div class="pb-3 mb-0 small lh-sm w-100">
+                                <div class="d-flex mb-1 justify-content-between">
+                                    <strong class="text-gray-dark">@` + data.owner_username + `</strong>
+                                    <!-- replies options Button -->
+                                    <div class="btn-group">
+                                        <a class="a-cat dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ReportReplyModal` + data.reply_id + `" href="#">Report</a></li>
+                                            <li><a class="dropdown-item" href="#">Upvote</a></li>
+                                            <li><a class="dropdown-item" href="#">Downvote</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <span class="d-block text-break">` + data.reply + `</span>
+                            </div>
+                        </div>
+                    `
+                    $(".AppendRepliesHere."+ e.target.classList[0]).append(element);
+                    // [3]: empty reply box
+                    ReplyTrashCan('AddReplyCard' + e.target.classList[0]);
+                    // [4]: close reply box
+                    ToggleReply('AddReplyCard' + e.target.classList[0]);
                 }
             });
         });
