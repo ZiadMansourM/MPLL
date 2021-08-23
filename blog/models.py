@@ -55,6 +55,14 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         self.snippet = cleanhtml(self.content)
+
+        try:
+            this = Post.objects.get(id=self.id)
+            if this.image != self.image:
+                this.image.delete(save=False)
+        except: 
+            pass
+
         super(Post, self).save(*args, **kwargs)
 
 
