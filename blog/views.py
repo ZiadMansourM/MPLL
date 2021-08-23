@@ -8,9 +8,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.sites.shortcuts import get_current_site
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from .models import Comment, Post, Reply, Report
 from .forms import PostCreateForm, CommentCreateForm, ReplyCreateForm, ContactUsForm
+from django.http import HttpResponseRedirect
 
 
 @require_http_methods(["POST"])
@@ -112,7 +113,10 @@ class PostDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(PostDetailView, self).get_context_data(**kwargs)
+        stuff = get_object_or_404(Post, id=self.kwargs['pk'])
+        total_likes = stuff.total_likes()
         context['form'] = CommentCreateForm
+        context['total_likes'] = total_likes
         return context
 
 class CommentDetailView(DetailView):
@@ -169,3 +173,9 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         post = self.get_object()
         return (self.request.user.is_editor and self.request.user == post.author)
+
+
+def LikeView(request, pk):
+    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    post.likes.add(request.user)
+    return HttpResponseRedirect(reverse('blog-detail', args=[str(pk)]))
