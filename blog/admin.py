@@ -29,6 +29,7 @@ class PostAdmin(admin.ModelAdmin):
             'content',
             'image',
             'is_pinned',
+            'likes',
         )}),
         (_('meta'), {'fields': (
             'author',
