@@ -23,6 +23,7 @@
 .cardo-text {
     grid-area: text;
     margin: 25px;
+    word-break: break-word;
 }
 .cardo-text .date {
     color: rgb(255, 7, 110);
