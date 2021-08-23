@@ -38,6 +38,11 @@
                     <section style="text-align: justify;" class="mb-4">
                         {{ post.content|safe }}
                     </section>
+                    <!-- likes -->
+                    <form action="{% url 'like-post' post.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-primary btn-sm">like</button> - {{ total_likes }} likes
+                    </form>
                 </article>
             </div>
         </div>
