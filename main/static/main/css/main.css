@@ -95,6 +95,7 @@ a.a-cat-book-info {
   width: 40px;
   height: 40px;
   background-size: cover;
+  border-radius: 4px;
 }
 
 .book-read-more {
