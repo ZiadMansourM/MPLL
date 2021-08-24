@@ -24,11 +24,20 @@ class Report(models.Model):
     def __str__(self) -> str:
         return f"{self.entity}:{self.url}"
 
+    class Meta:
+        db_table = 'reports'
+
 
 class Category(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     category = models.CharField(max_length=20, unique=True)
 
+    def __str__(self) -> str:
+        return f"{self.category}"
+
+    class Meta:
+        db_table = 'categories'
+        verbose_name_plural = "Categories"
 
 class Post(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -45,7 +54,7 @@ class Post(models.Model):
         help_text=_('Designates whether the post is pinned'),
     )
     likes = models.ManyToManyField(User, related_name="blog_posts")
-    categories = models.ManyToManyField(Category, related_name="categories")
+    categories = models.ManyToManyField(Category, related_name="categories", through="PostCategory")
 
 
     def total_likes(self):
@@ -73,6 +82,16 @@ class Post(models.Model):
 
         super(Post, self).save(*args, **kwargs)
 
+
+class PostCategory(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.post.title} -> {self.category.category}"
+
+    class Meta:
+        db_table = 'post_category'
 
 class Comment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
