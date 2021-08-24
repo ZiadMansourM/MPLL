@@ -170,7 +170,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ['title', 'content', 'is_pinned', 'image']
+    fields = ['title', 'content', 'categories', 'is_pinned', 'image']
     template_name = 'blog/update.html'
 
     def form_valid(self, form):
