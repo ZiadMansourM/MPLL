@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import default_token_generator 
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
 # email imports
 from django.http import HttpResponse
 from django.contrib.sites.shortcuts import get_current_site
@@ -102,7 +103,7 @@ def registereditor(request):
 @login_required
 def profile(request):
     if request.method == "POST":
-        form = ProfileUpdateForm(request.POST, instance=request.user) # request.FILES [2]
+        form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user) # request.FILES [2]
         if form.is_valid():
             form.save()
             messages.success(request, f'Your Profile Has Been Updated')
@@ -113,3 +114,12 @@ def profile(request):
         "form": form
     }
     return render(request, 'users/profile.html', context)
+
+
+@login_required
+@require_http_methods(["POST"])
+def deactivate(request):
+    user = request.user
+    user.is_active = False
+    user.save()
+    return HttpResponse("Your account has been deactivated successfuly, hope to see you again soon!")
