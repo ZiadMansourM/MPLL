@@ -19,7 +19,9 @@ class CustomUSerAdmin(UserAdmin):
         (_('Personal info'), {'fields': (
             'first_name',
             'last_name',
+            'image',
             'email',
+            'telephone'
         )}),
         (_('Permissions'), {'fields': ('is_active',
                                        'is_staff',
