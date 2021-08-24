@@ -126,7 +126,7 @@
                         {% for reply in comment.replies.all %}
                             <!-- Child comment -->
                             <div class="mx-5 d-flex text-muted pt-3 pb-1 border-bottom">
-                                <img class="rounded-circle me-1 imagefifty" src="{{ reply.owner.image.url }}" alt="..." />
+                                <img class="me-1 imagefifty" src="{{ reply.owner.image.url }}" alt="..." />
                                 <div class="pb-3 mb-0 small lh-sm w-100">
                                     <div class="d-flex mb-1 justify-content-between">
                                         <strong class="text-gray-dark">@{{ comment.owner }}</strong>
