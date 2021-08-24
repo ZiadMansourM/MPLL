@@ -12,14 +12,13 @@ class UserRegisterForm(UserCreationForm):
         model = CustomUser
         fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
 
-class ProfileUpdateForm(UserChangeForm):
+class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'first_name', 'last_name', 'telephone']
+        fields = ['email', 'image', 'first_name', 'last_name', 'telephone']
         widgets = {
             'first_name': forms.TextInput(attrs={"class": "form-control bg-light"}),
             'last_name': forms.TextInput(attrs={"class": "form-control bg-light"}),
-            'username': forms.TextInput(attrs={"class": "form-control bg-light"}),
             'email': forms.EmailInput(attrs={"class": "form-control bg-light"}),
             'telephone': forms.TextInput(attrs={"class": "form-control bg-light"}),
         }
