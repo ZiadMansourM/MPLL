@@ -6,7 +6,11 @@ class PostCreateForm(forms.ModelForm):
     content = forms.CharField(widget=CKEditorWidget())
     class Meta:
         model = Post
-        fields =['title', 'is_pinned', 'content', 'image']
+        fields =['title', 'categories', 'is_pinned', 'content', 'image']
+        widgets = {
+            'categories': forms.SelectMultiple(attrs={"class": "form-control"}),
+            'image': forms.ClearableFileInput(attrs={"class": "form-control form-control-sm clearablefileinput"}),
+        }
 
 class CommentCreateForm(forms.ModelForm):
     class Meta:
