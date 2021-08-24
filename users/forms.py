@@ -1,9 +1,37 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import (
+        AuthenticationForm,
+        UserCreationForm,
+        UserChangeForm,
+        UsernameField
+    )
 from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 
 CustomUser = get_user_model()
+
+
+class LogInForm(AuthenticationForm):
+    username = UsernameField(widget=forms.TextInput(
+        attrs={
+            'autofocus': True, 
+            "class": "form-control bg-light",
+            'placeholder': 'Account username',
+        }
+    ))
+    password = forms.CharField(
+        label=_("Password"),
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={
+                'autocomplete': 'current-password', 
+                "class": "form-control bg-light",
+                'placeholder': 'Account password',
+            }
+        ),
+    )
+
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
