@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import default_token_generator 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView    
 from django.views.decorators.http import require_http_methods
 # email imports
 from django.http import HttpResponse
@@ -20,11 +21,18 @@ from .services.mailers import ActivationMailer
 from users.forms import (
     UserRegisterForm, 
     MLERegisterForm,
-    ProfileUpdateForm
+    ProfileUpdateForm,
+    LogInForm
     )
 # Create your views here.
 
 User = get_user_model()
+
+
+class MPLLLogin(LoginView):
+    form_class =  LogInForm
+    template_name='users/login.html'
+
 
 def register(request):
     if request.method == 'POST':
