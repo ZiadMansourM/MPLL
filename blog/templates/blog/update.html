@@ -2,6 +2,11 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'main/css/select2.min.css' %}">
+{% endblock css %}
+
+
 {% block content %}
 <section class="main-section">
     <div class="container-lg">
@@ -63,3 +68,12 @@
     </div>
 </section>
 {% endblock content %}
+
+{% block jQ %}
+    <script src="{% static 'main/js/select2.min.js' %}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#id_categories').select2();
+        });
+    </script>
+{% endblock jQ %}
