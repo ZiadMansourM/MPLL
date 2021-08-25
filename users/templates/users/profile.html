@@ -22,6 +22,8 @@
                                     Manager
                                 {% elif user.is_editor %}
                                     Editor
+                                {% elif user.is_librarian %}
+                                    Librarian
                                 {% elif user.is_superuser %}
                                     basha 👀 El kol fe El kol
                                 {% else %}
