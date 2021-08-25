@@ -40,13 +40,13 @@ class PostAdmin(admin.ModelAdmin):
         (None, {
             'classes': ('wide',),
             'fields': ('title',
-                       'content',
-                       'author',
-                       'image',
-                       'date_posted',
-                       'is_pinned',
-                       )}
-         ),
+                        'content',
+                        'author',
+                        'image',
+                        'date_posted',
+                        'is_pinned',
+                        )}
+        ),
     )
     exclude = ('snippet',)
 
