@@ -20,7 +20,7 @@ class AuthorCreateJsonView(LoginRequiredMixin, UserPassesTestMixin, View):
         return JsonResponse(author, safe=False)
 
     def test_func(self):
-        return (self.request.user.is_editor)
+        return (self.request.user.is_librarian)
 
 
 class PublisherCreateJsonView(LoginRequiredMixin, UserPassesTestMixin, View):
@@ -31,7 +31,7 @@ class PublisherCreateJsonView(LoginRequiredMixin, UserPassesTestMixin, View):
         return JsonResponse(publisher, safe=False)
 
     def test_func(self):
-        return (self.request.user.is_editor)
+        return (self.request.user.is_librarian)
 
 
 class CityCreateJsonView(LoginRequiredMixin, UserPassesTestMixin, View):
@@ -43,4 +43,4 @@ class CityCreateJsonView(LoginRequiredMixin, UserPassesTestMixin, View):
         return JsonResponse(city, safe=False)
 
     def test_func(self):
-        return (self.request.user.is_editor)
+        return (self.request.user.is_librarian)
