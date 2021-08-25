@@ -7,13 +7,21 @@ from django.views.generic import (
     ListView, DetailView, CreateView,
     UpdateView, DeleteView, FormView
 )
+from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.sites.shortcuts import get_current_site
-from django.urls import reverse_lazy
-from .models import Comment, Post, Reply, Report
-from .forms import PostCreateForm, CommentCreateForm, ReplyCreateForm, ContactUsForm
+from django.urls import reverse_lazy, reverse
+from .models import Comment, Post, Reply, Report, Category
+from .forms import (
+    PostCreateForm,
+    CommentCreateForm,
+    ReplyCreateForm,
+    ContactUsForm,
+    FilterSearchBlogHome
+)
+from django.http import HttpResponseRedirect
 
 
 @require_http_methods(["POST"])
@@ -23,6 +31,7 @@ def DeleteComment(request, *args, **kwargs):
     Comment.objects.filter(id=id).delete()
     return HttpResponseRedirect(reverse('blog-detail', args=[post_id]))
 
+
 @require_http_methods(["POST"])
 def DeleteReply(request, *args, **kwargs):
     id = request.POST['id']
@@ -30,6 +39,7 @@ def DeleteReply(request, *args, **kwargs):
     post_id = request.POST['post_id']
     Reply.objects.filter(id=id).delete()
     return HttpResponseRedirect(reverse('blog-detail', args=[post_id]))
+
 
 @require_http_methods(["POST"])
 def report(request):
@@ -86,12 +96,26 @@ class PostListView(ListView):
     context_object_name = 'posts'
     paginate_by = 7
 
+    def get_context_data(self, **kwargs):
+        context = super(PostListView, self).get_context_data(**kwargs)
+        context['categories_form'] = FilterSearchBlogHome()
+        return context
+
     def get_queryset(self):
+        categories = self.request.GET.getlist('categories')
         query = self.request.GET.get('searchkey')
+        status = self.request.GET.get('is_pinned')
+
+        filters = Q()
+        for category in categories:
+            key = Category.objects.get(pk=category)
+            filters |= Q(categories__category=key)
         if query:
-            return self.model.objects.filter(title__icontains=query)
-        else:
-            return self.model.objects.all()
+            filters &= Q(title__icontains=query)
+        if status:
+            filters &= Q(is_pinned=True)
+
+        return self.model.objects.filter(filters).distinct()
 
 
 class CommentCreateView(LoginRequiredMixin, FormView):
@@ -133,7 +157,17 @@ class PostDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(PostDetailView, self).get_context_data(**kwargs)
+
+        stuff = get_object_or_404(Post, id=self.kwargs['pk'])
+        total_likes = stuff.total_likes()
+
+        liked = False
+        if stuff.likes.filter(id=self.request.user.id).exists():
+            liked = True
+
         context['form'] = CommentCreateForm
+        context['total_likes'] = total_likes
+        context['liked'] = liked
         return context
 
 
@@ -181,7 +215,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ['title', 'content', 'is_pinned', 'image']
+    fields = ['title', 'content', 'categories', 'is_pinned', 'image']
     template_name = 'blog/update.html'
 
     def form_valid(self, form):
@@ -218,3 +252,45 @@ class ReportListView(ListView):
         elif filter_key == 'Reply':
             reports = reports.filter(entity=filter_key)
         return reports
+
+
+def LikeView(request, pk):
+    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    liked = False
+
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+        liked = False
+    else:
+        post.likes.add(request.user)
+        liked = True
+
+    return HttpResponseRedirect(reverse('blog-detail', args=[str(pk)]))
+
+
+def CommentLikeView(request, pk, id):
+    comment = get_object_or_404(Comment, id=request.POST.get('comment_id'))
+    liked = False
+
+    if comment.likes.filter(id=request.user.id).exists():
+        comment.likes.remove(request.user)
+        liked = False
+    else:
+        comment.likes.add(request.user)
+        liked = True
+
+    return HttpResponseRedirect(reverse('blog-detail', args=[pk]))
+
+
+def ReplyLikeView(request, pk, id, num):
+    reply = get_object_or_404(Reply, id=request.POST.get('reply_id'))
+    liked = False
+
+    if reply.likes.filter(id=request.user.id).exists():
+        reply.likes.remove(request.user)
+        liked = False
+    else:
+        reply.likes.add(request.user)
+        liked = True
+
+    return HttpResponseRedirect(reverse('blog-detail', args=[pk]))

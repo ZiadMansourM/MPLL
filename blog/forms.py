@@ -1,12 +1,30 @@
 from django import forms
-from .models import Comment, Post, Reply, ContactUs
+from .models import Comment, Post, Reply, ContactUs, Category
 from ckeditor.widgets import CKEditorWidget
+
+
+class FilterSearchBlogHome(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields =['categories', "is_pinned"]
+        widgets = {
+            'categories': forms.SelectMultiple(
+                attrs={
+                    "class": "form-control",
+                },
+            ),
+            'is_pinned': forms.CheckboxInput(attrs={"class": "form-check-input"}),
+        }
 
 class PostCreateForm(forms.ModelForm):
     content = forms.CharField(widget=CKEditorWidget())
     class Meta:
         model = Post
-        fields =['title', 'is_pinned', 'content', 'image']
+        fields =['title', 'categories', 'is_pinned', 'content', 'image']
+        widgets = {
+            'categories': forms.SelectMultiple(attrs={"class": "form-control"}),
+            'image': forms.ClearableFileInput(attrs={"class": "form-control form-control-sm clearablefileinput"}),
+        }
 
 class CommentCreateForm(forms.ModelForm):
     class Meta:

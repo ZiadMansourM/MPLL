@@ -33,8 +33,11 @@
                         <div class="text-muted fst-italic mb-2">Posted on {{ post.date_posted|date:"F d, Y - P" }} by {{
                             post.author }}</div>
                         <!-- Post categories-->
-                        <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
-                        <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
+                        {% if post.categories.all %}
+                            {% for category in post.categories.all %}
+                                <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{ category }}</a>
+                            {% endfor %}
+                        {% endif %}
                     </header>
                     <!-- Preview image figure-->
                     <figure class="mb-4"><img class="img-fluid rounded" src="{{ post.image.url }}" alt="..." /></figure>
@@ -42,6 +45,23 @@
                     <section style="text-align: justify;" class="mb-4">
                         {{ post.content|safe }}
                     </section>
+                    <!-- likes -->
+                    <form action="{% url 'like-post' post.id %}" method="POST" class="d-flex justify-content-end">
+                        {% csrf_token %}
+                        {% if user.is_authenticated %}
+                            {% if liked %}
+                                <button button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-danger btn-sm me-2">Dislike</button>
+                            {% else %}
+                                <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-primary btn-sm me-2">like</button>
+                            {% endif %}
+                            - {{ total_likes }}  likes
+                        {% else %}
+                            <small>
+                                <a href="{% url 'login' %}">Sign In</a>
+                                to like
+                            </small>
+                        {% endif %}
+                    </form>
                 </article>
             </div>
         </div>

@@ -64,8 +64,11 @@
                                     {%if user ==  comment.owner %}
                                     <li><button class="svg-btn dropdown-item" data-bs-toggle="modal" data-bs-target="#RemoveCommentModal{{ comment.id }}">remove</button></li>
                                     {% endif %}
-                                    <li><button class="svg-btn dropdown-item">Upvote</button></li>
-                                    <li><button class="svg-btn dropdown-item">Downvote</button></li>
+                                    <form action="{% url 'like-comment' post.id comment.id %}"  method="POST" >
+                                        {% csrf_token %}
+                                        <li><button type="submit" class="svg-btn dropdown-item" value="{{ comment.id }}" name="comment_id">Like</button></li>
+                                        <li><button type="submit" class="svg-btn dropdown-item" value="{{ comment.id }}" name="comment_id">unlike</button></li>
+                                    </form>
                                 </ul>
                             </div>
                         </div>
@@ -154,7 +157,7 @@
                         {% for reply in comment.replies.all %}
                             <!-- Child comment -->
                             <div class="mx-5 d-flex text-muted pt-3 pb-1 border-bottom">
-                                <img class="rounded-circle me-1 imagefifty" src="{{ reply.owner.image.url }}" alt="..." />
+                                <img class="me-1 imagefifty" src="{{ reply.owner.image.url }}" alt="..." />
                                 <div class="pb-3 mb-0 small lh-sm w-100">
                                     <div class="d-flex mb-1 justify-content-between">
                                         <strong class="text-gray-dark">@{{ reply.owner }}</strong>
@@ -165,8 +168,11 @@
                                                 {%if user ==  reply.owner %}
                                                 <li><button class="svg-btn dropdown-item" data-bs-toggle="modal" data-bs-target="#RemoveReplyModal{{ reply.id }}">remove</button></li>
                                                 {% endif %}
-                                                <li><a class="dropdown-item" href="#">Upvote</a></li>
-                                                <li><a class="dropdown-item" href="#">Downvote</a></li>
+                                                <form action="{% url 'like-reply' post.id comment.id reply.id %}"  method="POST" > 
+                                                    {% csrf_token %}
+                                                    <li><a class="dropdown-item" name="reply_id" type="submit" value="{{ reply.id }}">like</a></li>
+                                                    <li><a class="dropdown-item" name="reply_id" type="submit" value="{{ reply.id }}">unlike</a></li>
+                                                </form>
                                             </ul>
                                         </div>
                                     </div>
