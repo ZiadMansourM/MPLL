@@ -194,3 +194,31 @@ def LikeView(request, pk):
         liked = True
 
     return HttpResponseRedirect(reverse('blog-detail', args=[str(pk)]))
+
+
+def CommentLikeView(request, pk, id):
+    comment = get_object_or_404(Comment, id=request.POST.get('comment_id'))
+    liked = False
+
+    if comment.likes.filter(id=request.user.id).exists():
+        comment.likes.remove(request.user)
+        liked = False
+    else:
+        comment.likes.add(request.user)
+        liked = True
+
+    return HttpResponseRedirect(reverse('blog-detail', args=[pk]))
+
+
+def ReplyLikeView(request, pk, id, num):
+    reply = get_object_or_404(Reply, id=request.POST.get('reply_id'))
+    liked = False
+
+    if reply.likes.filter(id=request.user.id).exists():
+        reply.likes.remove(request.user)
+        liked = False
+    else:
+        reply.likes.add(request.user)
+        liked = True
+
+    return HttpResponseRedirect(reverse('blog-detail', args=[pk]))
