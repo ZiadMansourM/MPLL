@@ -56,6 +56,14 @@ a.a-cat {
   /* box-shadow:  4px 4px rgba(255, 253, 146, 0.329); */
 }
 .ellipses-handler-title {
-    -webkit-line-clamp: 2 !important;
-    min-height: 56px;
-  }
+  -webkit-line-clamp: 2 !important;
+  min-height: 56px;
+}
+.list-group-item.list-group-item-light.selected {
+  background-color: darkgray;
+  transform: scale(1.02);
+}
+.list-group-item.list-group-item-light.selected a{
+  color: black;
+}
+
