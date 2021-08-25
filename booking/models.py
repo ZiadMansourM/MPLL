@@ -14,7 +14,7 @@ class SocialSite(models.Model):
 
 
 class Publisher(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     telephone = models.CharField(max_length=12, blank=True)
 
     def __str__(self):
@@ -47,7 +47,7 @@ class City(models.Model):
 
 
 class Author(models.Model):
-    name = models.CharField(max_length=70)
+    name = models.CharField(max_length=70, unique=True)
     image = models.ImageField(default='default.jpg', upload_to='site_pics')
     bio = models.TextField(blank=True)
     birth_place = models.ForeignKey(
