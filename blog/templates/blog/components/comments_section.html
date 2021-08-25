@@ -61,6 +61,9 @@
                                     <li><button onclick="ToggleReply('AddReplyCard{{ comment.id }}')" class="svg-btn dropdown-item" target="AddReplyCard{{ comment.id }}">Reply</button></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><button class="svg-btn dropdown-item" data-bs-toggle="modal" data-bs-target="#ReportCommentModal{{ comment.id }}">Report</button></li>
+                                    {%if user ==  comment.owner %}
+                                    <li><button class="svg-btn dropdown-item" data-bs-toggle="modal" data-bs-target="#RemoveCommentModal{{ comment.id }}">remove</button></li>
+                                    {% endif %}
                                     <li><button class="svg-btn dropdown-item">Upvote</button></li>
                                     <li><button class="svg-btn dropdown-item">Downvote</button></li>
                                 </ul>
@@ -69,6 +72,31 @@
                         <span class="d-block text-break">{{ comment.comment }}</span>
                     </div>
                 </div>
+                <!-- Remove Comment modal -->
+                {%if user ==  comment.owner %}
+                <div class="modal fade" id="RemoveCommentModal{{ comment.id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="RemoveCommentModalLabel{{ comment.id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="RemoveCommentModalLabel{{ comment.id }}">Removing Comment</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="{% url 'comment-delete' post.id comment.id %}" method="POST">
+                                {% csrf_token %}
+                                <div class="modal-body">
+                                    <h3 class="mb-2">Are you sure you want to remove this Comment?</h3>
+                                    <input type="hidden" id="custId" name="id" value="{{ comment.id }}">
+                                    <input type="hidden" id="custId" name="post_id" value="{{ post.id }}">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-outline-danger">Remove</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
                 <!-- Report Comment Model -->
                 <div class="modal fade" id="ReportCommentModal{{ comment.id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="ReportCommentModalLabel{{ comment.id }}" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
@@ -129,11 +157,14 @@
                                 <img class="rounded-circle me-1 imagefifty" src="{{ reply.owner.image.url }}" alt="..." />
                                 <div class="pb-3 mb-0 small lh-sm w-100">
                                     <div class="d-flex mb-1 justify-content-between">
-                                        <strong class="text-gray-dark">@{{ comment.owner }}</strong>
+                                        <strong class="text-gray-dark">@{{ reply.owner }}</strong>
                                         <div class="btn-group">
                                             <a class="a-cat dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></a>
                                             <ul class="dropdown-menu">
                                                 <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ReportReplyModal{{ reply.id }}" href="#">Report</a></li>
+                                                {%if user ==  reply.owner %}
+                                                <li><button class="svg-btn dropdown-item" data-bs-toggle="modal" data-bs-target="#RemoveReplyModal{{ reply.id }}">remove</button></li>
+                                                {% endif %}
                                                 <li><a class="dropdown-item" href="#">Upvote</a></li>
                                                 <li><a class="dropdown-item" href="#">Downvote</a></li>
                                             </ul>
@@ -142,6 +173,34 @@
                                     <span class="d-block text-break">{{ reply.reply }}</span>
                                 </div>
                             </div>
+
+                            <!-- Remove Reply Model -->
+                            {%if user ==  reply.owner %}
+                            <div class="modal fade" id="RemoveReplyModal{{ reply.id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="RemoveReplyModalLabel{{ reply.id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="RemoveCommentModalLabel{{ comment.id }}">Removing Reply</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form action="{% url 'reply-delete' post.id comment.id reply.id%}" method="POST">
+                                            {% csrf_token %}
+                                            <div class="modal-body">
+                                                <h3 class="mb-2">Are you sure you want to remove this reply?</h3>
+                                                <input type="hidden" id="custId" name="id" value="{{ reply.id }}">
+                                                <input type="hidden" id="custId" name="comment_id" value="{{ comment.id }}">
+                                                <input type="hidden" id="custId" name="post_id" value="{{ post.id }}">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-outline-danger">Remove</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+
                             <!-- Report Reply Model -->
                             <div class="modal fade" id="ReportReplyModal{{ reply.id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="ReportReplyModalLabel{{ reply.id }}" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
