@@ -7,18 +7,21 @@ from .genpassword import generatePassword
 
 CustomUser = get_user_model()
 
+
 def _create_user(form: UserCreationForm):
     return CustomUser.objects.create(
-            username=form.cleaned_data['username'],
-            email=form.cleaned_data['email'],
-            first_name=form.cleaned_data['first_name'],
-            last_name=form.cleaned_data['last_name']
-        )
+        username=form.cleaned_data['username'],
+        email=form.cleaned_data['email'],
+        first_name=form.cleaned_data['first_name'],
+        last_name=form.cleaned_data['last_name']
+    )
+
 
 class UserRegistrationStrategy(ABC):
     @abstractmethod
     def create_user(self, form: UserCreationForm) -> Tuple[str, CustomUser]:
         pass
+
 
 class NormalRegistrationStrategy(UserRegistrationStrategy):
     def create_user(self, form: UserCreationForm) -> Tuple[str, CustomUser]:
@@ -31,6 +34,7 @@ class NormalRegistrationStrategy(UserRegistrationStrategy):
         user.is_active = False
         user.save()
         return user.username, user
+
 
 class ManagerRegistrationStrategy(UserRegistrationStrategy):
     def create_user(self, form: UserCreationForm) -> Tuple[str, CustomUser]:
@@ -46,6 +50,7 @@ class ManagerRegistrationStrategy(UserRegistrationStrategy):
         manager.save()
         return password, manager
 
+
 class EditorRegistrationStrategy(UserRegistrationStrategy):
     def create_user(self, form: UserCreationForm) -> Tuple[str, CustomUser]:
         # [1]: create editor
@@ -59,3 +64,18 @@ class EditorRegistrationStrategy(UserRegistrationStrategy):
         editor.is_active = False
         editor.save()
         return password, editor
+
+
+class LibrarianRegistrationStrategy(UserRegistrationStrategy):
+    def create_user(self, form: UserCreationForm) -> Tuple[str, CustomUser]:
+        # [1]: create editor
+        librarian = _create_user(form)
+        # [2]: Assign Password
+        password = generatePassword()
+        librarian.set_password(password)
+        # [3]: Define Type
+        librarian.is_librarian = True
+        # [4]: Deactivate Account && save
+        librarian.is_active = False
+        librarian.save()
+        return password, librarian
