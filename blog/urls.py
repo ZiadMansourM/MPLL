@@ -11,7 +11,9 @@ from .views import (
     ReplyCreateView,
     CommentDetailView,
     ReplyDetailView,
-    LikeView
+    LikeView,
+    CommentLikeView,
+    ReplyLikeView,
 )
 
 
@@ -28,4 +30,6 @@ urlpatterns = [
     path('<uuid:pk>/', PostDetailView.as_view(), name='blog-detail'),
     path('new/', PostCreateView.as_view(), name='blog-create'),
     path('like/<uuid:pk>/', LikeView, name='like-post'),
+    path('<uuid:pk>/comment/<uuid:id>/like', CommentLikeView, name='like-comment'),
+    path('<uuid:pk>/comment/<uuid:id>/reply/<uuid:num>/like', ReplyLikeView, name='like-reply'),
 ]
