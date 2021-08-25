@@ -67,23 +67,23 @@
                                         </a>
                                     </li>
                                     <li class="list-group-item list-group-item-light hidden-toggler">
-                                        <a class="a-cat " href="#">
-                                            Add an author
+                                        <a class="a-cat " href="{% url 'author-create' %}">
+                                            Add an Author
                                         </a>
                                     </li>
                                     <li class="list-group-item list-group-item-light hidden-toggler">
-                                        <a class="a-cat " href="#">
+                                        <a class="a-cat " href="{% url 'author-list' %}">
+                                           Authors List
+                                        </a>
+                                    </li>
+                                    <li class="list-group-item list-group-item-light hidden-toggler">
+                                        <a class="a-cat " href="{% url 'publisher-create' %}">
                                             Add a Publisher
                                         </a>
                                     </li>
                                     <li class="list-group-item list-group-item-light hidden-toggler">
-                                        <a class="a-cat " href="#">
-                                            Add a City
-                                        </a>
-                                    </li>
-                                    <li class="list-group-item list-group-item-light hidden-toggler">
-                                        <a class="a-cat " href="#">
-                                            Add an Account
+                                        <a class="a-cat " href="{% url 'publisher-list' %}">
+                                            Publishers List
                                         </a>
                                     </li>
                                     {% endif %}
