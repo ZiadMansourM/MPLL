@@ -1,0 +1,96 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block header %}
+<header class="py-5 bg-light border-bottom mb-4 ">
+    <div class="container">
+        <div class="text-center my-5">
+            <h1 class="fw-bolder">Reports</h1>
+            <p class="lead mb-3">Here you can check all reports </p>
+        </div>
+    </div>
+</header>
+{% endblock header %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'blog/css/report-list.css' %}">
+{% endblock css %}
+
+{% block content %}
+<section class="main-section section-height-adjustment-header">
+    <div class="container-lg">
+        <div class="row justify-content-around">
+            <div class="container-lg col-lg-8">
+                <div class="row justify-content-center">
+                    <h2>Reports list</h2>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-sm">
+                            <thead>
+                                <tr>
+                                    <!-- <th scope="col">ID</th> -->
+                                    <th scope="col">Entity</th>
+                                    <th scope="col">url</th>
+                                    <th scope="col">date_reported</th>
+                                    <th scope="col">message</th>
+                                    <th scopr="col"></th>
+                                    <th scopr="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for report in reports %}
+                                <tr>
+                                    <!-- <td class="align-middle">{{ report.id }}</td> -->
+                                    <td class="align-middle">{{ report.entity }}</td>
+                                    <td class="align-middle">
+                                        <a href="{{ report.url}}">
+                                            {{ report.url|truncatechars:25 }}
+                                        </a>
+                                    </td>
+                                    <td class="align-middle">{{ report.date_reported}}</td>
+                                    <td class="align-middle">{{ report.message |safe}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Pagination-->
+                    {% include 'blog/components/paginator.html' with is_paginated=is_paginated page_obj=page_obj %}
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="filter">
+                    <h2>Filter</h2>
+                    <h3 class="filter-clear ">
+                        <a href="?" onclick="">✖ Clear all filters</a>
+                    </h3>
+
+                    <h3> By Type </h3>
+                    <ul>
+                        <li class=" all-filter">
+                            <a href="?" title="All" onclick="toggleSelection()">All</a>
+                        </li>
+
+                        <li class=" comment-filter">
+                            <a href="?entity=Comment" title="Comment" onclick="toggleSelection()">Comment</a>
+                        </li>
+
+                        <li class=" post-filter">
+                            <a href="?entity=Post" title="Post" onclick="toggleSelection()">Post</a>
+                        </li>
+
+                        <li class=" reply-filter">
+                            <a href="?entity=Reply" title="Reply" onclick="toggleSelection()">Reply</a>
+                        </li>
+
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+{% block js %}
+<script src="{% static 'blog/js/report-list.js' %}"></script>
+{% endblock js %}
