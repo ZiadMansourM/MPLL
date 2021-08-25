@@ -51,7 +51,7 @@ class BookCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return context
 
     def test_func(self):
-        return self.request.user.is_editor
+        return self.request.user.is_librarian
 
 
 class BookDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -60,7 +60,7 @@ class BookDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     template_name = 'booking/book_confirm_delete.html'
 
     def test_func(self):
-        return (self.request.user.is_editor)
+        return (self.request.user.is_librarian)
 
 
 class BookUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -72,12 +72,12 @@ class BookUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = 'booking/update.html'
 
     def test_func(self):
-        return (self.request.user.is_editor)
+        return (self.request.user.is_librarian)
 
 # Author related views
 
 
-class AuthorListView(ListView):
+class AuthorListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Author
     template_name = 'booking/author-list.html'
     context_object_name = 'authors'
@@ -88,7 +88,8 @@ class AuthorListView(ListView):
         context['title'] = 'authors'
         return context
 
-
+    def test_func(self):
+        return self.request.user.is_librarian
 # class AuthorDetailView(DetailView):
 #     model = Author
 #     template_name = 'booking/author-detailed.html'
@@ -107,7 +108,7 @@ class AuthorCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return context
 
     def test_func(self):
-        return self.request.user.is_editor
+        return self.request.user.is_librarian
 
 
 class AuthorDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -117,7 +118,7 @@ class AuthorDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     template_name = 'booking/author_confirm_delete.html'
 
     def test_func(self):
-        return (self.request.user.is_editor)
+        return (self.request.user.is_librarian)
 
 
 class AuthorUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -126,7 +127,7 @@ class AuthorUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = 'booking/author-update.html'
 
     def test_func(self):
-        return (self.request.user.is_editor)
+        return (self.request.user.is_librarian)
 
 # Publisher related views
 
@@ -156,7 +157,7 @@ class PublisherCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     form_class = PublisherCreateForm
 
     def test_func(self):
-        return self.request.user.is_editor
+        return self.request.user.is_librarian
 
 
 class PublisherDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -166,7 +167,7 @@ class PublisherDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     template_name = 'booking/publisher_confirm_delete.html'
 
     def test_func(self):
-        return (self.request.user.is_editor)
+        return (self.request.user.is_librarian)
 
 
 class PublisherUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -175,4 +176,4 @@ class PublisherUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     fields = ['name', 'telephone']
 
     def test_func(self):
-        return (self.request.user.is_editor)
+        return (self.request.user.is_librarian)
