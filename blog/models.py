@@ -14,22 +14,27 @@ from .services.parser import cleanhtml
 User = get_user_model()
 
 # Create your models here.
+
+
 class Report(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     entity = models.CharField(_('Type'), max_length=20)
     url = models.URLField()
-    message = RichTextField(blank=True, help_text=_('If you want to leave a note for the reviewer'))
+    message = RichTextField(blank=True, help_text=_(
+        'If you want to leave a note for the reviewer'))
     date_reported = models.DateTimeField(default=timezone.now)
 
     def __str__(self) -> str:
         return f"{self.entity}:{self.url}"
+
 
 class Post(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=120, unique=True)
     content = RichTextField()
     snippet = models.TextField()
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="posts")
     image = models.ImageField(default='default.jpg', upload_to='pics')
     date_posted = models.DateTimeField(default=timezone.now)
     last_modifed = models.DateTimeField(auto_now=True)
@@ -41,9 +46,9 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
-        
+
     def get_absolute_url(self):
-        return reverse('blog-detail', kwargs={'pk':self.pk})
+        return reverse('blog-detail', kwargs={'pk': self.pk})
 
     class Meta:
         ordering = ['-is_pinned', '-date_posted']
@@ -56,8 +61,10 @@ class Post(models.Model):
 
 class Comment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
-    owner =  models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name="comments")
+    owner = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="comments")
     comment = models.TextField()
     date_posted = models.DateTimeField(auto_now=True)
 
@@ -70,8 +77,10 @@ class Comment(models.Model):
 
 class Reply(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name="replies")
-    owner =  models.ForeignKey(User, on_delete=models.CASCADE, related_name="replies")
+    comment = models.ForeignKey(
+        Comment, on_delete=models.CASCADE, related_name="replies")
+    owner = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="replies")
     reply = models.TextField()
     date_posted = models.DateTimeField(auto_now=True)
 
@@ -87,7 +96,8 @@ class ContactUs(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
-    email = models.EmailField(_('email address'), help_text=_('We will use this email to reach out to you.'))
+    email = models.EmailField(_('email address'), help_text=_(
+        'We will use this email to reach out to you.'))
     username = models.CharField(max_length=20, blank=True)
     message = models.TextField(help_text=_('Please provide your query here.'))
     date_sent = models.DateTimeField(default=timezone.now)
@@ -99,7 +109,7 @@ class ContactUs(models.Model):
 
     def __str__(self):
         return f'{ self.first_name } { self.last_name }'
-    
+
     class Meta:
         db_table = 'contact_us'
         verbose_name_plural = "Contact Us"
