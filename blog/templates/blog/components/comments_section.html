@@ -61,8 +61,11 @@
                                     <li><button onclick="ToggleReply('AddReplyCard{{ comment.id }}')" class="svg-btn dropdown-item" target="AddReplyCard{{ comment.id }}">Reply</button></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><button class="svg-btn dropdown-item" data-bs-toggle="modal" data-bs-target="#ReportCommentModal{{ comment.id }}">Report</button></li>
-                                    <li><button class="svg-btn dropdown-item">Upvote</button></li>
-                                    <li><button class="svg-btn dropdown-item">Downvote</button></li>
+                                    <form action="{% url 'like-comment' post.id comment.id %}"  method="POST" >
+                                        {% csrf_token %}
+                                        <li><button type="submit" class="svg-btn dropdown-item" value="{{ comment.id }}" name="comment_id">Like</button></li>
+                                        <li><button type="submit" class="svg-btn dropdown-item" value="{{ comment.id }}" name="comment_id">unlike</button></li>
+                                    </form>
                                 </ul>
                             </div>
                         </div>
@@ -134,8 +137,11 @@
                                             <a class="a-cat dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></a>
                                             <ul class="dropdown-menu">
                                                 <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ReportReplyModal{{ reply.id }}" href="#">Report</a></li>
-                                                <li><a class="dropdown-item" href="#">Upvote</a></li>
-                                                <li><a class="dropdown-item" href="#">Downvote</a></li>
+                                                <form action="{% url 'like-reply' post.id comment.id reply.id %}"  method="POST" > 
+                                                    {% csrf_token %}
+                                                    <li><a class="dropdown-item" name="reply_id" type="submit" value="{{ reply.id }}">like</a></li>
+                                                    <li><a class="dropdown-item" name="reply_id" type="submit" value="{{ reply.id }}">unlike</a></li>
+                                                </form>
                                             </ul>
                                         </div>
                                     </div>
