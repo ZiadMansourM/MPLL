@@ -10,6 +10,7 @@ from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_text
 
 from .services.user_factory import (
+    LibrarianRegistrationStrategy,
     NormalRegistrationStrategy,
     ManagerRegistrationStrategy,
     EditorRegistrationStrategy
@@ -17,6 +18,7 @@ from .services.user_factory import (
 from .services.mailers import ActivationMailer
 
 from users.forms import (
+    LibrarianRegisterForm,
     UserRegisterForm, 
     MLERegisterForm,
     ProfileUpdateForm
@@ -64,7 +66,7 @@ def registermanager(request):
             ActivationMailer(get_current_site(request).domain, manager).send_email()
             # [3]: redirect
             messages.success(
-                request, f'The manager user were added successfully, password: {password}')
+                request, f'The manager user was added successfully, password: {password}')
             return redirect('profile')
     else:
         form = MLERegisterForm()
@@ -72,6 +74,28 @@ def registermanager(request):
     context = {
         'form': form,
         'type': 'manager'
+    }
+    return render(request, 'users/register.html', context)
+
+@login_required
+def registerlibrarian(request):
+    if request.method == "POST":
+        form = LibrarianRegisterForm(request.POST)
+        if form.is_valid():
+            # [1]: create user
+            password, librarian = LibrarianRegistrationStrategy().create_user(form)
+            # [2]: Send Email
+            ActivationMailer(get_current_site(request).domain, librarian).send_email()
+            # [3]: redirect
+            messages.success(
+                request, f'The librarian user was added successfully, password: {password}')
+            return redirect('blog-home')
+    else:
+        form = LibrarianRegisterForm()
+
+    context = {
+        'form': form,
+        'type': 'librarian'
     }
     return render(request, 'users/register.html', context)
 
@@ -87,7 +111,7 @@ def registereditor(request):
             ActivationMailer(get_current_site(request).domain, editor).send_email()
             # [3]: redirect
             messages.success(
-                request, f'The editor user were added successfully, password: {password}')
+                request, f'The editor user was added successfully, password: {password}')
             return redirect('profile')
     else:
         form = MLERegisterForm()
