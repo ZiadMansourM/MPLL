@@ -18,90 +18,19 @@
                                 <div class="form-floating mb-3 col-12">
                                     {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.name %}
                                 </div>
-                                <!-- image -->
-                                <div class="mb-1">
-                                    {{ form.image|as_crispy_field }}
-                                </div>
-                                <!-- bio -->
-                                <div class="mb-3">
-                                    <label for="{{ form.bio.id_for_label }}">{{ form.bio.label }}</label>
-                                    {{ form.bio }}
-                                </div>
-                                <!-- city -->
-                                <div class="input-group mb-3 col-md-12">
-                                    <div class="form-floating col-md-10">
-                                        {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.birth_place %}
-                                    </div>
-                                    <!-- Create Button -->
-                                    <button class="btn btn-outline-secondary" data-bs-toggle="modal"
-                                        data-bs-target="#CreateCityModal" type="button">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                                            <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z" />
-                                        </svg>
-                                    </button>
+                               <!-- telephone -->
+                                <div class="form-floating mb-3 col-12">
+                                    {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.telephone %}
                                 </div>
                             </fieldset>
                             <div class="form-group">
                                 <button class="btn btn-outline-info" type="submit"> Create </button>
                             </div>
                         </form>
-                        <!-- cityModal -->
-                        <div class="modal fade" id="CreateCityModal" data-bs-backdrop="static" tabindex="-1"
-                            aria-labelledby="CreateCityModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="CreateCityModalLabel">Craete city</h5>
-                                        <button type="button" class="btn-close City" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <form id="CityModal">
-                                        {% csrf_token %}
-                                        <div class="modal-body">
-                                            <div class="form-floating">
-                                                {% include 'blog/components/field.html' with is_bound=city_form.is_bound field=city_form.name %}
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-outline-info">Submit</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
                     </div>
-                </div>
+                </div> 
             </div>
         </div>
     </div>
 </section>
 {% endblock content %}
-{% block ajax %}
-<!-- add city on the run -->
-<script type="text/javascript">
-    $(document).on('submit', '#CityModal', function (e) {
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: '{% url "api-city-create" %}',
-            data: {
-                name: $('#CityName').val(),
-                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-            },
-            success: function (data) {
-                var element = "<option value=" + data[0].id + ">" + data[0].name + "</option>";
-                // [1]: close modal
-                $(".btn-close.City").click();
-                // [2]: update select box
-                $("#id_birth_place").append(element);
-                // [3]: alert user
-                var message = "<div class='alert alert-success'>the city '" + data[0].name + "' was created successfuly</div>"
-                $(".main-section .container-lg").prepend(message);
-            }
-        });
-    });
-</script>
-{% endblock ajax %}
