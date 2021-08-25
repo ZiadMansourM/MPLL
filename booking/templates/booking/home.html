@@ -49,8 +49,8 @@
                             <div class="col-sm-12 text-center">
                                 <ul class="list-group">
                                     {% for code in codes %}
-                                    <li class="list-group-item list-group-item-light">
-                                        <a class="a-cat" href="#">
+                                    <li class="list-group-item list-group-item-light category{{ code.family_num }}">
+                                        <a class="a-cat" href="?category={{ code.family_num }}">
                                             {{ code.family }}
                                         </a>
                                     </li>
@@ -99,5 +99,5 @@
 </section>
 {% endblock content %}
 {% block js %}
-<script src="{% static 'main/js/booking-home.js' %}"></script>
+<script src="{% static 'booking/js/booking-home.js' %}"></script>
 {% endblock js %}
