@@ -20,14 +20,18 @@
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="{% url 'blog-update' post.id %}">Update</a></li>
                                     <li><a class="dropdown-item" href="{% url 'blog-delete' post.id %}">Delete</a></li>
-                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ReportModal" href="#">Report</a></li>
-                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ReportModal"
+                                            href="#">Report</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
                                     <li><a class="dropdown-item" href="{% url 'contact-us' %}">Contact us</a></li>
                                 </ul>
                             </div>
                         </div>
                         <!-- Post meta content-->
-                        <div class="text-muted fst-italic mb-2">Posted on {{ post.date_posted|date:"F d, Y - P" }} by {{ post.author }}</div>
+                        <div class="text-muted fst-italic mb-2">Posted on {{ post.date_posted|date:"F d, Y - P" }} by {{
+                            post.author }}</div>
                         <!-- Post categories-->
                         <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
                         <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
@@ -47,11 +51,12 @@
                 {% include 'blog/components/comments_section.html' with form=form obj=post %}
             </div>
         </div>
-        
+
     </div>
 </section>
 <!-- Report Post model -->
-<div class="modal fade" id="ReportModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="ReportModalLabel" aria-hidden="true">
+<div class="modal fade" id="ReportModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="ReportModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -64,7 +69,8 @@
                     <h3 class="mb-2">Are you sure you wants to report this Post?</h3>
                     <input type="hidden" id="custId" name="id" value="{{ post.id }}">
                     <div class="form-floating">
-                        <textarea class="form-control" name="message" placeholder="Why are you reporting this Post" id="floatingTextarea2" style="height: 100px"></textarea>
+                        <textarea class="form-control" name="message" placeholder="Why are you reporting this Post"
+                            id="floatingTextarea2" style="height: 100px"></textarea>
                         <label for="floatingTextarea2">Why are you reporting this Post</label>
                     </div>
                 </div>
@@ -79,48 +85,48 @@
 {% endblock content %}
 
 {% block js %}
-    <!-- Toggle add Comment -->
-    <script>
-        function ToggleAddComment() {
-            let card = document.querySelector("#AddCommentCard");
-            card.classList.toggle("d-none");
-            let icons = document.querySelectorAll("#togglebtn");
-            for(i=0; i<icons.length; i++) {
-                icons[i].classList.toggle("d-none");
-            }
+<!-- Toggle add Comment -->
+<script>
+    function ToggleAddComment() {
+        let card = document.querySelector("#AddCommentCard");
+        card.classList.toggle("d-none");
+        let icons = document.querySelectorAll("#togglebtn");
+        for (i = 0; i < icons.length; i++) {
+            icons[i].classList.toggle("d-none");
         }
+    }
 
-        function TrashCan() {
-            document.querySelector("#AddCommentCard #floatingCommentInput").value = "";
-        }
+    function TrashCan() {
+        document.querySelector("#AddCommentCard #floatingCommentInput").value = "";
+    }
 
-        function ToggleReply(id) {
-            let reply_id = "#" + id
-            document.querySelector(reply_id).classList.toggle("d-none");
-        }
+    function ToggleReply(id) {
+        let reply_id = "#" + id
+        document.querySelector(reply_id).classList.toggle("d-none");
+    }
 
-        function ReplyTrashCan(id) {
-            let selector = "#" + id + " #floatingReplyInput";
-            document.querySelector(selector).value = "";
-        }
-    </script>
+    function ReplyTrashCan(id) {
+        let selector = "#" + id + " #floatingReplyInput";
+        document.querySelector(selector).value = "";
+    }
+</script>
 {% endblock js %}
 
 {% block ajax %}
-    <script type="text/javascript">
-        $(document).on('submit', '#AddCommentForm', function(e) {
-            e.preventDefault();
-            $.ajax({
-                type: 'POST',
-                url: '{% url "api-comment-create" post.id %}',
-                data: {
-                    comment: $('#floatingCommentInput').val(),
-                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val() 
-                },
-                success: function(data) {
-                    // [1]: Append Comment Form 
-                    // [2]: Append Element 
-                    var element = `
+<script type="text/javascript">
+    $(document).on('submit', '#AddCommentForm', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "api-comment-create" post.id %}',
+            data: {
+                comment: $('#floatingCommentInput').val(),
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: function (data) {
+                // [1]: Append Comment Form 
+                // [2]: Append Element 
+                var element = `
                         <div class="d-flex text-muted pt-3 De7k">
                             <img class="imagefifty me-1" src="` + data.image_url + `" alt="...">
                             <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
@@ -132,13 +138,13 @@
                                         <ul class="dropdown-menu">
                                             <li><button id="` + data.comment_id + `" onclick="ToggleReply('AddReplyCard` + data.comment_id + `')" class="svg-btn dropdown-item" target="AddReplyCard` + data.comment_id + `">Reply</button></li>
                                             <li><hr class="dropdown-divider"></li>
-                                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ReportCommentModal` + data.comment_id +  `" href="#">Report</a></li>
+                                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ReportCommentModal` + data.comment_id + `" href="#">Report</a></li>
                                             <li><a class="dropdown-item" href="#">Upvote</a></li>
                                             <li><a class="dropdown-item" href="#">Downvote</a></li>
                                         </ul>
                                     </div>
                                 </div>
-                                <span class="d-block text-break">` + data.comment +  `</span>
+                                <span class="d-block text-break">` + data.comment + `</span>
                             </div>
                         </div>
                         <div id="AddReplyCard` + data.comment_id + `" class="mx-5 my-3 p-3 bg-light rounded shadow d-none">
@@ -167,36 +173,38 @@
                         </div>
                         <div class="AppendRepliesHere ` + data.comment_id + `"></div>
                     `
-                    $(".AppendCommentsHere").append(element);
-                    // [3]: empty Comment Form
-                    TrashCan();
-                    // [4]: close Comment Form
-                    ToggleAddComment();
-                }
-            });
+                $(".AppendCommentsHere").append(element);
+                // [3]: empty Comment Form
+                TrashCan();
+                // [4]: close Comment Form
+                ToggleAddComment();
+            }
         });
-    </script>
+    });
+</script>
 
-    <script type="text/javascript">
-        $(document).on('submit', '#AddReplyForm', function(e) {
-            e.preventDefault();
-            // TODO: IAM hard coded solve me
-            // let arguments = "url 'api-reply-create' post.id " + e.target.classList[0];
-            let url_str = "/api/blog/{{ post.id }}/comment/"+ e.target.classList[0] +"/reply/new";
-            let textarea_id = "#AddReplyCard" + e.target.classList[0] + ' #floatingReplyInput'
-            $.ajax({
-                type: 'POST',
-                url: url_str,
-                data: {
-                    comment_id: e.target.classList[0],
-                    reply: $(textarea_id).val(),
-                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val() 
-                },
-                success: function(data) {
-                    console.log(data);
-                    // [1]: Append Comment Form 
-                    // [2]: Append Element 
-                    var element = `
+<script type="text/javascript">
+    $(document).on('submit', '#AddReplyForm', function (e) {
+        e.preventDefault();
+        // TODO: IAM hard coded solve me
+        // let arguments = "url 'api-reply-create' post.id " + e.target.classList[0];
+        let url_str = "/api/blog/{{ post.id }}/comment/" + e.target.classList[0] + "/reply/new";
+        let textarea_id = "#AddReplyCard" + e.target.classList[0] + ' #floatingReplyInput'
+        $.ajax({
+            type: 'POST',
+            url: url_str,
+            data: {
+                comment_id: e.target.classList[0],
+                reply: $(textarea_id).val(),
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: function (data) {
+                console.log(data);
+                // [1]: Append Comment Form 
+                // [2]: Append Element 
+                //TODO:I'm hard coded
+                delete_reply_url = `/blog/` + data.post_id + `/comment/` + data.comment_id + `/reply/` + data.reply_id + `/delete`
+                var element = `
                         <div class="mx-5 d-flex text-muted pt-3 pb-1 border-bottom">
                             <img class="rounded-circle me-1 imagefifty" src="` + data.image_url + `" alt="..." />
                             <div class="pb-3 mb-0 small lh-sm w-100">
@@ -206,7 +214,8 @@
                                     <div class="btn-group">
                                         <a class="a-cat dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></a>
                                         <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ReportReplyModal` + data.reply_id + `" href="#">Report</a></li>
+                                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ReportReplyModal` + data.reply_id + `" href="#">Report</a></li>            
+                                            <li><button class="svg-btn dropdown-item" data-bs-toggle="modal" data-bs-target="#RemoveReplyModal`+ data.reply_id + `">remove</button></li>
                                             <li><a class="dropdown-item" href="#">Upvote</a></li>
                                             <li><a class="dropdown-item" href="#">Downvote</a></li>
                                         </ul>
@@ -214,15 +223,39 @@
                                 </div>
                                 <span class="d-block text-break">` + data.reply + `</span>
                             </div>
+                            <!-- Remove Reply Model -->
+                            <div class="modal fade" id="RemoveReplyModal` + data.reply_id + `" data-bs-backdrop="static" tabindex="-1" aria-labelledby="RemoveReplyModalLabel` + data.reply_id + `" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="RemoveCommentModalLabel` + data.reply_id + `">Removing Reply</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form action="`+ delete_reply_url + `" method="POST">
+                                            {% csrf_token %}
+                                            <div class="modal-body">
+                                                <h3 class="mb-2">Are you sure you want to remove this reply?</h3>
+                                                <input type="hidden" id="custId" name="id" value="` + data.reply_id + `">
+                                                <input type="hidden" id="custId" name="comment_id" value="` + data.comment_id + `">
+                                                <input type="hidden" id="custId" name="post_id" value="` + data.post_id + `">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-outline-danger">Remove</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     `
-                    $(".AppendRepliesHere."+ e.target.classList[0]).append(element);
-                    // [3]: empty reply box
-                    ReplyTrashCan('AddReplyCard' + e.target.classList[0]);
-                    // [4]: close reply box
-                    ToggleReply('AddReplyCard' + e.target.classList[0]);
-                }
-            });
+                $(".AppendRepliesHere." + e.target.classList[0]).append(element);
+                // [3]: empty reply box
+                ReplyTrashCan('AddReplyCard' + e.target.classList[0]);
+                // [4]: close reply box
+                ToggleReply('AddReplyCard' + e.target.classList[0]);
+            }
         });
-    </script>
+    });
+</script>
 {% endblock ajax %}
