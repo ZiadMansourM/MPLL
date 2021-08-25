@@ -1,6 +1,6 @@
-{% extends "main/base.html" %} 
-{% load crispy_forms_tags %} 
-{% load static %} 
+{% extends "main/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
 
 {% block content %}
 <section class="main-section section-height-adjustment">
@@ -12,7 +12,7 @@
                 <!-- Name -->
                 <div class="form-floating mb-3 col-12">
                     {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.name %}
-                </div> 
+                </div>
                 <!-- Author -->
                 <div class="input-group mb-3 col-md-12">
                     <div class="form-floating col-md-10">
@@ -25,9 +25,12 @@
                         </svg>
                     </button> -->
                     <!-- Create Button -->
-                    <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#CreateAuthorModal" type="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                            <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
+                    <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#CreateAuthorModal"
+                        type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-plus-lg" viewBox="0 0 16 16">
+                            <path
+                                d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z" />
                         </svg>
                     </button>
                 </div>
@@ -35,15 +38,18 @@
                 <div class="form-floating mb-3 col-md-6">
                     {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.classification %}
                 </div>
+                <!-- publisher -->
                 <div class="input-group mb-3 col-md-12">
-                    <!-- publisher -->
                     <div class="form-floating col-md-10">
                         {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.publisher %}
                     </div>
                     <!-- Create Button -->
-                    <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#CreatePublisherModal" type="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                            <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
+                    <button class="btn btn-outline-secondary" data-bs-toggle="modal"
+                        data-bs-target="#CreatePublisherModal" type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-plus-lg" viewBox="0 0 16 16">
+                            <path
+                                d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z" />
                         </svg>
                     </button>
                 </div>
@@ -95,7 +101,8 @@
     </div>
 </section>
 <!-- AuthorModal -->
-<div class="modal fade" id="CreateAuthorModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="CreateAuthorModalLabel" aria-hidden="true">
+<div class="modal fade" id="CreateAuthorModal" data-bs-backdrop="static" tabindex="-1"
+    aria-labelledby="CreateAuthorModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -119,19 +126,19 @@
     </div>
 </div>
 <!-- PublisherModal -->
-<div class="modal fade" id="CreatePublisherModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="CreatePublisherModalLabel" aria-hidden="true">
+<div class="modal fade" id="CreatePublisherModal" data-bs-backdrop="static" tabindex="-1"
+    aria-labelledby="CreatePublisherModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="CreatePublisherModalLabel">Craete Publisher</h5>
                 <button type="button" class="btn-close publisher" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <!-- action="{% url 'author-create' %}" method="POST" -->
             <form id="PublisherModal">
                 {% csrf_token %}
                 <div class="modal-body">
                     <div class="form-floating">
-                        {% include 'blog/components/field.html' with is_bound=author_form.is_bound field=publisher_form.name %}
+                        {% include 'blog/components/field.html' with is_bound=publisher_form.is_bound field=publisher_form.name %}
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -145,52 +152,52 @@
 {% endblock content %}
 
 {% block ajax %}
-    <!-- add author on the run -->
-    <script type="text/javascript">
-        $(document).on('submit', '#AuthorModal', function(e) {
-            e.preventDefault();
-            $.ajax({
-                type: 'POST',
-                url: '{% url "api-author-create" %}',
-                data: {
-                    name: $('#AuthorName').val(),
-                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val() 
-                },
-                success: function(data) {
-                    var element = "<option value=" + data[0].id + ">" + data[0].name + "</option>";
-                    // [1]: close modal
-                    $(".btn-close.author").click();
-                    // [2]: update select box
-                    $("#id_author").append(element);
-                    // [3]: alert user
-                    var message = "<div class='alert alert-success'>the author '" + data[0].name + "' was created successfuly</div>"
-                    $(".main-section .container-md").prepend(message);
-                }
-            });
+<!-- add author on the run -->
+<script type="text/javascript">
+    $(document).on('submit', '#AuthorModal', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "api-author-create" %}',
+            data: {
+                name: $('#AuthorName').val(),
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: function (data) {
+                var element = "<option value=" + data[0].id + ">" + data[0].name + "</option>";
+                // [1]: close modal
+                $(".btn-close.author").click();
+                // [2]: update select box
+                $("#id_author").append(element);
+                // [3]: alert user
+                var message = "<div class='alert alert-success'>the author '" + data[0].name + "' was created successfuly</div>"
+                $(".main-section .container-md").prepend(message);
+            }
         });
-    </script>
-    <!-- add publisher on the run -->
-    <script type="text/javascript">
-        $(document).on('submit', '#PublisherModal', function(e) {
-            e.preventDefault();
-            $.ajax({
-                type: 'POST',
-                url: '{% url "api-publisher-create" %}',
-                data: {
-                    name: $('#PublisherName').val(),
-                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val() 
-                },
-                success: function(data) {
-                    var element = "<option value=" + data[0].id + ">" + data[0].name + "</option>";
-                    // [1]: close modal
-                    $(".btn-close.publisher").click();
-                    // [2]: update select box
-                    $("#id_publisher").append(element);
-                    // [3]: alert user
-                    var message = "<div class='alert alert-success'>the publisher '" + data[0].name + "' was created successfuly</div>"
-                    $(".main-section .container-md").prepend(message);
-                }
-            });
+    });
+</script>
+<!-- add publisher on the run -->
+<script type="text/javascript">
+    $(document).on('submit', '#PublisherModal', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "api-publisher-create" %}',
+            data: {
+                name: $('#PublisherName').val(),
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: function (data) {
+                var element = "<option value=" + data[0].id + ">" + data[0].name + "</option>";
+                // [1]: close modal
+                $(".btn-close.publisher").click();
+                // [2]: update select box
+                $("#id_publisher").append(element);
+                // [3]: alert user
+                var message = "<div class='alert alert-success'>the publisher '" + data[0].name + "' was created successfuly</div>"
+                $(".main-section .container-md").prepend(message);
+            }
         });
-    </script>
+    });
+</script>
 {% endblock ajax %}
