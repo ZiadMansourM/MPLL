@@ -3,14 +3,21 @@ from django.views.decorators.http import require_http_methods
 from django.views.generic import (
     ListView, DetailView, CreateView, 
     UpdateView, DeleteView, FormView
-    )
+)
+from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse_lazy, reverse
-from .models import Comment, Post, Reply, Report
-from .forms import PostCreateForm, CommentCreateForm, ReplyCreateForm, ContactUsForm
+from .models import Comment, Post, Reply, Report, Category
+from .forms import (
+    PostCreateForm, 
+    CommentCreateForm, 
+    ReplyCreateForm, 
+    ContactUsForm, 
+    FilterSearchBlogHome
+)
 from django.http import HttpResponseRedirect
 
 
@@ -66,12 +73,26 @@ class PostListView(ListView):
     context_object_name = 'posts'
     paginate_by = 7
 
+    def get_context_data(self, **kwargs):
+        context = super(PostListView, self).get_context_data(**kwargs)
+        context['categories_form'] = FilterSearchBlogHome()
+        return context
+
     def get_queryset(self):
+        categories = self.request.GET.getlist('categories')
         query = self.request.GET.get('searchkey')
+        status = self.request.GET.get('is_pinned')
+        
+        filters = Q()
+        for category in categories:
+            key = Category.objects.get(pk=category)
+            filters |= Q(categories__category=key)
         if query:
-            return self.model.objects.filter(title__icontains=query)
-        else:
-            return self.model.objects.all()
+            filters &= Q(title__icontains=query)
+        if status:
+            filters &= Q(is_pinned=True)
+        
+        return self.model.objects.filter(filters).distinct()
 
 
 class CommentCreateView(LoginRequiredMixin, FormView):
