@@ -5,12 +5,15 @@ from django.conf import settings
 
 CustomUser = get_user_model()
 
+
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
+        fields = ['username', 'email', 'first_name',
+                  'last_name', 'password1', 'password2']
+
 
 class ProfileUpdateForm(UserChangeForm):
     class Meta:
@@ -24,13 +27,30 @@ class ProfileUpdateForm(UserChangeForm):
             'telephone': forms.TextInput(attrs={"class": "form-control bg-light"}),
         }
 
-class MLERegisterForm(UserCreationForm): 
+
+class MLERegisterForm(UserCreationForm):
     # MLE : manager librarian editor
     # set password "1,2" to None to hide them from the form
     email = forms.EmailField(required=True)
-    password1 = None 
-    password2 = None 
-    
+    password1 = None
+    password2 = None
+
+    class Meta:
+        model = CustomUser
+        fields = [
+            'username',
+            'email',
+            'first_name',
+            'last_name'
+        ]
+
+
+class LibrarianRegisterForm(UserCreationForm):
+    # set password "1,2" to None to hide them from the form
+    email = forms.EmailField(required=True)
+    password1 = None
+    password2 = None
+
     class Meta:
         model = CustomUser
         fields = [
