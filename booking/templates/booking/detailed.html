@@ -13,7 +13,8 @@
                 <div class="row">
                     <div class="col-lg-4">
                         <!-- Preview image figure-->
-                        <figure class="mb-4"><img class="img-fluid rounded card-beau" src="{{ book.image.url }}" alt="..." />
+                        <figure class="mb-4"><img class="img-fluid rounded card-beau" src="{{ book.image.url }}"
+                                alt="..." />
                         </figure>
                     </div>
                     <div class="col-lg-8">
@@ -88,37 +89,47 @@
 
                                     <!--avialble book start -->
                                     {% if book.available %}
-                                    <li class="list-group-item list-group-item-light   
-                                    a-cat-book-success">
-                                        <a class="a-cat-book-info  " href="#">
-                                            the book is available in the library
-                                        </a>
-                                    </li>
-                                    <!--avialble borrowing start -->
-                                    {%if book.available_borrowing %}
-                                    <li class="list-group-item list-group-item-light  a-cat-book-success">
-                                        <a class="a-cat-book-info " href="#">
-                                            the book is available for borrowing
-                                        </a>
-                                    </li>
-                                    {% else %}
-                                    <li class="list-group-item list-group-item-light  a-cat-book-danger">
-                                        <a class="a-cat-book-info " href="#">
-                                            the book isn't available for borrowing
-                                        </a>
-                                    </li>
-                                    {% endif %}
-                                    <!--avialble borrowing end -->
-                                    {% else %}
-                                    <li class="list-group-item list-group-item-light  a-cat-book-danger
-                                    ">
-                                        <a class="a-cat-book-info " href="#">
-                                            the book isn't available
-                                        </a>
+                                    <li class="list-group-item list-group-item-light ">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value=""
+                                                id="libraryavvailable" disabled checked>
+                                            <label class="form-check-label" for="libraryavvailable">
+                                                available in the library
+                                            </label>
+                                        </div>
+                                        <!--avialble borrowing start -->
+                                        {%if book.available_borrowing %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value=""
+                                                id="borrowingavailable" disabled checked>
+                                            <label class="form-check-label" for="borrowingavailable">
+                                                available for borrowing
+                                            </label>
+                                        </div>
+                                        {% else %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value=""
+                                                id="borrowingavailable" disabled>
+                                            <label class="form-check-label" for="borrowingavailable">
+                                                available for borrowing
+                                            </label>
+                                        </div>
+                                        {% endif %}
+
+                                        <!--avialble borrowing end -->
+                                        {% else %}
+                                    <li class="list-group-item list-group-item-light  ">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value=""
+                                                id="libraryavvailable" disabled>
+                                            <label class="form-check-label" for="libraryavvailable">
+                                                available in the library
+                                            </label>
+                                        </div>
                                     </li>
                                     {% endif %}
                                     <!--avialble book end -->
-
+                                    </li>
 
                                     {% if user.is_editor %}
                                     <li
@@ -149,5 +160,5 @@
 </section>
 {% endblock content %}
 {% block js %}
-<script src="{% static 'main/js/booking-detailed.js' %}"></script>
+<script src="{% static 'booking/js/booking-detailed.js' %}"></script>
 {% endblock js %}
