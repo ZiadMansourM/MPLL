@@ -44,9 +44,10 @@ class AuthorCreateForm(forms.ModelForm):
 class PublisherCreateForm(forms.ModelForm):
     class Meta:
         model = Publisher
-        fields = ['name', ]
+        fields = ['name','telephone' ]
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'e.g. El-Nahda', "class": "form-control", 'id': 'PublisherName'}),
+            'telephone': forms.TextInput(attrs={'placeholder': 'e.g. 01200112233', "class": "form-control", 'id': 'PublisherTelephone'}),
         }
 
 
