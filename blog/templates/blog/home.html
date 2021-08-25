@@ -1,8 +1,10 @@
 {% extends "main/base.html" %} 
-{% load static %} 
+{% load crispy_forms_tags %}
+{% load static %}
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'blog/css/blog-home.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'main/css/select2.min.css' %}">
 {% endblock css %}
 
 {% block header %}
@@ -23,10 +25,22 @@
         <!-- Start Search -->
         <form action="{% url 'blog-home' %}" method="GET">
             <div class="card-body">
-                <div class="input-group">
-                    <input name="searchkey" class="form-control" type="text" placeholder="Enter search term..."
-                    aria-label="Enter search term..." aria-describedby="button-search" />
-                    <button class="btn btn-outline-secondary" id="button-search" type="submit">Go!</button>
+                <div class="row justify-content-center">
+                    <div class="col-lg-5">
+                        <input name="searchkey" class="form-control" type="text" placeholder="Enter search term..."
+                        aria-label="Enter search term..." aria-describedby="button-search" />
+                    </div>
+                    <div class="col-lg-5">
+                        {{ categories_form.categories }}
+                    </div>
+                    <!-- is_pinned -->
+                    <div class="col-lg-1 mt-1 form-check">
+                        {{ categories_form.is_pinned }}
+                        <label for="{{ categories_form.is_pinned.id_for_label }}">Pinned</label>
+                    </div>
+                    <div class="col-lg-1">
+                        <button class="btn btn-outline-secondary" id="button-search" type="submit">Filter</button>
+                    </div>
                 </div>
             </div>
         </form>
@@ -35,20 +49,22 @@
             <!-- First Column: Posts -->
             <div class="col-lg-12">
                 <div class="row justify-content-center">
-                    {% for post in posts %} {% if post.is_pinned %}
-                    <!-- Featured blog post-->
-                        <div class="cardo cardo-pinned col-lg-10 col-md-10 col-sm-10 col-10">
-                            <div style='background-image: url(" {{ post.image.url }} ");' class="cardo-image"></div>
-                            <div class="cardo-text">
-                                <div class="small text-muted">{{ post.date_posted|date:"F d, Y - P" }}</div>
-                                <h2 class="card-title ellipses-handler-title">{{ post.title }}</h2>
-                                <p class="card-text ellipses-handler">{{ post.snippet|safe }}</p>
-                                <a class="btn btn-primary" href="{% url 'blog-detail' post.id %}">Read more</a>
-                                <link rel="icon" type="image/svg" href="{% static 'blog/assets/pin-angle-fill.svg' %}" />
-                                <!-- <i class="bi bi-pin-angle-fill"></i> -->
+                    {% for post in posts %} 
+                        {% if post.is_pinned %}
+                        <!-- Featured blog post-->
+                            <div class="cardo cardo-pinned col-lg-10 col-md-10 col-sm-10 col-10">
+                                <div style='background-image: url(" {{ post.image.url }} ");' class="cardo-image"></div>
+                                <div class="cardo-text">
+                                    <div class="small text-muted">{{ post.date_posted|date:"F d, Y - P" }}</div>
+                                    <h2 class="card-title ellipses-handler-title">{{ post.title }}</h2>
+                                    <p class="card-text ellipses-handler">{{ post.snippet|safe }}</p>
+                                    <a class="btn btn-primary" href="{% url 'blog-detail' post.id %}">Read more</a>
+                                    <link rel="icon" type="image/svg" href="{% static 'blog/assets/pin-angle-fill.svg' %}" />
+                                    <!-- <i class="bi bi-pin-angle-fill"></i> -->
+                                </div>
                             </div>
-                        </div>
-                    {% endif %} {% endfor %}
+                        {% endif %} 
+                    {% endfor %}
                 </div>
                 <!-- Nested row for un-pinned blog posts-->
                 <div class="row justify-content-center">
@@ -71,3 +87,15 @@
     </div>
 </section>
 {% endblock content %}
+
+{% block jQ %}
+    <script src="{% static 'main/js/select2.min.js' %}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#id_categories').select2({
+                placeholder: "Filter by categories",
+                allowClear: true
+            });
+        });
+    </script>
+{% endblock jQ %}
