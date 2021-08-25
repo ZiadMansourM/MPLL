@@ -1,5 +1,5 @@
 from django import forms
-from .models import Book, Author, DeweyDecimalClassification, Publisher
+from .models import Book, Author, City, DeweyDecimalClassification, Publisher
 from ckeditor.widgets import CKEditorWidget
 
 
@@ -32,15 +32,28 @@ class BookCreateForm(forms.ModelForm):
 class AuthorCreateForm(forms.ModelForm):
     class Meta:
         model = Author
-        fields = ['name', 'image', 'bio', 'birth_place',]
+        fields = ['name', 'image', 'bio', 'birth_place', ]
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'e.g. Naguib Mahfouz', "class": "form-control", 'id': 'AuthorName'}),
+            'image': forms.ClearableFileInput(attrs={"class": "form-control", "type": "file"}),
+            'bio': CKEditorWidget(attrs={"label": "bio"}),
+            'birth_place': forms.Select(choices=City.objects.all(), attrs={"class": "form-control"}),
         }
+
 
 class PublisherCreateForm(forms.ModelForm):
     class Meta:
         model = Publisher
-        fields = ['name',]
+        fields = ['name', ]
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'e.g. El-Nahda', "class": "form-control", 'id': 'PublisherName'}),
+        }
+
+
+class CityCreateForm(forms.ModelForm):
+    class Meta:
+        model = City
+        fields = ['name', ]
+        widgets = {
+            'name': forms.TextInput(attrs={'placeholder': 'e.g. cairo', "class": "form-control", 'id': 'CityName'}),
         }
