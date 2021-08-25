@@ -59,16 +59,6 @@ class PostAdmin(admin.ModelAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-<<<<<<< HEAD
-            'fields': ('title',
-                        'content',
-                        'author',
-                        'image',
-                        'date_posted',
-                        'is_pinned',
-                        )}
-        ),
-=======
             'fields': (
                     'title',
                     'content',
@@ -78,7 +68,6 @@ class PostAdmin(admin.ModelAdmin):
                     'is_pinned',
                 )}
             ),
->>>>>>> dd31d336068fc7230ab429d8716840f442d5c3a3
     )
     exclude = ('snippet',)
 
