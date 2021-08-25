@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from booking.models import DeweyDecimalClassification, Book, Author, Publisher
+from booking.models import City, DeweyDecimalClassification, Book, Author, Publisher
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .forms import AuthorCreateForm, BookCreateForm, PublisherCreateForm
+from .forms import AuthorCreateForm, BookCreateForm, CityCreateForm, PublisherCreateForm
 
 # Create your views here.
 
@@ -18,6 +18,18 @@ class BookListView(ListView):
         context['codes'] = DeweyDecimalClassification.objects.all()
         context['title'] = 'Booking'
         return context
+
+    def get_queryset(self):
+        books = Book.objects.all()
+        try:
+            filter_key = self.request.GET["category"]
+        except:
+            filter_key = None
+
+        if filter_key:
+            books = books.filter(classification__family_num=filter_key)
+
+        return books
 
 
 class BookDetailView(DetailView):
@@ -88,6 +100,11 @@ class AuthorCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     template_name = 'booking/author-create.html'
     context_object_name = 'author'
     form_class = AuthorCreateForm
+
+    def get_context_data(self, **kwargs):
+        context = super(AuthorCreateView, self).get_context_data(**kwargs)
+        context['city_form'] = CityCreateForm
+        return context
 
     def test_func(self):
         return self.request.user.is_editor
