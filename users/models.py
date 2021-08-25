@@ -14,6 +14,11 @@ class CustomUser(AbstractUser):
         default=False,
         help_text=_('Designates whether the user can edit posts in blog.'),
     )
+    is_librarian = models.BooleanField(
+        _('librarian status'),
+        default=False,
+        help_text=_('Designates whether the user can edit the book store database.'),
+    )
     is_manager = models.BooleanField(
         _('manager status'),
         default=False,
