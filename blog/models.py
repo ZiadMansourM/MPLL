@@ -72,6 +72,10 @@ class Comment(models.Model):
     owner =  models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
     comment = models.TextField()
     date_posted = models.DateTimeField(auto_now=True)
+    likes = models.ManyToManyField(User, related_name="blog_comment_posts")
+
+    def total_likes(self):
+        return self.likes.count()
 
     def __str__(self) -> str:
         return f"{self.post}-{self.owner}:{self.comment}"
@@ -86,6 +90,10 @@ class Reply(models.Model):
     owner =  models.ForeignKey(User, on_delete=models.CASCADE, related_name="replies")
     reply = models.TextField()
     date_posted = models.DateTimeField(auto_now=True)
+    likes = models.ManyToManyField(User, related_name="blog_reply_posts")
+
+    def total_likes(self):
+        return self.likes.count()
 
     def __str__(self) -> str:
         return f"{self.comment}-{self.owner}"
