@@ -55,12 +55,16 @@
                                         </a>
                                     </li>
                                     {% endfor %}
-                                    {% if user.is_librarian %}
+
+                                    {% if user.is_librarian or user.is_manager %}
                                     <li class="list-group-item list-group-item-light border border-secondary border-2 ">
                                         <a class="a-cat edit-database" href="#">
                                             Edit Database
                                         </a>
                                     </li>
+                                    {% endif %}
+
+                                    {% if user.is_librarian %}
                                     <li class="list-group-item list-group-item-light hidden-toggler">
                                         <a class="a-cat " href="{% url 'book-create'%}">
                                             Add a Book
@@ -84,6 +88,14 @@
                                     <li class="list-group-item list-group-item-light hidden-toggler">
                                         <a class="a-cat " href="{% url 'publisher-list' %}">
                                             Publishers List
+                                        </a>
+                                    </li>
+                                    {% endif %}
+
+                                    {% if user.is_manager %}
+                                    <li class="list-group-item list-group-item-light hidden-toggler">
+                                        <a class="a-cat " href="{% url 'register-librarian' %}">
+                                            Create a Librarian
                                         </a>
                                     </li>
                                     {% endif %}
