@@ -20,13 +20,16 @@ class Publisher(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('publisher-list')
+
 
 class Account(models.Model):
     publisher = models.ForeignKey(
         Publisher, on_delete=models.CASCADE, related_name="accounts")
     handler = models.CharField(max_length=50)
     type = ForeignKey(SocialSite, on_delete=models.CASCADE,
-                    related_name='accounts')
+                      related_name='accounts')
 
     def __str__(self):
         return self.handler
@@ -48,17 +51,17 @@ class Author(models.Model):
     image = models.ImageField(default='default.jpg', upload_to='site_pics')
     bio = models.TextField(blank=True)
     birth_place = models.ForeignKey(
-            City, 
-            on_delete=models.CASCADE, 
-            related_name="authors", 
-            blank=True, 
-            null=True
-        )
+        City,
+        on_delete=models.CASCADE,
+        related_name="authors",
+        blank=True,
+        null=True
+    )
 
     def __str__(self):
         return self.name
 
-#TODO:reverse to detail view
+# TODO:reverse to detail view
     def get_absolute_url(self):
         return reverse('author-list')
 
