@@ -51,7 +51,11 @@ class ReplyJsonCreateView(LoginRequiredMixin, UserPassesTestMixin, View):
             'image_url': reply.owner.image.url,
             'owner_username': reply.owner.username,
             'reply_id': reply.id,
-            'reply': reply.reply
+            'reply': reply.reply,
+            'post_id':reply.comment.post.id,
+            'comment_id':reply.comment.id,
+            # 'reply_owner':reply.owner,
+            # 'current_user':User,
         }
         return JsonResponse(response_dict, safe=False)
 
