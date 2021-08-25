@@ -1,17 +1,13 @@
 {% extends 'main/base.html' %}
 {% load static %}
 
-{% block css %}
-<link rel="stylesheet" href="{% static 'booking/css/author-list.css' %}">
-{% endblock css %}
-
 {% block header %}
 <header class="py-5 bg-light border-bottom mb-4 ">
     <div class="container">
         <div class="text-center my-5">
             <h1 class="fw-bolder">Authors</h1>
             <p class="lead mb-3">Here you can explore all registerd authors </p>
-            <a class="btn btn-outline-secondary "> Add Author </a>
+            <a href="{% url 'author-create' %}" class="btn btn-outline-secondary "> Add Author </a>
         </div>
     </div>
 </header>
