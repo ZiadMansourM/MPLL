@@ -54,7 +54,12 @@ class Post(models.Model):
         help_text=_('Designates whether the post is pinned'),
     )
     likes = models.ManyToManyField(User, related_name="blog_posts")
-    categories = models.ManyToManyField(Category, related_name="categories", through="PostCategory")
+    categories = models.ManyToManyField(
+        Category, 
+        blank=True, 
+        related_name="categories", 
+        through="PostCategory",
+    )
 
 
     def total_likes(self):
