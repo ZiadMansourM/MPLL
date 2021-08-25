@@ -151,9 +151,9 @@ class PublisherListView(ListView):
 
 class PublisherCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Publisher
-    template_name = 'booking/author-create.html'
+    template_name = 'booking/publisher-create.html'
     context_object_name = 'author'
-    form_class = AuthorCreateForm
+    form_class = PublisherCreateForm
 
     def test_func(self):
         return self.request.user.is_editor
