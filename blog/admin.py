@@ -1,10 +1,26 @@
 from django.contrib import admin
-from .models import Post, Comment, Reply, ContactUs, Report
+from .models import (
+    Post, Comment, Reply, 
+    ContactUs, Report, Category, 
+    PostCategory
+)
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
 # Register your models here.
 admin.site.site_header = 'MPLL administration'
+
+class CategoriesInline(admin.TabularInline):
+    model = PostCategory
+    extra = 1
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('category',)
+    inlines = [
+        CategoriesInline,
+    ]
 
 
 @admin.register(Report)
@@ -23,6 +39,10 @@ class PostAdmin(admin.ModelAdmin):
     list_filter = ('author__username', 'is_pinned')
     search_fields = ('author__username', 'title')
     ordering = ('-date_posted',)
+    inlines = [
+        CategoriesInline,
+    ]
+    exclude = ('categories',)
     fieldsets = (
         (_('Post info'), {'fields': (
             'title',
@@ -39,6 +59,7 @@ class PostAdmin(admin.ModelAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
+<<<<<<< HEAD
             'fields': ('title',
                         'content',
                         'author',
@@ -47,6 +68,17 @@ class PostAdmin(admin.ModelAdmin):
                         'is_pinned',
                         )}
         ),
+=======
+            'fields': (
+                    'title',
+                    'content',
+                    'author',
+                    'image',
+                    'date_posted',
+                    'is_pinned',
+                )}
+            ),
+>>>>>>> dd31d336068fc7230ab429d8716840f442d5c3a3
     )
     exclude = ('snippet',)
 

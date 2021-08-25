@@ -2,14 +2,21 @@
 {% load crispy_forms_tags %} 
 
 {% block content %}
-<section class="main-section">
+<section class="main-section section-height-adjustment">
     <div class="container-lg">
         <div class="content-section">
             <form action="" method="POST">
                 {% csrf_token %}
                 <fieldset class="form-group">
                     <legend class="border-bottom mb-4">Sign In</legend>
-                    {{ form|crispy }}
+                    <!-- username -->
+                    <div class="form-floating mb-3">
+                        {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.username %}
+                    </div>
+                    <!-- password -->
+                    <div class="form-floating mb-3">
+                        {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.password %}
+                    </div>
                 </fieldset>
                 <div class="form-group mb-3">
                     <button class="btn btn-outline-info" type="submit">Log In</button>

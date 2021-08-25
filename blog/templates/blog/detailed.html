@@ -29,8 +29,11 @@
                         <!-- Post meta content-->
                         <div class="text-muted fst-italic mb-2">Posted on {{ post.date_posted|date:"F d, Y - P" }} by {{ post.author }}</div>
                         <!-- Post categories-->
-                        <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
-                        <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
+                        {% if post.categories.all %}
+                            {% for category in post.categories.all %}
+                                <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{ category }}</a>
+                            {% endfor %}
+                        {% endif %}
                     </header>
                     <!-- Preview image figure-->
                     <figure class="mb-4"><img class="img-fluid rounded" src="{{ post.image.url }}" alt="..." /></figure>
