@@ -18,6 +18,7 @@
         <div class="d-flex justify-content-between border-bottom pb-2">
             <h6>Comments Section</h6>
             <small>
+                <!-- Add Comment -->
                 <button class="svg-button" onClick="ToggleAddComment()">
                     <svg id ="togglebtn" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
                         <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
@@ -38,12 +39,14 @@
                         <label for="floatingCommentInput">Comment</label>
                     </div>
                     <div class="d-flex flex-column justify-content-around">
+                        <!-- Trash Can Button -->
                         <button type="button" class="svg-button trash-can" onClick="TrashCan()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                                 <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
                             </svg>
                         </button>
+                        <!-- Submit Button -->
                         <button class="svg-button" type="submit">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
                                 <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
@@ -56,191 +59,11 @@
         <div class="AppendCommentsHere">
             {% if obj.comments %}
             {% for comment in obj.comments.all %}
-                <!-- Start of Comment -->
-                <div class="d-flex text-muted pt-3">
-                    <img class="imagefifty me-1" src="{{ comment.owner.image.url }}" alt="..." />
-                    <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-                        <div class="d-flex mb-1 justify-content-between">
-                            <strong class="text-gray-dark">@{{ comment.owner }}</strong>
-                            <!-- Comments options Button -->
-                            <div class="btn-group">
-                                <a class="a-cat dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></a>
-                                <ul class="dropdown-menu">
-                                    <li><button onclick="ToggleReply('AddReplyCard{{ comment.id }}')" class="svg-btn dropdown-item" target="AddReplyCard{{ comment.id }}">Reply</button></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><button class="svg-btn dropdown-item" data-bs-toggle="modal" data-bs-target="#ReportCommentModal{{ comment.id }}">Report</button></li>
-                                    {%if user ==  comment.owner %}
-                                    <li><button class="svg-btn dropdown-item" data-bs-toggle="modal" data-bs-target="#RemoveCommentModal{{ comment.id }}">remove</button></li>
-                                    {% endif %}
-                                    <form action="{% url 'like-comment' post.id comment.id %}"  method="POST" >
-                                        {% csrf_token %}
-                                        <li><button type="submit" class="svg-btn dropdown-item" value="{{ comment.id }}" name="comment_id">Like</button></li>
-                                        <li><button type="submit" class="svg-btn dropdown-item" value="{{ comment.id }}" name="comment_id">unlike</button></li>
-                                    </form>
-                                </ul>
-                            </div>
-                        </div>
-                        <span class="d-block text-break">{{ comment.comment }}</span>
-                    </div>
-                </div>
-                <!-- Remove Comment modal -->
-                {%if user ==  comment.owner %}
-                    <div class="modal fade" id="RemoveCommentModal{{ comment.id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="RemoveCommentModalLabel{{ comment.id }}" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="RemoveCommentModalLabel{{ comment.id }}">Removing Comment</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <form action="{% url 'comment-delete' post.id comment.id %}" method="POST">
-                                    {% csrf_token %}
-                                    <div class="modal-body">
-                                        <h3 class="mb-2">Are you sure you want to remove this Comment?</h3>
-                                        <input type="hidden" id="custId" name="id" value="{{ comment.id }}">
-                                        <input type="hidden" id="custId" name="post_id" value="{{ post.id }}">
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-outline-danger">Remove</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
-                <!-- Report Comment Model -->
-                <div class="modal fade" id="ReportCommentModal{{ comment.id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="ReportCommentModalLabel{{ comment.id }}" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="ReportCommentModalLabel{{ comment.id }}">Report Comment</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <form action="{% url 'report' %}" method="POST">
-                                {% csrf_token %}
-                                <div class="modal-body">
-                                    <h3 class="mb-2">Are you sure you want to report this Comment?</h3>
-                                    <input type="hidden" id="custId" name="id" value="{{ comment.id }}">
-                                    <input type="hidden" id="custId" name="post_id" value="{{ obj.id }}">
-                                    <div class="form-floating">
-                                        <textarea class="form-control" name="message" placeholder="Why are you reporting this Post" id="floatingTextarea2" style="height: 100px"></textarea>
-                                        <label for="floatingTextarea2">Why are you reporting this Comment</label>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-outline-danger">Submit</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <!-- Inline Add reply -->
-                <div id="AddReplyCard{{ comment.id }}" class="mx-5 my-3 p-3 bg-light rounded shadow d-none">
-                    <form id="AddReplyForm" class="{{ comment.id }} mt-2">
-                        {% csrf_token %}
-                        <div class="d-flex justify-content-between pb-2">
-                            <div class="form-floating w-100" style="flex-basis: 90%;">
-                                <textarea name="reply" class="form-control" id="floatingReplyInput"></textarea>
-                                <label for="floatingReplyInput">Reply</label>
-                            </div>
-                            <div class="d-flex flex-column justify-content-around">
-                                <button type="button" class="svg-button trash-can" onClick="ReplyTrashCan('AddReplyCard{{ comment.id }}')">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                                    </svg>
-                                </button>
-                                <button class="svg-button" type="submit">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
-                                        <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                {% include 'blog/components/sub_components/comment.html' with obj=obj comment=comment %}
                 <div class="AppendRepliesHere {{ comment.id }}">
                     {% if comment.replies %}
                         {% for reply in comment.replies.all %}
-                            <!-- Start of a Reply -->
-                            <div class="mx-5 d-flex text-muted pt-3 pb-1 border-bottom">
-                                <img class="me-1 imagefifty" src="{{ reply.owner.image.url }}" alt="..." />
-                                <div class="pb-3 mb-0 small lh-sm w-100">
-                                    <div class="d-flex mb-1 justify-content-between">
-                                        <strong class="text-gray-dark">@{{ reply.owner }}</strong>
-                                        <div class="btn-group">
-                                            <a class="a-cat dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></a>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ReportReplyModal{{ reply.id }}" href="#">Report</a></li>
-                                                {%if user ==  reply.owner %}
-                                                <li><button class="svg-btn dropdown-item" data-bs-toggle="modal" data-bs-target="#RemoveReplyModal{{ reply.id }}">remove</button></li>
-                                                {% endif %}
-                                                <form action="{% url 'like-reply' post.id comment.id reply.id %}"  method="POST" > 
-                                                    {% csrf_token %}
-                                                    <li><a class="dropdown-item" name="reply_id" type="submit" value="{{ reply.id }}">like</a></li>
-                                                    <li><a class="dropdown-item" name="reply_id" type="submit" value="{{ reply.id }}">unlike</a></li>
-                                                </form>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <span class="d-block text-break">{{ reply.reply }}</span>
-                                </div>
-                            </div>
-                            <!-- Remove Reply Model -->
-                            {%if user ==  reply.owner %}
-                                <div class="modal fade" id="RemoveReplyModal{{ reply.id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="RemoveReplyModalLabel{{ reply.id }}" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="RemoveCommentModalLabel{{ comment.id }}">Removing Reply</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <form action="{% url 'reply-delete' post.id comment.id reply.id%}" method="POST">
-                                                {% csrf_token %}
-                                                <div class="modal-body">
-                                                    <h3 class="mb-2">Are you sure you want to remove this reply?</h3>
-                                                    <input type="hidden" id="custId" name="id" value="{{ reply.id }}">
-                                                    <input type="hidden" id="custId" name="comment_id" value="{{ comment.id }}">
-                                                    <input type="hidden" id="custId" name="post_id" value="{{ post.id }}">
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-outline-danger">Remove</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endif %}
-                            <!-- Report Reply Model -->
-                            <div class="modal fade" id="ReportReplyModal{{ reply.id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="ReportReplyModalLabel{{ reply.id }}" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="ReportReplyModalLabel{{ reply.id }}">Report Reply</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <form action="{% url 'report' %}" method="POST">
-                                            {% csrf_token %}
-                                            <div class="modal-body">
-                                                <h3 class="mb-2">Are you sure you want to report this Reply?</h3>
-                                                <input type="hidden" id="custId" name="id" value="{{ reply.id }}">
-                                                <input type="hidden" id="custId" name="comment_id" value="{{ comment.id }}">
-                                                <input type="hidden" id="custId" name="post_id" value="{{ obj.id }}">
-                                                <div class="form-floating">
-                                                    <textarea class="form-control" name="message" placeholder="Why are you reporting this Post" id="floatingTextarea2" style="height: 100px"></textarea>
-                                                    <label for="floatingTextarea2">Why are you reporting this Reply?</label>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-outline-danger">Submit</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
+                            {% include 'blog/components/sub_components/reply.html' with obj=obj comment=comment reply=reply %}
                         {% endfor %}
                     {% endif %}
                 </div>
