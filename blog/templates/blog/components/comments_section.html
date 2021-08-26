@@ -4,9 +4,17 @@
     obj: object that has comments with replies
 -->
 <section class="bg-light">
+    <!-- Dynamic Url Ref to be refrenced in AJAX -->
+    <div class="dynamic-urls" 
+	comment-create-url = "{% url 'api-comment-create' post_id_ex %}"
+	comment-remove-url = "{% url 'comment-delete' post_id_ex comment_id_ex %}"
+	reply-create-url   = "{% url 'api-reply-create' post_id_ex comment_id_ex %}"
+	reply-remove-url   = "{% url 'reply-delete' post_id_ex comment_id_ex reply_id_ex %}"
+	report-url         = "{% url 'report' %}"
+    ></div>
     <!-- Comment Section -->
     <div class="my-3 p-3 bg-body rounded shadow">
-        <!-- button Add comment -->
+        <!-- Header button Add comment -->
         <div class="d-flex justify-content-between border-bottom pb-2">
             <h6>Comments Section</h6>
             <small>
@@ -20,7 +28,7 @@
                 </button>
             </small>
         </div>
-        <!-- Testing Inline comment -->
+        <!-- Inline Add Comment Form -->
         <div id="AddCommentCard" class="my-3 p-3 bg-light rounded shadow d-none">
             <form id="AddCommentForm" class="mt-2">
                 {% csrf_token %}
@@ -45,10 +53,10 @@
                 </div>
             </form>
         </div>
-        <!-- Testing Inline comment END -->
         <div class="AppendCommentsHere">
             {% if obj.comments %}
             {% for comment in obj.comments.all %}
+                <!-- Start of Comment -->
                 <div class="d-flex text-muted pt-3">
                     <img class="imagefifty me-1" src="{{ comment.owner.image.url }}" alt="..." />
                     <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
@@ -77,28 +85,28 @@
                 </div>
                 <!-- Remove Comment modal -->
                 {%if user ==  comment.owner %}
-                <div class="modal fade" id="RemoveCommentModal{{ comment.id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="RemoveCommentModalLabel{{ comment.id }}" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="RemoveCommentModalLabel{{ comment.id }}">Removing Comment</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="modal fade" id="RemoveCommentModal{{ comment.id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="RemoveCommentModalLabel{{ comment.id }}" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="RemoveCommentModalLabel{{ comment.id }}">Removing Comment</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form action="{% url 'comment-delete' post.id comment.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <div class="modal-body">
+                                        <h3 class="mb-2">Are you sure you want to remove this Comment?</h3>
+                                        <input type="hidden" id="custId" name="id" value="{{ comment.id }}">
+                                        <input type="hidden" id="custId" name="post_id" value="{{ post.id }}">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-outline-danger">Remove</button>
+                                    </div>
+                                </form>
                             </div>
-                            <form action="{% url 'comment-delete' post.id comment.id %}" method="POST">
-                                {% csrf_token %}
-                                <div class="modal-body">
-                                    <h3 class="mb-2">Are you sure you want to remove this Comment?</h3>
-                                    <input type="hidden" id="custId" name="id" value="{{ comment.id }}">
-                                    <input type="hidden" id="custId" name="post_id" value="{{ post.id }}">
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-outline-danger">Remove</button>
-                                </div>
-                            </form>
                         </div>
                     </div>
-                </div>
                 {% endif %}
                 <!-- Report Comment Model -->
                 <div class="modal fade" id="ReportCommentModal{{ comment.id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="ReportCommentModalLabel{{ comment.id }}" aria-hidden="true">
@@ -155,7 +163,7 @@
                 <div class="AppendRepliesHere {{ comment.id }}">
                     {% if comment.replies %}
                         {% for reply in comment.replies.all %}
-                            <!-- Child comment -->
+                            <!-- Start of a Reply -->
                             <div class="mx-5 d-flex text-muted pt-3 pb-1 border-bottom">
                                 <img class="me-1 imagefifty" src="{{ reply.owner.image.url }}" alt="..." />
                                 <div class="pb-3 mb-0 small lh-sm w-100">
@@ -179,34 +187,32 @@
                                     <span class="d-block text-break">{{ reply.reply }}</span>
                                 </div>
                             </div>
-
                             <!-- Remove Reply Model -->
                             {%if user ==  reply.owner %}
-                            <div class="modal fade" id="RemoveReplyModal{{ reply.id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="RemoveReplyModalLabel{{ reply.id }}" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="RemoveCommentModalLabel{{ comment.id }}">Removing Reply</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <div class="modal fade" id="RemoveReplyModal{{ reply.id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="RemoveReplyModalLabel{{ reply.id }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="RemoveCommentModalLabel{{ comment.id }}">Removing Reply</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <form action="{% url 'reply-delete' post.id comment.id reply.id%}" method="POST">
+                                                {% csrf_token %}
+                                                <div class="modal-body">
+                                                    <h3 class="mb-2">Are you sure you want to remove this reply?</h3>
+                                                    <input type="hidden" id="custId" name="id" value="{{ reply.id }}">
+                                                    <input type="hidden" id="custId" name="comment_id" value="{{ comment.id }}">
+                                                    <input type="hidden" id="custId" name="post_id" value="{{ post.id }}">
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-outline-danger">Remove</button>
+                                                </div>
+                                            </form>
                                         </div>
-                                        <form action="{% url 'reply-delete' post.id comment.id reply.id%}" method="POST">
-                                            {% csrf_token %}
-                                            <div class="modal-body">
-                                                <h3 class="mb-2">Are you sure you want to remove this reply?</h3>
-                                                <input type="hidden" id="custId" name="id" value="{{ reply.id }}">
-                                                <input type="hidden" id="custId" name="comment_id" value="{{ comment.id }}">
-                                                <input type="hidden" id="custId" name="post_id" value="{{ post.id }}">
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-outline-danger">Remove</button>
-                                            </div>
-                                        </form>
                                     </div>
                                 </div>
-                            </div>
                             {% endif %}
-
                             <!-- Report Reply Model -->
                             <div class="modal fade" id="ReportReplyModal{{ reply.id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="ReportReplyModalLabel{{ reply.id }}" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
