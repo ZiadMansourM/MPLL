@@ -38,7 +38,6 @@ class CommmentJsonListView(View):
 class ReplyJsonCreateView(LoginRequiredMixin, UserPassesTestMixin, View):
     def post(self, *args, **kwargs):
         reply_message = self.request.POST['reply']
-        print(reply_message)
         reply = Reply(reply=reply_message)
         reply.owner = self.request.user
         reply.comment = Comment.objects.get(id=self.request.POST['comment_id'])
