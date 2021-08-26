@@ -10,7 +10,6 @@ User = get_user_model()
 class CommmentJsonCreateView(LoginRequiredMixin, UserPassesTestMixin, View):
     def post(self, *args, **kwargs):
         comment_message = self.request.POST['comment']
-        print(comment_message)
         comment = Comment(comment=comment_message)
         comment.owner = self.request.user
         comment.post = Post.objects.get(id=self.kwargs['pk'])
