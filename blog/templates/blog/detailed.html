@@ -30,8 +30,7 @@
                             </div>
                         </div>
                         <!-- Post meta content-->
-                        <div class="text-muted fst-italic mb-2">Posted on {{ post.date_posted|date:"F d, Y - P" }} by {{
-                            post.author }}</div>
+                        <div class="text-muted fst-italic mb-2">Posted on {{ post.date_posted|date:"F d, Y - P" }} by {{ post.author }}</div>
                         <!-- Post categories-->
                         {% if post.categories.all %}
                             {% for category in post.categories.all %}
