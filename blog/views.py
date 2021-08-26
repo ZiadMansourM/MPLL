@@ -168,6 +168,9 @@ class PostDetailView(DetailView):
         context['form'] = CommentCreateForm
         context['total_likes'] = total_likes
         context['liked'] = liked
+        context['post_id_ex'] = 'cf74fa79-f89c-4797-b1f1-6b346b5234bc'
+        context['comment_id_ex'] = 'cf74fa79-f89c-4797-b1f1-6b346b5234bc'
+        context['reply_id_ex'] = 'cf74fa79-f89c-4797-b1f1-6b346b5234bc'
         return context
 
 
@@ -245,11 +248,7 @@ class ReportListView(ListView):
             filter_key = self.request.GET["entity"]
         except:
             filter_key = None
-        if filter_key == 'Comment':
-            reports = reports.filter(entity=filter_key)
-        elif filter_key == 'Post':
-            reports = reports.filter(entity=filter_key)
-        elif filter_key == 'Reply':
+        if filter_key in ['Comment', 'Post', 'Reply']:
             reports = reports.filter(entity=filter_key)
         return reports
 
