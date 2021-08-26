@@ -168,9 +168,13 @@ class PostDetailView(DetailView):
         context['form'] = CommentCreateForm
         context['total_likes'] = total_likes
         context['liked'] = liked
-        context['post_id_ex'] = 'cf74fa79-f89c-4797-b1f1-6b346b5234bc'
-        context['comment_id_ex'] = 'cf74fa79-f89c-4797-b1f1-6b346b5234bc'
-        context['reply_id_ex'] = 'cf74fa79-f89c-4797-b1f1-6b346b5234bc'
+        # Dummy data to be used @rendering
+        context['post_id'] = 'cf74fa79-f89c-4797-b1f1-6b346b5234bc'
+        context['comment_id'] = '7a894c83-28cc-459e-83d6-7f81d8424f3c'
+        context['reply_id_ex'] = '21f91db1-1975-427f-8fdc-5c9208eb9a21'
+        context['image_url'] = "user_pics/WHAT.jpg"
+        context['username'] = "zozo"
+        context['test_msg'] = "ThisIsTestMessage"
         return context
 
 
