@@ -6,10 +6,10 @@
 <section class="bg-light">
     <!-- Dynamic Url Ref to be refrenced in AJAX -->
     <div class="dynamic-urls" 
-	comment-create-url = "{% url 'api-comment-create' post_id_ex %}"
-	comment-remove-url = "{% url 'comment-delete' post_id_ex comment_id_ex %}"
-	reply-create-url   = "{% url 'api-reply-create' post_id_ex comment_id_ex %}"
-	reply-remove-url   = "{% url 'reply-delete' post_id_ex comment_id_ex reply_id_ex %}"
+	comment-create-url = "{% url 'api-comment-create' post_id %}"
+	comment-remove-url = "{% url 'comment-delete' post_id comment_id %}"
+	reply-create-url   = "{% url 'api-reply-create' post_id comment_id %}"
+	reply-remove-url   = "{% url 'reply-delete' post_id comment_id reply_id_ex %}"
 	report-url         = "{% url 'report' %}"
     ></div>
     <!-- Comment Section -->
@@ -57,13 +57,22 @@
             </form>
         </div>
         <div class="AppendCommentsHere">
+            <!-- TODO: check if needs .all -->
             {% if obj.comments %}
             {% for comment in obj.comments.all %}
-                {% include 'blog/components/sub_components/comment.html' with obj=obj comment=comment %}
+                {% include 'blog/components/sub_components/comment.html' with obj_id=obj.id comment_id=comment.id comment_msg=comment.comment image_url=comment.owner.image.url username=comment.owner.username only %}
                 <div class="AppendRepliesHere {{ comment.id }}">
                     {% if comment.replies %}
                         {% for reply in comment.replies.all %}
-                            {% include 'blog/components/sub_components/reply.html' with obj=obj comment=comment reply=reply %}
+                            <!-- 
+                                obj_id: post.id
+                                comment_id: comment.id
+                                reply_id: reply.id
+                                username: reply.owner
+                                image_url: reply.owner.image.url
+                                reply_msg: reply.reply
+                            -->
+                            {% include 'blog/components/sub_components/reply.html' with obj_id=obj.id comment_id=comment.id reply_id=reply.id username=reply.owner.username image_url=reply.owner.image.url reply_msg=reply.reply  %}
                         {% endfor %}
                     {% endif %}
                 </div>

@@ -1,45 +1,47 @@
 <!-- Start of Comment -->
 <div class="d-flex text-muted pt-3">
-    <img class="imagefifty me-1" src="{{ comment.owner.image.url }}" alt="..." />
+    <img class="imagefifty me-1" src="{{ image_url }}" alt="..." />
     <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
         <div class="d-flex mb-1 justify-content-between">
-            <strong class="text-gray-dark">@{{ comment.owner }}</strong>
+            <strong class="text-gray-dark">@{{ username }}</strong>
             <!-- Comments options Button -->
             <div class="btn-group">
                 <a class="a-cat dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></a>
                 <ul class="dropdown-menu">
-                    <li><button onclick="ToggleReply('AddReplyCard{{ comment.id }}')" class="svg-btn dropdown-item" target="AddReplyCard{{ comment.id }}">Reply</button></li>
+                    <li><button onclick="ToggleReply('AddReplyCard{{ comment_id }}')" class="svg-btn dropdown-item" target="AddReplyCard{{ comment_id }}">Reply</button></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><button class="svg-btn dropdown-item" data-bs-toggle="modal" data-bs-target="#ReportCommentModal{{ comment.id }}">Report</button></li>
+                    <li><button class="svg-btn dropdown-item" data-bs-toggle="modal" data-bs-target="#ReportCommentModal{{ comment_id }}">Report</button></li>
+                    <!-- To be handaled -->
                     {%if user ==  comment.owner %}
-                    <li><button class="svg-btn dropdown-item" data-bs-toggle="modal" data-bs-target="#RemoveCommentModal{{ comment.id }}">remove</button></li>
+                    <li><button class="svg-btn dropdown-item" data-bs-toggle="modal" data-bs-target="#RemoveCommentModal{{ comment_id }}">remove</button></li>
                     {% endif %}
-                    <form action="{% url 'like-comment' post.id comment.id %}"  method="POST" >
+                    <form action="{% url 'like-comment' obj_id comment_id %}"  method="POST" >
                         {% csrf_token %}
-                        <li><button type="submit" class="svg-btn dropdown-item" value="{{ comment.id }}" name="comment_id">Like</button></li>
-                        <li><button type="submit" class="svg-btn dropdown-item" value="{{ comment.id }}" name="comment_id">unlike</button></li>
+                        <li><button type="submit" class="svg-btn dropdown-item" value="{{ comment_id }}" name="comment_id">Like</button></li>
+                        <li><button type="submit" class="svg-btn dropdown-item" value="{{ comment_id }}" name="comment_id">unlike</button></li>
                     </form>
                 </ul>
             </div>
         </div>
-        <span class="d-block text-break">{{ comment.comment }}</span>
+        <span class="d-block text-break">{{ comment_msg }}</span>
     </div>
 </div>
 <!-- Remove Comment modal -->
+<!-- To be handaled -->
 {%if user ==  comment.owner %}
-    <div class="modal fade" id="RemoveCommentModal{{ comment.id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="RemoveCommentModalLabel{{ comment.id }}" aria-hidden="true">
+    <div class="modal fade" id="RemoveCommentModal{{ comment_id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="RemoveCommentModalLabel{{ comment_id }}" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="RemoveCommentModalLabel{{ comment.id }}">Removing Comment</h5>
+                    <h5 class="modal-title" id="RemoveCommentModalLabel{{ comment_id }}">Removing Comment</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{% url 'comment-delete' post.id comment.id %}" method="POST">
+                <form action="{% url 'comment-delete' obj_id comment_id %}" method="POST">
                     {% csrf_token %}
                     <div class="modal-body">
                         <h3 class="mb-2">Are you sure you want to remove this Comment?</h3>
-                        <input type="hidden" id="custId" name="id" value="{{ comment.id }}">
-                        <input type="hidden" id="custId" name="post_id" value="{{ post.id }}">
+                        <input type="hidden" id="custId" name="id" value="{{ comment_id }}">
+                        <input type="hidden" id="custId" name="post_id" value="{{ obj_id }}">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -51,19 +53,19 @@
     </div>
 {% endif %}
 <!-- Report Comment Model -->
-<div class="modal fade" id="ReportCommentModal{{ comment.id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="ReportCommentModalLabel{{ comment.id }}" aria-hidden="true">
+<div class="modal fade" id="ReportCommentModal{{ comment_id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="ReportCommentModalLabel{{ comment_id }}" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="ReportCommentModalLabel{{ comment.id }}">Report Comment</h5>
+                <h5 class="modal-title" id="ReportCommentModalLabel{{ comment_id }}">Report Comment</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="{% url 'report' %}" method="POST">
                 {% csrf_token %}
                 <div class="modal-body">
                     <h3 class="mb-2">Are you sure you want to report this Comment?</h3>
-                    <input type="hidden" id="custId" name="id" value="{{ comment.id }}">
-                    <input type="hidden" id="custId" name="post_id" value="{{ obj.id }}">
+                    <input type="hidden" id="custId" name="id" value="{{ comment_id }}">
+                    <input type="hidden" id="custId" name="post_id" value="{{ obj_id }}">
                     <div class="form-floating">
                         <textarea class="form-control" name="message" placeholder="Why are you reporting this Post" id="floatingTextarea2" style="height: 100px"></textarea>
                         <label for="floatingTextarea2">Why are you reporting this Comment</label>
@@ -78,8 +80,8 @@
     </div>
 </div>
 <!-- Inline Add reply -->
-<div id="AddReplyCard{{ comment.id }}" class="mx-5 my-3 p-3 bg-light rounded shadow d-none">
-    <form id="AddReplyForm" class="{{ comment.id }} mt-2">
+<div id="AddReplyCard{{ comment_id }}" class="mx-5 my-3 p-3 bg-light rounded shadow d-none">
+    <form id="AddReplyForm" class="{{ comment_id }} mt-2">
         {% csrf_token %}
         <div class="d-flex justify-content-between pb-2">
             <div class="form-floating w-100" style="flex-basis: 90%;">
@@ -87,7 +89,7 @@
                 <label for="floatingReplyInput">Reply</label>
             </div>
             <div class="d-flex flex-column justify-content-around">
-                <button type="button" class="svg-button trash-can" onClick="ReplyTrashCan('AddReplyCard{{ comment.id }}')">
+                <button type="button" class="svg-button trash-can" onClick="ReplyTrashCan('AddReplyCard{{ comment_id }}')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                         <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
