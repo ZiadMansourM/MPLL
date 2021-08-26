@@ -26,7 +26,8 @@ urlpatterns = [
     path('report/', report, name="report"),
     path('<uuid:pk>/update', PostUpdateView.as_view(), name='blog-update'),
     path('<uuid:pk>/delete', PostDeleteView.as_view(), name='blog-delete'),
-    path('<uuid:pk>/comment/', CommentCreateView.as_view(), name='comment-create'),
+    # Next is a dead code right ?> comment-create
+    path('<uuid:pk>/comment/', CommentCreateView.as_view(), name='comment-create'), 
     path('<uuid:pk>/comment/<uuid:id>/delete', DeleteComment, name='comment-delete'),
     path('<uuid:pk>/comment/<uuid:id>/reply/<uuid:num>', ReplyDetailView.as_view(), name='Comment-detail'),
     path('<uuid:pID>/comment/<uuid:cID>/reply/<uuid:rID>/delete', DeleteReply, name='reply-delete'),
