@@ -143,7 +143,8 @@
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
             success: function (data) {
-                // [1]: Construct element 
+                // [1]: Construct element
+                // 'blog/components/sub_components/comment.html' with obj=obj comment=comment
                 var element = `
                         <div class="d-flex text-muted pt-3 De7k">
                             <img class="imagefifty me-1" src="` + data.image_url + `" alt="...">
