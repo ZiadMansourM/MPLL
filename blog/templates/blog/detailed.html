@@ -143,8 +143,7 @@
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
             success: function (data) {
-                // [1]: Append Comment Form 
-                // [2]: Append Element 
+                // [1]: Construct element 
                 var element = `
                         <div class="d-flex text-muted pt-3 De7k">
                             <img class="imagefifty me-1" src="` + data.image_url + `" alt="...">
@@ -192,6 +191,7 @@
                         </div>
                         <div class="AppendRepliesHere ` + data.comment_id + `"></div>
                     `
+                // [2]: Append element
                 $(".AppendCommentsHere").append(element);
                 // [3]: empty Comment Form
                 TrashCan();
@@ -205,13 +205,16 @@
 <script type="text/javascript">
     $(document).on('submit', '#AddReplyForm', function (e) {
         e.preventDefault();
-        // TODO: IAM hard coded solve me
-        // let arguments = "url 'api-reply-create' post.id " + e.target.classList[0];
-        let url_str = "/api/blog/{{ post.id }}/comment/" + e.target.classList[0] + "/reply/new";
-        let textarea_id = "#AddReplyCard" + e.target.classList[0] + ' #floatingReplyInput'
+        var dumId = 'cf74fa79-f89c-4797-b1f1-6b346b5234bc';
+        var comment_id = e.target.classList[0];
+
+        var reply_url_str = $(".dynamic-urls").attr("reply-create-url");
+        reply_url_str = reply_url_str.replace(dumId, "{{ post.id }}").replace(dumId, comment_id);
+        
+        let textarea_id = "#AddReplyCard" + comment_id + ' #floatingReplyInput'
         $.ajax({
             type: 'POST',
-            url: url_str,
+            url: reply_url_str,
             data: {
                 comment_id: e.target.classList[0],
                 reply: $(textarea_id).val(),
@@ -219,10 +222,14 @@
             },
             success: function (data) {
                 console.log(data);
-                // [1]: Append Comment Form 
-                // [2]: Append Element 
-                //TODO:I'm hard coded
-                delete_reply_url = `/blog/` + data.post_id + `/comment/` + data.comment_id + `/reply/` + data.reply_id + `/delete`
+                // [1]: Construct URLs 
+                var dumId = 'cf74fa79-f89c-4797-b1f1-6b346b5234bc';
+                var reply_id = data.reply_id;
+
+                var reply_remove_url = $(".dynamic-urls").attr("reply-remove-url");
+                reply_remove_url = reply_remove_url.replace(dumId, "{{ post.id }}").replace(dumId, comment_id).replace(dumId, reply_id);
+
+                // [2]: Construct element
                 var element = `
                         <div class="mx-5 d-flex text-muted pt-3 pb-1 border-bottom">
                             <img class="rounded-circle me-1 imagefifty" src="` + data.image_url + `" alt="..." />
@@ -250,7 +257,7 @@
                                             <h5 class="modal-title" id="RemoveCommentModalLabel` + data.reply_id + `">Removing Reply</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        <form action="`+ delete_reply_url + `" method="POST">
+                                        <form action="`+ reply_remove_url + `" method="POST">
                                             {% csrf_token %}
                                             <div class="modal-body">
                                                 <h3 class="mb-2">Are you sure you want to remove this reply?</h3>
@@ -268,10 +275,11 @@
                             </div>
                         </div>
                     `
+                // [3]: Append Element
                 $(".AppendRepliesHere." + e.target.classList[0]).append(element);
-                // [3]: empty reply box
+                // [4]: empty reply box
                 ReplyTrashCan('AddReplyCard' + e.target.classList[0]);
-                // [4]: close reply box
+                // [5]: close reply box
                 ToggleReply('AddReplyCard' + e.target.classList[0]);
             }
         });
