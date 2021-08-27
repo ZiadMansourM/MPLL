@@ -1,3 +1,5 @@
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 from django.http import request
 from django.http.response import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
@@ -24,6 +26,7 @@ from .forms import (
 from django.http import HttpResponseRedirect
 
 
+@login_required
 @require_http_methods(["POST"])
 def DeleteComment(request, *args, **kwargs):
     id = request.POST['id']
@@ -32,6 +35,7 @@ def DeleteComment(request, *args, **kwargs):
     return HttpResponseRedirect(reverse('blog-detail', args=[post_id]))
 
 
+@login_required
 @require_http_methods(["POST"])
 def DeleteReply(request, *args, **kwargs):
     id = request.POST['id']
@@ -41,8 +45,9 @@ def DeleteReply(request, *args, **kwargs):
     return HttpResponseRedirect(reverse('blog-detail', args=[post_id]))
 
 
+@login_required
 @require_http_methods(["POST"])
-def report(request):
+def reportCreate(request):
     uuid = request.POST['id']
     message = request.POST['message']
     domain = get_current_site(request).domain
@@ -74,6 +79,7 @@ def report(request):
     return redirect('blog-home')
 
 
+@login_required
 def contact_us(request):
     if request.POST:
         form = ContactUsForm(request.POST)
@@ -227,7 +233,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return (self.request.user.is_editor and self.request.user == post.author)
 
 
-class ReportListView(ListView):
+class ReportListView(UserPassesTestMixin, ListView):
     model = Report
     template_name = 'blog/report-list.html'
     context_object_name = 'reports'
@@ -253,9 +259,13 @@ class ReportListView(ListView):
             reports = reports.filter(entity=filter_key)
         return reports
 
+    def test_func(self):
+        return self.request.user.is_editor
 
+
+@login_required
 def LikeView(request, pk):
-    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    post = get_object_or_404(Post, id=pk)
     liked = False
 
     if post.likes.filter(id=request.user.id).exists():
@@ -268,8 +278,9 @@ def LikeView(request, pk):
     return HttpResponseRedirect(reverse('blog-detail', args=[str(pk)]))
 
 
+@login_required
 def CommentLikeView(request, pk, id):
-    comment = get_object_or_404(Comment, id=request.POST.get('comment_id'))
+    comment = get_object_or_404(Comment, id=id)
     liked = False
 
     if comment.likes.filter(id=request.user.id).exists():
@@ -282,8 +293,9 @@ def CommentLikeView(request, pk, id):
     return HttpResponseRedirect(reverse('blog-detail', args=[pk]))
 
 
+@login_required
 def ReplyLikeView(request, pk, id, num):
-    reply = get_object_or_404(Reply, id=request.POST.get('reply_id'))
+    reply = get_object_or_404(Reply, id=num)
     liked = False
 
     if reply.likes.filter(id=request.user.id).exists():
