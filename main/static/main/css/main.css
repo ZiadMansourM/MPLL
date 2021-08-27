@@ -172,7 +172,7 @@ a.a-cat-book-info {
 
 @media (max-width: 477px) {
   .section-height-adjustment {
-    height: calc(100vh - 200px);
+    min-height: calc(100vh - 200px);
   }
 }
 .hidden-toggler {
