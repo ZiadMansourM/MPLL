@@ -25,14 +25,16 @@
                     <div class="form-floating mb-3">
                         {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.last_name %}
                     </div>
-                    <!-- password1 -->
-                    <div class="form-floating mb-3">
-                        {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.password1 %}
-                    </div>
-                    <!-- password2 -->
-                    <div class="form-floating mb-3">
-                        {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.password2 %}
-                    </div>
+                    {% if form.password1 %}
+                        <!-- password1 -->
+                        <div class="form-floating mb-3">
+                            {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.password1 %}
+                        </div>
+                        <!-- password2 -->
+                        <div class="form-floating mb-3">
+                            {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.password2 %}
+                        </div>
+                    {% endif %}
                 </fieldset>
                 <div class="form-group mb-3">
                     <button class="btn btn-outline-info" type="submit">Sign Up</button>
