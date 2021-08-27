@@ -68,7 +68,7 @@ class EditorRegistrationStrategy(UserRegistrationStrategy):
 
 class LibrarianRegistrationStrategy(UserRegistrationStrategy):
     def create_user(self, form: UserCreationForm) -> Tuple[str, CustomUser]:
-        # [1]: create editor
+        # [1]: create librarian
         librarian = _create_user(form)
         # [2]: Assign Password
         password = generatePassword()
