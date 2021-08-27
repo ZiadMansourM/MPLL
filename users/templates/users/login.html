@@ -9,14 +9,7 @@
                 {% csrf_token %}
                 <fieldset class="form-group">
                     <legend class="border-bottom mb-4">Sign In</legend>
-                    <!-- username -->
-                    <div class="form-floating mb-3">
-                        {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.username %}
-                    </div>
-                    <!-- password -->
-                    <div class="form-floating mb-3">
-                        {% include 'blog/components/field.html' with is_bound=form.is_bound field=form.password %}
-                    </div>
+                    {{ form|crispy }}
                 </fieldset>
                 <div class="form-group mb-3">
                     <button class="btn btn-outline-info" type="submit">Log In</button>
