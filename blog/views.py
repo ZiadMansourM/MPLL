@@ -22,6 +22,7 @@ from .forms import (
     FilterSearchBlogHome
 )
 from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 
 
 @require_http_methods(["POST"])
@@ -256,9 +257,9 @@ class ReportListView(ListView):
             reports = reports.filter(entity=filter_key)
         return reports
 
-
+@login_required
 def LikeView(request, pk):
-    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    post = get_object_or_404(Post, id=pk)
     liked = False
 
     if post.likes.filter(id=request.user.id).exists():
@@ -270,9 +271,9 @@ def LikeView(request, pk):
 
     return HttpResponseRedirect(reverse('blog-detail', args=[str(pk)]))
 
-
+@login_required
 def CommentLikeView(request, pk, id):
-    comment = get_object_or_404(Comment, id=request.POST.get('comment_id'))
+    comment = get_object_or_404(Comment, id=id)
     liked = False
 
     if comment.likes.filter(id=request.user.id).exists():
@@ -284,9 +285,9 @@ def CommentLikeView(request, pk, id):
 
     return HttpResponseRedirect(reverse('blog-detail', args=[pk]))
 
-
+@login_required
 def ReplyLikeView(request, pk, id, num):
-    reply = get_object_or_404(Reply, id=request.POST.get('reply_id'))
+    reply = get_object_or_404(Reply, id=num)
     liked = False
 
     if reply.likes.filter(id=request.user.id).exists():
