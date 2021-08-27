@@ -1,0 +1,87 @@
+<!-- 
+    image_url: reply.owner.image.url
+    username: reply.owner
+    reply_id: reply.id
+    obj_id: post.id
+    comment_id: comment.id
+    reply_msg: reply.reply
+-->
+<!-- Start of a Reply -->
+<div class="mx-5 d-flex text-muted pt-3 pb-1 border-bottom">
+    <img class="me-1 imagefifty" src="{{ image_url }}" alt="..." />
+    <div class="pb-3 mb-0 small lh-sm w-100">
+        <div class="d-flex mb-1 justify-content-between">
+            <strong class="text-gray-dark">@{{ username }}</strong>
+            <div class="btn-group">
+                <a class="a-cat dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ReportReplyModal{{ reply_id }}" href="#">Report</a></li>
+                    <!-- TODO: -->
+                    {%if user ==  reply.owner %}
+                    <li><button class="svg-btn dropdown-item" data-bs-toggle="modal" data-bs-target="#RemoveReplyModal{{ reply_id }}">remove</button></li>
+                    {% endif %}
+                    <form action="{% url 'like-reply' obj_id comment_id reply_id %}"  method="POST" > 
+                        {% csrf_token %}
+                        <li><a class="dropdown-item" name="reply_id" type="submit" value="{{ reply_id }}">like</a></li>
+                        <li><a class="dropdown-item" name="reply_id" type="submit" value="{{ reply_id }}">unlike</a></li>
+                    </form>
+                </ul>
+            </div>
+        </div>
+        <span class="d-block text-break">{{ reply_msg }}</span>
+    </div>
+</div>
+<!-- Remove Reply Model -->
+{%if user ==  reply.owner %}
+    <div class="modal fade" id="RemoveReplyModal{{ reply_id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="RemoveReplyModalLabel{{ reply_id }}" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="RemoveCommentModalLabel{{ comment_id }}">Removing Reply</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{% url 'reply-delete' obj_id comment_id reply_id %}" method="POST">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <h3 class="mb-2">Are you sure you want to remove this reply?</h3>
+                        <input type="hidden" id="custId" name="id" value="{{ reply_id }}">
+                        <input type="hidden" id="custId" name="comment_id" value="{{ comment_id }}">
+                        <input type="hidden" id="custId" name="post_id" value="{{ obj_id }}">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-outline-danger">Remove</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endif %}
+<!-- Report Reply Model -->
+<div class="modal fade" id="ReportReplyModal{{ reply_id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="ReportReplyModalLabel{{ reply_id }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ReportReplyModalLabel{{ reply_id }}">Report Reply</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{% url 'report' %}" method="POST">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <h3 class="mb-2">Are you sure you want to report this Reply?</h3>
+                    <input type="hidden" id="custId" name="id" value="{{ reply_id }}">
+                    <input type="hidden" id="custId" name="comment_id" value="{{ comment_id }}">
+                    <input type="hidden" id="custId" name="post_id" value="{{ obj.id }}">
+                    <div class="form-floating">
+                        <textarea class="form-control" name="message" placeholder="Why are you reporting this Post" id="floatingTextarea2" style="height: 100px"></textarea>
+                        <label for="floatingTextarea2">Why are you reporting this Reply?</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-outline-danger">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

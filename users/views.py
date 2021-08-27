@@ -22,7 +22,6 @@ from .services.user_factory import (
 from .services.mailers import ActivationMailer
 
 from users.forms import (
-    LibrarianRegisterForm,
     UserRegisterForm,
     MLERegisterForm,
     ProfileUpdateForm,
@@ -107,7 +106,7 @@ def registermanager(request):
 @user_passes_test(is_authenticated_as_manager)
 def registerlibrarian(request):
     if request.method == "POST":
-        form = LibrarianRegisterForm(request.POST)
+        form = MLERegisterForm(request.POST)
         if form.is_valid():
             # [1]: create user
             password, librarian = LibrarianRegistrationStrategy().create_user(form)
@@ -119,7 +118,7 @@ def registerlibrarian(request):
                 request, f'The librarian user was added successfully, password: {password}')
             return redirect('blog-home')
     else:
-        form = LibrarianRegisterForm()
+        form = MLERegisterForm()
 
     context = {
         'form': form,

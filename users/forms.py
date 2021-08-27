@@ -3,7 +3,6 @@ from django.contrib.auth import get_user_model, password_validation
 from django.contrib.auth.forms import (
     AuthenticationForm,
     UserCreationForm,
-    UserChangeForm,
     UsernameField
 )
 from django.conf import settings
@@ -90,31 +89,23 @@ class ProfileUpdateForm(forms.ModelForm):
 class MLERegisterForm(UserCreationForm):
     # MLE : manager librarian editor
     # set password "1,2" to None to hide them from the form
-    email = forms.EmailField(required=True)
     password1 = None
     password2 = None
 
-    class Meta:
-        model = CustomUser
-        fields = [
-            'username',
-            'email',
-            'first_name',
-            'last_name'
-        ]
-
-
-class LibrarianRegisterForm(UserCreationForm):
-    # set password "1,2" to None to hide them from the form
-    email = forms.EmailField(required=True)
-    password1 = None
-    password2 = None
+    email = forms.EmailField(
+        label=_("Email Address"),
+        widget=forms.EmailInput(attrs={
+            "class": "form-control bg-light",
+            'placeholder': 'Primary Email',
+        }),
+        help_text=_("We will send an activation link to this email"),
+    )
 
     class Meta:
         model = CustomUser
-        fields = [
-            'username',
-            'email',
-            'first_name',
-            'last_name'
-        ]
+        fields = ['username', 'email', 'first_name', 'last_name']
+        widgets = {
+            'username': forms.TextInput(attrs={"class": "form-control bg-light", 'placeholder': 'Account username'}),
+            'first_name': forms.TextInput(attrs={"class": "form-control bg-light", 'placeholder': 'First name'}),
+            'last_name': forms.TextInput(attrs={"class": "form-control bg-light", 'placeholder': 'Last name'}),
+        }

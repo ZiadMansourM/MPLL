@@ -24,6 +24,7 @@ from .forms import (
     FilterSearchBlogHome
 )
 from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 
 
 @login_required
@@ -174,6 +175,13 @@ class PostDetailView(DetailView):
         context['form'] = CommentCreateForm
         context['total_likes'] = total_likes
         context['liked'] = liked
+        # Dummy data to be used @rendering
+        context['post_id'] = 'cf74fa79-f89c-4797-b1f1-6b346b5234bc'
+        context['comment_id'] = '7a894c83-28cc-459e-83d6-7f81d8424f3c'
+        context['reply_id_ex'] = '21f91db1-1975-427f-8fdc-5c9208eb9a21'
+        context['image_url'] = "user_pics/WHAT.jpg"
+        context['username'] = "zozo"
+        context['test_msg'] = "ThisIsTestMessage"
         return context
 
 
@@ -251,11 +259,7 @@ class ReportListView(UserPassesTestMixin, ListView):
             filter_key = self.request.GET["entity"]
         except:
             filter_key = None
-        if filter_key == 'Comment':
-            reports = reports.filter(entity=filter_key)
-        elif filter_key == 'Post':
-            reports = reports.filter(entity=filter_key)
-        elif filter_key == 'Reply':
+        if filter_key in ['Comment', 'Post', 'Reply']:
             reports = reports.filter(entity=filter_key)
         return reports
 

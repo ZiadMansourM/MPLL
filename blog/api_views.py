@@ -10,7 +10,6 @@ User = get_user_model()
 class CommmentJsonCreateView(LoginRequiredMixin, UserPassesTestMixin, View):
     def post(self, *args, **kwargs):
         comment_message = self.request.POST['comment']
-        print(comment_message)
         comment = Comment(comment=comment_message)
         comment.owner = self.request.user
         comment.post = Post.objects.get(id=self.kwargs['pk'])
@@ -39,7 +38,6 @@ class CommmentJsonListView(View):
 class ReplyJsonCreateView(LoginRequiredMixin, UserPassesTestMixin, View):
     def post(self, *args, **kwargs):
         reply_message = self.request.POST['reply']
-        print(reply_message)
         reply = Reply(reply=reply_message)
         reply.owner = self.request.user
         reply.comment = Comment.objects.get(id=self.request.POST['comment_id'])
