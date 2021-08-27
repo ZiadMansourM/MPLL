@@ -55,10 +55,8 @@
                             {% endif %}
                             - {{ total_likes }}  likes
                         {% else %}
-                            <small>
-                                <a href="{% url 'login' %}">Sign In</a>
-                                to like
-                            </small>
+                            <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-primary btn-sm me-2">like</button>
+                            - {{ total_likes }}  likes
                         {% endif %}
                     </form>
                 </article>
