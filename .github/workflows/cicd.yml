@@ -108,6 +108,11 @@ jobs:
             IdentityFile ~/.ssh/Clone.key
           END
           git clone DjangoRepo:ZiadMansourM/MPLL.git ~/mpll
+          echo Before
+          ls -la ~/mpll
+          sudo rm -rf ~/mpll/.git
+          ls -la ~/mpll
+          echo After
         env:
           SSH_Clone_KEY: ${{ secrets.SSH_Django_Clone_KEY }}
       
