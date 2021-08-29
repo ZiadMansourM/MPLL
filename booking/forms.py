@@ -4,6 +4,11 @@ from ckeditor.widgets import CKEditorWidget
 
 
 class BookCreateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.fields['author'].queryset = Author.objects.all()
+        self.fields['classification'].queryset = DeweyDecimalClassification.objects.all()
+        self.fields['publisher'].queryset = Publisher.objects.all()
+
     class Meta:
         model = Book
         fields = [
@@ -14,9 +19,9 @@ class BookCreateForm(forms.ModelForm):
         ]
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'e.g. How to sleep', "class": "form-control"}),
-            'author': forms.Select(choices=Author.objects.all(), attrs={"class": "form-control"}),
-            'classification': forms.Select(choices=DeweyDecimalClassification.objects.all(), attrs={"class": "form-control"}),
-            'publisher': forms.Select(choices=Publisher.objects.all(), attrs={"class": "form-control"}),
+            'author': forms.Select(attrs={"class": "form-control"}),
+            'classification': forms.Select(attrs={"class": "form-control"}),
+            'publisher': forms.Select(attrs={"class": "form-control"}),
             'code': forms.TextInput(attrs={'placeholder': 'e.g. How to sleep', "class": "form-control"}),
             'pages_num': forms.NumberInput(attrs={'placeholder': '500', "class": "form-control"}),
             'available_copies': forms.NumberInput(attrs={'placeholder': '500', "class": "form-control"}),
@@ -30,6 +35,9 @@ class BookCreateForm(forms.ModelForm):
 
 
 class AuthorCreateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.fields['birth_place'].queryset = City.objects.all()
+    
     class Meta:
         model = Author
         fields = ['name', 'image', 'bio', 'birth_place', ]
@@ -37,7 +45,7 @@ class AuthorCreateForm(forms.ModelForm):
             'name': forms.TextInput(attrs={'placeholder': 'e.g. Naguib Mahfouz', "class": "form-control", 'id': 'AuthorName'}),
             'image': forms.ClearableFileInput(attrs={"class": "form-control", "type": "file"}),
             'bio': CKEditorWidget(attrs={"label": "bio"}),
-            'birth_place': forms.Select(choices=City.objects.all(), attrs={"class": "form-control"}),
+            'birth_place': forms.Select(attrs={"class": "form-control"}),
         }
 
 
