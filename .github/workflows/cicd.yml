@@ -153,7 +153,6 @@ jobs:
           cat >>~/BeforeDeploy.sh<<EOF
           #!/bin/bash
           sudo rm -rf ~/mpll
-          sudo mkdir -p ~/mpll
           EOF
       
       # Task[5]: remove old code from server
@@ -162,7 +161,7 @@ jobs:
 
       # Task[6]: Upload Code from runner to server
       - name: Upload Code
-        run: scp -rp -i "~/.ssh/staging.key" ~/mpll/* $SSH_USER@$SSH_HOST:~/mpll/
+        run: scp -rp -i "~/.ssh/staging.key" ~/mpll $SSH_USER@$SSH_HOST:~/
         env:
           SSH_HOST: ${{ secrets.STAGING_SSH_HOST }}
           SSH_USER: ${{ secrets.STAGING_SSH_USER }}
