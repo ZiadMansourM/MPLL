@@ -36,8 +36,20 @@ jobs:
         env:
           SSH_Clone_KEY: ${{ secrets.SSH_Django_Clone_KEY }}
 
+      # Task[2]: create config.json
+      - name: Create CreateConfigJson.sh script
+        run: |
+          cat << EOF > ~/mpll/config.json
+          {"SECRET_KEY": $SECRET_KEY, "DEBUG": $DEBUG}
+          EOF
+          ls ~/mpll
+          cat ~/mpll/config.json
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          DEBUG: ${{ secrets.DEBUG }}
+      
       # Task[2]: create bash script to ease Setting the Enviroment
-      - name: Creat SetEnviroment.sh scripts
+      - name: Create SetEnviroment.sh script
         run: |
           cat >>~/SetEnviroment.sh<<END
           #!/bin/bash
@@ -51,7 +63,7 @@ jobs:
           chmod +x ~/SetEnviroment.sh
       
       # Task[3]: Run SetEnviroment script
-      - name: Run SetEnviroment.sh scripts
+      - name: Run SetEnviroment.sh script
         run: ~/SetEnviroment.sh
 
       # Task[4]: create bash script to ease Testing
