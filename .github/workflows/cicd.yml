@@ -37,4 +37,6 @@ jobs:
           SSH_Clone_KEY: ${{ secrets.SSH_Django_Clone_KEY }}
       
       - name: Test clone on runner
-        run: ls ~/
+        run: |
+          ls ~/
+          ls ~/mpll
