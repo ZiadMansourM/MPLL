@@ -35,8 +35,34 @@ jobs:
           git clone DjangoRepo:ZiadMansourM/MPLL.git ~/mpll
         env:
           SSH_Clone_KEY: ${{ secrets.SSH_Django_Clone_KEY }}
-      
-      - name: Test clone on runner
+
+      # Task[2]: create bash script to ease Setting the Enviroment
+      - name: Creat SetEnviroment.sh scripts
         run: |
-          ls ~/
-          ls ~/mpll
+          cat >>~/SetEnviroment.sh<<END
+          #!/bin/bash
+          sudo apt install python3 python3-pip python3-venv
+          python3 --version
+          pip3 --version
+          python3 -m venv ~/venv
+          source ~/venv/bin/activate
+          sudo pip3 install -r ~/mpll/requirements.txt
+          END
+          chmod +x ~/SetEnviroment.sh
+      
+      # Task[3]: Run SetEnviroment script
+      - name: Run SetEnviroment.sh scripts
+        run: ~/SetEnviroment.sh
+
+      # Task[4]: create bash script to ease Testing
+      - name: Creat Testing.sh scripts
+        run: |
+          cat >>~/Testing.sh<<END
+          #!/bin/bash
+          python3 ~/mpll/manage.py test 
+          END
+          chmod +x ~/Testing.sh
+      
+      # Task[5]: Run testing scripts Scripts
+      - name: Run Testing.sh scripts
+        run: ~/Testing.sh
