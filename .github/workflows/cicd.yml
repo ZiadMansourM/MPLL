@@ -147,12 +147,21 @@ jobs:
           SSH_HOST: ${{ secrets.STAGING_SSH_HOST }}
           SSH_USER: ${{ secrets.STAGING_SSH_USER }}
       
-      # Task[4]: remove old code from server
-      - name: Set Production enviroment for FrontEnd Code
-        run: sudo rm -rf ~/mpll && mkdir -p ~/mpll | ssh staging
+      # Task[4]: Create Deploy.sh script to prepare enviroment
+      - name: Prepare script to Set Production enviroment 
+        run: |
+          cat >>~/BeforeDeploy.sh<<EOF
+          #!/bin/bash
+          sudo rm -rf ~/mpll
+          sudo mkdir -p ~/mpll
+          EOF
+      
+      # Task[5]: remove old code from server
+      - name: remove old code
+        run: cat ~/BeforeDeploy.sh | ssh staging
 
-      # Task[5]: Upload Build from runner to server
-      - name: Upload Build
+      # Task[6]: Upload Code from runner to server
+      - name: Upload Code
         run: scp -rp -i "~/.ssh/staging.key" ~/mpll/* $SSH_USER@$SSH_HOST:~/mpll/
         env:
           SSH_HOST: ${{ secrets.STAGING_SSH_HOST }}
