@@ -37,7 +37,7 @@ jobs:
           SSH_Clone_KEY: ${{ secrets.SSH_Django_Clone_KEY }}
 
       # Task[2]: create config.json
-      - name: Create CreateConfigJson.sh script
+      - name: Create config.json
         run: |
           cat << EOF > ~/mpll/config.json
           {
@@ -48,8 +48,6 @@ jobs:
             "DEFAULT_FROM_EMAIL": ""
           }
           EOF
-          ls ~/mpll
-          cat ~/mpll/config.json
         env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           DEBUG: ${{ secrets.DEBUG }}
@@ -86,3 +84,99 @@ jobs:
       # Task[5]: Run testing scripts Scripts
       - name: Run Testing.sh scripts
         run: ~/Testing.sh
+
+
+  # Second Job
+  Deploy:
+    name: ssh & Deploy
+    # The Runner would run on the latest version of ubuntu server
+    runs-on: ubuntu-latest
+    needs: Testing
+    
+    steps:
+      # Task[1]: Get Clone Key on the Runner && Clone
+      - name: Prepare the Clone Key on the runner && clone
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          echo "$SSH_Clone_KEY" > ~/.ssh/Clone.key
+          chmod 600 ~/.ssh/Clone.key
+          sudo cat >>~/.ssh/config<<END
+            Host DjangoRepo
+            Hostname github.com
+            User git
+            IdentityFile ~/.ssh/Clone.key
+          END
+          git clone DjangoRepo:ZiadMansourM/MPLL.git ~/mpll
+        env:
+          SSH_Clone_KEY: ${{ secrets.SSH_Django_Clone_KEY }}
+      
+      # Task[2]: create config.json
+      - name: Create config.json
+        run: |
+          cat << EOF > ~/mpll/config.json
+          {
+            "SECRET_KEY": $SECRET_KEY, 
+            "DEBUG": $DEBUG,
+            "EMAIL_HOST_USER": $EMAIL_HOST_USER,
+            "EMAIL_HOST_PASSWORD": $EMAIL_HOST_PASSWORD,
+            "DEFAULT_FROM_EMAIL": ""
+          }
+          EOF
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          DEBUG: ${{ secrets.DEBUG }}
+          EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+          EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+
+      # Task[3]: create the SSH config file to ease the Accessing the server later
+      - name: Create SSH Config file
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/staging.key
+          chmod 600 ~/.ssh/staging.key
+          cat >>~/.ssh/config <<END
+          Host staging
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/staging.key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_KEY: ${{ secrets.STAGING_SSH_KEY }}
+          SSH_HOST: ${{ secrets.STAGING_SSH_HOST }}
+          SSH_USER: ${{ secrets.STAGING_SSH_USER }}
+      
+      # Task[4]: remove old code from server
+      - name: Set Production enviroment for FrontEnd Code
+        run: sudo rm -rf ~/mpll && mkdir -p ~/mpll | ssh staging
+
+      # Task[5]: Upload Build from runner to server
+      - name: Upload Build
+        run: scp -rp -i "~/.ssh/staging.key" ~/mpll/* $SSH_USER@$SSH_HOST:~/mpll/
+        env:
+          SSH_HOST: ${{ secrets.STAGING_SSH_HOST }}
+          SSH_USER: ${{ secrets.STAGING_SSH_USER }}
+
+      # Task[5]: Create Deploy.sh script to prepare enviroment
+      - name: Prepare script to Set Production enviroment 
+        run: |
+          cat >>~/AfterDeploy.sh<<EOF
+          #!/bin/bash
+          sudo chown :www-data ~/mpll/db.sqlite3
+          sudo chmod 664 ~/mpll/db.sqlite3
+
+          sudo chown :www-data ~/mpll/
+          sudo chmod 775 ~/mpll/
+
+          sudo chown -R :www-data ~/mpll/media/
+          sudo chmod -R 775 ~/mpll/media
+          EOF
+
+      # Task[5]: Excute AfterDeploy.sh
+      - name: Set Production enviroment
+        run: cat ~/AfterDeploy.sh | ssh staging
+
+      # Task[7]: Restart Nginx To catch edits
+      - name: Restart Nginx
+        run: ls ~/ && ls ~/mpll | ssh staging
