@@ -1,0 +1,40 @@
+# This is a basic CI/CD Pipline for a django repository made by Ziad Masnour @ZiadMansourM
+
+name: CI/CD PipLine Django
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  # First Job
+  Testing:
+    name: "Run Tests on code"
+    # The Runner would run on the latest version of ubuntu server
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Task[1]: Get Clone Key on the Runner
+      - name: Prepare the Clone Key on the runner && clone
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          echo "$SSH_Clone_KEY" > ~/.ssh/Clone.key
+          chmod 600 ~/.ssh/Clone.key
+          sudo cat >>~/.ssh/config<<END
+            Host DjangoRepo
+            Hostname github.com
+            User git
+            IdentityFile ~/.ssh/Clone.key
+          END
+          git clone DjangoRepo:ZiadMansourM/MPLL.git ~/mpll
+        env:
+          SSH_Clone_KEY: ${{ secrets.SSH_Django_Clone_KEY }}
+      
+      - name: Test clone on runner
+        run: ls
