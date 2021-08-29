@@ -40,13 +40,21 @@ jobs:
       - name: Create CreateConfigJson.sh script
         run: |
           cat << EOF > ~/mpll/config.json
-          {"SECRET_KEY": $SECRET_KEY, "DEBUG": $DEBUG}
+          {
+            "SECRET_KEY": $SECRET_KEY, 
+            "DEBUG": $DEBUG
+            "EMAIL_HOST_USER": $EMAIL_HOST_USER,
+            "EMAIL_HOST_PASSWORD": $EMAIL_HOST_PASSWORD,
+            "DEFAULT_FROM_EMAIL": ""
+          }
           EOF
           ls ~/mpll
           cat ~/mpll/config.json
         env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           DEBUG: ${{ secrets.DEBUG }}
+          EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+          EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
       
       # Task[2]: create bash script to ease Setting the Enviroment
       - name: Create SetEnviroment.sh script
