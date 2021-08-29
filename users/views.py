@@ -1,10 +1,12 @@
+from django.contrib.auth.models import AnonymousUser
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-from django.contrib.auth.tokens import default_token_generator 
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView    
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.views import LoginView
 from django.views.decorators.http import require_http_methods
+from django.contrib.auth.mixins import UserPassesTestMixin
 # email imports
 from django.http import HttpResponse
 from django.contrib.sites.shortcuts import get_current_site
@@ -16,7 +18,7 @@ from .services.user_factory import (
     NormalRegistrationStrategy,
     ManagerRegistrationStrategy,
     EditorRegistrationStrategy
-    )
+)
 from .services.mailers import ActivationMailer
 
 from users.forms import (
@@ -24,15 +26,18 @@ from users.forms import (
     MLERegisterForm,
     ProfileUpdateForm,
     LogInForm
-    )
+)
 # Create your views here.
 
 User = get_user_model()
 
 
-class MPLLLogin(LoginView):
-    form_class =  LogInForm
-    template_name='users/login.html'
+class MPLLLogin(UserPassesTestMixin, LoginView):
+    form_class = LogInForm
+    template_name = 'users/login.html'
+
+    def test_func(self):
+        return not self.request.user.is_authenticated
 
 
 def register(request):
@@ -42,11 +47,13 @@ def register(request):
             # [1]: create user
             username, user = NormalRegistrationStrategy().create_user(form)
             # [2]: send email
-            ActivationMailer(get_current_site(request).domain, user).send_email()
+            ActivationMailer(get_current_site(
+                request).domain, user).send_email()
             return HttpResponse(f'Please Mr/Ms {username} confirm your email address to complete the registration')
     else:
         form = UserRegisterForm()
     return render(request, 'users/register.html', {"form": form})
+
 
 def activate(request, uidb64, token):
     try:
@@ -57,21 +64,30 @@ def activate(request, uidb64, token):
     if user is not None and default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
-        messages.success(request, "Thank you for your email confirmation. Now you can login your account.")
+        messages.success(
+            request, "Thank you for your email confirmation. Now you can login your account.")
         return redirect('login')
     else:
         return HttpResponse('Activation link is invalid!')
 
 
+def is_authenticated_as_manager(user):
+    print("test")
+    return user.is_manager
+
+
 @login_required
+@user_passes_test(is_authenticated_as_manager)
 def registermanager(request):
+    print(request.user)
     if request.method == "POST":
         form = MLERegisterForm(request.POST)
         if form.is_valid():
             # [1]: create user
             password, manager = ManagerRegistrationStrategy().create_user(form)
             # [2]: Send Email
-            ActivationMailer(get_current_site(request).domain, manager).send_email()
+            ActivationMailer(get_current_site(
+                request).domain, manager).send_email()
             # [3]: redirect
             messages.success(
                 request, f'The manager user was added successfully, password: {password}')
@@ -85,7 +101,9 @@ def registermanager(request):
     }
     return render(request, 'users/register.html', context)
 
+
 @login_required
+@user_passes_test(is_authenticated_as_manager)
 def registerlibrarian(request):
     if request.method == "POST":
         form = MLERegisterForm(request.POST)
@@ -93,7 +111,8 @@ def registerlibrarian(request):
             # [1]: create user
             password, librarian = LibrarianRegistrationStrategy().create_user(form)
             # [2]: Send Email
-            ActivationMailer(get_current_site(request).domain, librarian).send_email()
+            ActivationMailer(get_current_site(
+                request).domain, librarian).send_email()
             # [3]: redirect
             messages.success(
                 request, f'The librarian user was added successfully, password: {password}')
@@ -109,6 +128,7 @@ def registerlibrarian(request):
 
 
 @login_required
+@user_passes_test(is_authenticated_as_manager)
 def registereditor(request):
     if request.method == "POST":
         form = MLERegisterForm(request.POST)
@@ -116,7 +136,8 @@ def registereditor(request):
             # [1]: create user
             password, editor = EditorRegistrationStrategy().create_user(form)
             # [2]: Send Email
-            ActivationMailer(get_current_site(request).domain, editor).send_email()
+            ActivationMailer(get_current_site(
+                request).domain, editor).send_email()
             # [3]: redirect
             messages.success(
                 request, f'The editor user was added successfully, password: {password}')
@@ -134,7 +155,8 @@ def registereditor(request):
 @login_required
 def profile(request):
     if request.method == "POST":
-        form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user) # request.FILES [2]
+        form = ProfileUpdateForm(
+            request.POST, request.FILES, instance=request.user)  # request.FILES [2]
         if form.is_valid():
             form.save()
             messages.success(request, f'Your Profile Has Been Updated')
