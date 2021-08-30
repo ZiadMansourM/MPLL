@@ -32,3 +32,12 @@ class CustomUser(AbstractUser):
 
     def __str__(self) -> str:
         return f"{self.username}"
+
+    def save(self, *args, **kwargs):
+        try:
+            this = CustomUser.objects.get(id=self.id)
+            if this.image != self.image:
+                this.image.delete(save=False)
+        except: 
+            pass
+        super(CustomUser, self).save(*args, **kwargs)
