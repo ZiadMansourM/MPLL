@@ -13,8 +13,6 @@ from .services.parser import cleanhtml
 
 User = get_user_model()
 
-# Create your models here.
-
 
 class Report(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
