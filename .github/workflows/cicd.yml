@@ -44,6 +44,12 @@ jobs:
             "SECRET_KEY": $SECRET_KEY, 
             "DEBUG": $DEBUG,
             "ALLOWED_HOSTS": ["$SSH_HOST"],
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": "~/mpll/db.sqlite3",
+            "USER": "",
+            "PASSWORD": "",
+            "HOST": "",
+            "PORT": "",
             "EMAIL_HOST_USER": $EMAIL_HOST_USER,
             "EMAIL_HOST_PASSWORD": $EMAIL_HOST_PASSWORD,
             "DEFAULT_FROM_EMAIL": ""
@@ -124,6 +130,12 @@ jobs:
             "SECRET_KEY": $SECRET_KEY, 
             "DEBUG": $DEBUG,
             "ALLOWED_HOSTS": ["$SSH_HOST"],
+            "ENGINE": $ENGINE,
+            "NAME": $NAME,
+            "USER": $USER,
+            "PASSWORD": $PASSWORD,
+            "HOST": $DB_HOST,
+            "PORT": $PORT,
             "EMAIL_HOST_USER": $EMAIL_HOST_USER,
             "EMAIL_HOST_PASSWORD": $EMAIL_HOST_PASSWORD,
             "DEFAULT_FROM_EMAIL": ""
@@ -133,6 +145,12 @@ jobs:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           DEBUG: ${{ secrets.DEBUG }}
           SSH_HOST: ${{ secrets.STAGING_SSH_HOST }}
+          ENGINE: ${{ secrets.PRODUCTION_DB_ENGINE }}
+          NAME: ${{ secrets.PRODUCTION_DB_NAME }}
+          USER: ${{ secrets.PRODUCTION_DB_USER }}
+          PASSWORD: ${{ secrets.PRODUCTION_DB_PASSWORD }}
+          DB_HOST: ${{ secrets.PRODUCTION_DB_HOST }}
+          PORT: ${{ secrets.PRODUCTION_DB_PORT }}
           EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
           EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
 
