@@ -123,6 +123,7 @@ jobs:
           {
             "SECRET_KEY": $SECRET_KEY, 
             "DEBUG": $DEBUG,
+            "ALLOWED_HOSTS": ["$SSH_HOST"],
             "EMAIL_HOST_USER": $EMAIL_HOST_USER,
             "EMAIL_HOST_PASSWORD": $EMAIL_HOST_PASSWORD,
             "DEFAULT_FROM_EMAIL": ""
@@ -131,6 +132,7 @@ jobs:
         env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           DEBUG: ${{ secrets.DEBUG }}
+          SSH_HOST: ${{ secrets.STAGING_SSH_HOST }}
           EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
           EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
 
@@ -188,7 +190,7 @@ jobs:
 
           python3 -m venv ~/venv
           source ~/venv/bin/activate
-          sudo pip3 install -r ~/mpll/requirements.txt
+          pip3 install -r ~/mpll/requirements.txt
           python3 ~/mpll/manage.py collectstatic
           python3 ~/mpll/manage.py migrate
           EOF
