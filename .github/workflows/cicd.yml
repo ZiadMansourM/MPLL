@@ -188,8 +188,8 @@ jobs:
           sudo chown -R :www-data ~/mpll/media/
           sudo chmod -R 775 ~/mpll/media
 
-          python3 -m venv ~/venv
-          source ~/venv/bin/activate
+          python3 -m venv ~/mpll/venv
+          source ~/mpll/venv/bin/activate
           pip3 install -r ~/mpll/requirements.txt
           python3 ~/mpll/manage.py collectstatic
           python3 ~/mpll/manage.py migrate
