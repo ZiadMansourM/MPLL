@@ -189,8 +189,8 @@ jobs:
           python3 -m venv ~/venv
           source ~/venv/bin/activate
           sudo pip3 install -r ~/mpll/requirements.txt
-          python3 ~/manage.py collectstatic
-          python3 ~/manage.py migrate
+          python3 ~/mpll/manage.py collectstatic
+          python3 ~/mpll/manage.py migrate
           EOF
 
       # Task[5]: Excute AfterDeploy.sh
