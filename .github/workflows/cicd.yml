@@ -154,13 +154,12 @@ jobs:
           SSH_HOST: ${{ secrets.STAGING_SSH_HOST }}
           SSH_USER: ${{ secrets.STAGING_SSH_USER }}
       
-      # Task[4]: Create Deploy.sh script to prepare enviroment
+      # Task[4]: Create BeforeDeploy.sh script to prepare enviroment
       - name: Prepare script to Set Production enviroment 
         run: |
           cat >>~/BeforeDeploy.sh<<EOF
           #!/bin/bash
           sudo rm -rf ~/mpll
-          sudo rm -rf ~/venv
           EOF
       
       # Task[5]: remove old code from server
@@ -174,7 +173,7 @@ jobs:
           SSH_HOST: ${{ secrets.STAGING_SSH_HOST }}
           SSH_USER: ${{ secrets.STAGING_SSH_USER }}
 
-      # Task[5]: Create Deploy.sh script to prepare enviroment
+      # Task[7]: Create AfterDeploy.sh script to prepare enviroment
       - name: Prepare script to Set Production enviroment 
         run: |
           cat >>~/AfterDeploy.sh<<EOF
@@ -195,10 +194,10 @@ jobs:
           python3 ~/mpll/manage.py migrate
           EOF
 
-      # Task[5]: Excute AfterDeploy.sh
+      # Task[8]: Excute AfterDeploy.sh
       - name: Set Production enviroment
         run: cat ~/AfterDeploy.sh | ssh staging
 
-      # Task[7]: Restart Apache To catch edits
+      # Task[9]: Restart Apache To catch edits
       - name: Restart Apache
         run: sudo service apache2 restart | ssh staging
