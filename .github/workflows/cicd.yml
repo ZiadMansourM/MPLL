@@ -118,7 +118,7 @@ jobs:
           git clone DjangoRepo:ZiadMansourM/MPLL.git ~/mpll
           sudo rm -rf ~/mpll/.git
           sudo rm -rf ~/mpll/.github
-          sudo rm -rf ~/mpll/auto_gen_data
+          sudo rm -rf ~/mpll/generated_data
         env:
           SSH_Clone_KEY: ${{ secrets.SSH_Django_Clone_KEY }}
       
