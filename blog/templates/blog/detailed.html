@@ -68,7 +68,6 @@
                 {% include 'blog/components/comments_section.html' with form=form obj=post %}
             </div>
         </div>
-
     </div>
 </section>
 <!-- Report Post model -->
@@ -96,6 +95,23 @@
                     <button type="submit" class="btn btn-outline-danger">Submit</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+<!-- Wait Modal -->
+<button class="btn danger WaitBtnClassOpen" type="button" data-bs-toggle="modal" data-bs-target="#WaitModel" hidden>Wait</button>
+<div class="modal fade py-5" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" id="WaitModel">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content rounded-4 shadow">
+            <button type="button" class="btn-close WaitBtnClassClose" data-bs-dismiss="modal" aria-label="Close" hidden></button>
+            <div class="modal-body p-4 text-center">
+                <h5 class="mb-3 text-danger">Please wait while we process your request ....</h5>
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -133,6 +149,7 @@
 <script type="text/javascript">
     $(document).on('submit', '#AddCommentForm', function (e) {
         e.preventDefault();
+        $(".WaitBtnClassOpen").click();
         $.ajax({
             type: 'POST',
             url: '{% url "api-comment-create" post.id %}',
@@ -157,6 +174,8 @@
                 TrashCan();
                 // [5]: close Comment Form
                 ToggleAddComment();
+                // [6]: stop wait modal
+                $(".WaitBtnClassClose").click();
             }
         });
     });
@@ -165,6 +184,7 @@
 <script type="text/javascript">
     $(document).on('submit', '#AddReplyForm', function (e) {
         e.preventDefault();
+        $(".WaitBtnClassOpen").click();
         var comment_id = e.target.classList[0];
 
         var reply_url_str = $(".dynamic-urls").attr("reply-create-url");
@@ -196,6 +216,8 @@
                 ReplyTrashCan('AddReplyCard' + comment_id);
                 // [5]: close reply box
                 ToggleReply('AddReplyCard' + comment_id);
+                // [6]: close wait box
+                $(".WaitBtnClassClose").click();
             }
         });
     });
