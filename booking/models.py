@@ -1,3 +1,4 @@
+from django.contrib import auth
 from django.db import models
 from django.db.models.fields.related import ForeignKey
 from ckeditor.fields import RichTextField
@@ -7,7 +8,7 @@ from django.urls import reverse
 
 
 class SocialSite(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30, unique=True)
 
     def __str__(self):
         return self.name
@@ -47,7 +48,7 @@ class City(models.Model):
 
 
 class Author(models.Model):
-    name = models.CharField(max_length=70, unique=True)
+    name = models.CharField(max_length=70)
     image = models.ImageField(default='default.jpg', upload_to='site_pics')
     bio = models.TextField(blank=True)
     birth_place = models.ForeignKey(
@@ -65,10 +66,20 @@ class Author(models.Model):
     def get_absolute_url(self):
         return reverse('author-list')
 
+    def save(self, *args, **kwargs):
+        try:
+            this = Author.objects.get(id=self.id)
+            if this.image != self.image:
+                this.image.delete(save=False)
+        except:
+            pass
+
+        super(Author, self).save(*args, **kwargs)
+
 
 class DeweyDecimalClassification(models.Model):
-    family = models.CharField(max_length=50)
-    family_num = models.CharField(max_length=3)
+    family = models.CharField(max_length=50,unique=True)
+    family_num = models.CharField(max_length=3,unique=True)
 
     def __str__(self):
         return self.family_num
