@@ -164,17 +164,11 @@ class PostDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(PostDetailView, self).get_context_data(**kwargs)
-
-        stuff = get_object_or_404(Post, id=self.kwargs['pk'])
-        total_likes = stuff.total_likes()
-
-        liked = False
-        if stuff.likes.filter(id=self.request.user.id).exists():
-            liked = True
-
+        post=self.object
+        total_likes = post.total_likes()
         context['form'] = CommentCreateForm
         context['total_likes'] = total_likes
-        context['liked'] = liked
+        context['liked'] = post.likes.filter(id=self.request.user.id).exists()
         # Dummy data to be used @rendering
         context['post_id'] = 'cf74fa79-f89c-4797-b1f1-6b346b5234bc'
         context['comment_id'] = '7a894c83-28cc-459e-83d6-7f81d8424f3c'
@@ -270,16 +264,13 @@ class ReportListView(UserPassesTestMixin, ListView):
 @login_required
 def LikeView(request, pk):
     post = get_object_or_404(Post, id=pk)
-    liked = False
 
     if post.likes.filter(id=request.user.id).exists():
         post.likes.remove(request.user)
-        liked = False
     else:
         post.likes.add(request.user)
-        liked = True
 
-    return HttpResponseRedirect(reverse('blog-detail', args=[str(pk)]))
+    return redirect('blog-detail', pk=pk)
 
 
 @login_required
