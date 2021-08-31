@@ -1,3 +1,4 @@
+{% load define_action %}
 <!-- 
     To use this paginator component you need to pass:
     form: used to create new comments and replies
@@ -60,36 +61,38 @@
             <!-- TODO: check if needs .all -->
             {% if obj.comments %}
                 {% for comment in obj.comments.all %}
+                    <!-- Set var: comment_ownership -->
                     {% if user == comment.owner %}
-                        {% if user in comment.likes.all %}
-                            {% include 'blog/components/sub_components/comment.html' with obj_id=obj.id comment_id=comment.id ownership=True comment_msg=comment.comment image_url=comment.owner.image.url username=comment.owner.username is_liked=True %}
-                        {% else %}
-                            {% include 'blog/components/sub_components/comment.html' with obj_id=obj.id comment_id=comment.id ownership=True comment_msg=comment.comment image_url=comment.owner.image.url username=comment.owner.username is_liked=False %}
-                        {% endif %}                        
+                        {% define True as comment_ownership %}
                     {% else %}
-                        {% if user in comment.likes.all %}
-                            {% include 'blog/components/sub_components/comment.html' with obj_id=obj.id comment_id=comment.id ownership=False comment_msg=comment.comment image_url=comment.owner.image.url username=comment.owner.username is_liked=True %}
-                        {% else %}
-                            {% include 'blog/components/sub_components/comment.html' with obj_id=obj.id comment_id=comment.id ownership=False comment_msg=comment.comment image_url=comment.owner.image.url username=comment.owner.username is_liked=False %}
-                        {% endif %}
+                        {% define False as comment_ownership %}
                     {% endif %}
+                    <!-- Set var: comment_is_liked -->
+                    {% if user in comment.likes.all %}
+                        {% define True as comment_is_liked %}
+                    {% else %}
+                        {% define False as comment_is_liked %}
+                    {% endif %}
+                    <!-- Include Comment field -->
+                    {% include 'blog/components/sub_components/comment.html' with obj_id=obj.id comment_id=comment.id ownership=comment_ownership comment_msg=comment.comment image_url=comment.owner.image.url username=comment.owner.username is_liked=comment_is_liked %}
                     <!-- AppendRepliesHere -->
                     <div class="AppendRepliesHere {{ comment.id }}">
                         {% if comment.replies %}
                             {% for reply in comment.replies.all %}
-                                <!-- 
-                                    obj_id: post.id
-                                    comment_id: comment.id
-                                    reply_id: reply.id
-                                    username: reply.owner
-                                    image_url: reply.owner.image.url
-                                    reply_msg: reply.reply
-                                -->
-                                {% if user == comment.owner %}
-                                    {% include 'blog/components/sub_components/reply.html' with obj_id=obj.id comment_id=comment.id reply_id=reply.id ownership=True username=reply.owner.username image_url=reply.owner.image.url reply_msg=reply.reply is_liked=False %}
+                                <!-- Set var: reply_ownership -->
+                                {% if user == reply.owner %}
+                                    {% define True as reply_ownership %}
                                 {% else %}
-                                    {% include 'blog/components/sub_components/reply.html' with obj_id=obj.id comment_id=comment.id reply_id=reply.id ownership=False username=reply.owner.username image_url=reply.owner.image.url reply_msg=reply.reply is_liked=False %}
+                                    {% define False as reply_ownership %}
                                 {% endif %}
+                                <!-- Set var: reply_is_liked -->
+                                {% if user in reply.likes.all %}
+                                    {% define True as reply_is_liked %}
+                                {% else %}
+                                    {% define False as reply_is_liked %}
+                                {% endif %}
+                                <!-- Include Comment field -->
+                                {% include 'blog/components/sub_components/reply.html' with obj_id=obj.id comment_id=comment.id reply_id=reply.id ownership=reply_ownership username=reply.owner.username image_url=reply.owner.image.url reply_msg=reply.reply is_liked=reply_is_liked %}
                             {% endfor %}
                         {% endif %}
                     </div>
