@@ -26,8 +26,7 @@
                 <a class="a-cat dropdown-toggle pt-2 ms-2" data-bs-toggle="dropdown" aria-expanded="false"></a>
                 <ul class="dropdown-menu">
                     <li><button class="svg-btn dropdown-item" data-bs-toggle="modal" data-bs-target="#ReportCommentModal{{ comment_id }}">Report</button></li>
-                    <!-- To be handaled -->
-                    {%if user ==  comment.owner %}
+                    {% if ownership %}
                     <li><button class="svg-btn dropdown-item" data-bs-toggle="modal" data-bs-target="#RemoveCommentModal{{ comment_id }}">remove</button></li>
                     {% endif %}
                 </ul>
@@ -37,8 +36,7 @@
     </div>
 </div>
 <!-- Remove Comment modal -->
-<!-- To be handaled -->
-{%if user ==  comment.owner %}
+{%if ownership %}
     <div class="modal fade" id="RemoveCommentModal{{ comment_id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="RemoveCommentModalLabel{{ comment_id }}" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">

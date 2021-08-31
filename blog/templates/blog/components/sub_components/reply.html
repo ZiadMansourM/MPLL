@@ -32,8 +32,7 @@
                 <a class="a-cat dropdown-toggle pt-2 ms-2" data-bs-toggle="dropdown" aria-expanded="false"></a>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ReportReplyModal{{ reply_id }}" href="#">Report</a></li>
-                    <!-- TODO: -->
-                    {%if user ==  reply.owner %}
+                    {%if ownership %}
                     <li><button class="svg-btn dropdown-item" data-bs-toggle="modal" data-bs-target="#RemoveReplyModal{{ reply_id }}">remove</button></li>
                     {% endif %}
                 </ul>
@@ -43,7 +42,7 @@
     </div>
 </div>
 <!-- Remove Reply Model -->
-{%if user ==  reply.owner %}
+{%if ownership %}
     <div class="modal fade" id="RemoveReplyModal{{ reply_id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="RemoveReplyModalLabel{{ reply_id }}" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
