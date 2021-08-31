@@ -40,6 +40,7 @@ class Category(models.Model):
         db_table = 'categories'
         verbose_name_plural = "Categories"
 
+
 class Post(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=120, unique=True)
@@ -55,14 +56,13 @@ class Post(models.Model):
         default=False,
         help_text=_('Designates whether the post is pinned'),
     )
-    likes = models.ManyToManyField(User, related_name="blog_posts")
+    likes = models.ManyToManyField(User, related_name="liked_posts")
     categories = models.ManyToManyField(
-        Category, 
-        blank=True, 
-        related_name="categories", 
+        Category,
+        blank=True,
+        related_name="categories",
         through="PostCategory",
     )
-
 
     def total_likes(self):
         return self.likes.count()
@@ -84,7 +84,7 @@ class Post(models.Model):
             this = Post.objects.get(id=self.id)
             if this.image != self.image:
                 this.image.delete(save=False)
-        except: 
+        except:
             pass
 
         super(Post, self).save(*args, **kwargs)
@@ -100,6 +100,7 @@ class PostCategory(models.Model):
     class Meta:
         db_table = 'post_category'
 
+
 class Comment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     post = models.ForeignKey(
@@ -108,7 +109,7 @@ class Comment(models.Model):
         User, on_delete=models.CASCADE, related_name="comments")
     comment = models.TextField()
     date_posted = models.DateTimeField(auto_now=True)
-    likes = models.ManyToManyField(User, related_name="blog_comment_posts")
+    likes = models.ManyToManyField(User, related_name="liked_comments")
 
     def total_likes(self):
         return self.likes.count()
@@ -128,7 +129,7 @@ class Reply(models.Model):
         User, on_delete=models.CASCADE, related_name="replies")
     reply = models.TextField()
     date_posted = models.DateTimeField(auto_now=True)
-    likes = models.ManyToManyField(User, related_name="blog_reply_posts")
+    likes = models.ManyToManyField(User, related_name="liked_replies")
 
     def total_likes(self):
         return self.likes.count()
