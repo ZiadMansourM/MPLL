@@ -59,34 +59,34 @@
         <div class="AppendCommentsHere">
             <!-- TODO: check if needs .all -->
             {% if obj.comments %}
-            {% for comment in obj.comments.all %}
-                {% if user == comment.owner %}
-                    {% include 'blog/components/sub_components/comment.html' with obj_id=obj.id comment_id=comment.id ownership=True comment_msg=comment.comment image_url=comment.owner.image.url username=comment.owner.username %}
-                {% else %}
-                    {% include 'blog/components/sub_components/comment.html' with obj_id=obj.id comment_id=comment.id ownership=False comment_msg=comment.comment image_url=comment.owner.image.url username=comment.owner.username %}
-                {% endif %}
-                <!-- AppendRepliesHere -->
-                <div class="AppendRepliesHere {{ comment.id }}">
-                    {% if comment.replies %}
-                        {% for reply in comment.replies.all %}
-                            <!-- 
-                                obj_id: post.id
-                                comment_id: comment.id
-                                reply_id: reply.id
-                                username: reply.owner
-                                image_url: reply.owner.image.url
-                                reply_msg: reply.reply
-                            -->
-                            {% if user == comment.owner %}
-                                {% include 'blog/components/sub_components/reply.html' with obj_id=obj.id comment_id=comment.id reply_id=reply.id ownership=True username=reply.owner.username image_url=reply.owner.image.url reply_msg=reply.reply  %}
-                            {% else %}
-                                {% include 'blog/components/sub_components/reply.html' with obj_id=obj.id comment_id=comment.id reply_id=reply.id ownership=False username=reply.owner.username image_url=reply.owner.image.url reply_msg=reply.reply  %}
-                            {% endif %}
-                        {% endfor %}
+                {% for comment in obj.comments.all %}
+                    {% if user == comment.owner %}
+                        {% include 'blog/components/sub_components/comment.html' with obj_id=obj.id comment_id=comment.id ownership=True comment_msg=comment.comment image_url=comment.owner.image.url username=comment.owner.username is_liked=comment.likes.filter(id=user.id).exists() %}
+                    {% else %}
+                        {% include 'blog/components/sub_components/comment.html' with obj_id=obj.id comment_id=comment.id ownership=False comment_msg=comment.comment image_url=comment.owner.image.url username=comment.owner.username is_liked=comment.likes.filter(id=user.id).exists() %}
                     {% endif %}
-                </div>
-            {% endfor %}
-        {% endif %}
+                    <!-- AppendRepliesHere -->
+                    <div class="AppendRepliesHere {{ comment.id }}">
+                        {% if comment.replies %}
+                            {% for reply in comment.replies.all %}
+                                <!-- 
+                                    obj_id: post.id
+                                    comment_id: comment.id
+                                    reply_id: reply.id
+                                    username: reply.owner
+                                    image_url: reply.owner.image.url
+                                    reply_msg: reply.reply
+                                -->
+                                {% if user == comment.owner %}
+                                    {% include 'blog/components/sub_components/reply.html' with obj_id=obj.id comment_id=comment.id reply_id=reply.id ownership=True username=reply.owner.username image_url=reply.owner.image.url reply_msg=reply.reply is_liked=reply.likes.filter(id=user.id).exists() %}
+                                {% else %}
+                                    {% include 'blog/components/sub_components/reply.html' with obj_id=obj.id comment_id=comment.id reply_id=reply.id ownership=False username=reply.owner.username image_url=reply.owner.image.url reply_msg=reply.reply is_liked=reply.likes.filter(id=user.id).exists() %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 </section>
