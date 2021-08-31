@@ -7,7 +7,7 @@ from .models import Post, Comment, Reply
 
 User = get_user_model()
 
-class CommmentJsonCreateView(LoginRequiredMixin, UserPassesTestMixin, View):
+class CommmentJsonCreateView(LoginRequiredMixin, View):
     def post(self, *args, **kwargs):
         comment_message = self.request.POST['comment']
         comment = Comment(comment=comment_message)
@@ -25,9 +25,6 @@ class CommmentJsonCreateView(LoginRequiredMixin, UserPassesTestMixin, View):
         }
         return JsonResponse(response_dict, safe=False)
 
-    def test_func(self):
-        return (self.request.user.is_editor)
-
 
 class CommmentJsonListView(View):
     def get(self, *args, **kwargs):
@@ -35,7 +32,7 @@ class CommmentJsonListView(View):
         return JsonResponse(comments, safe=False)
 
 
-class ReplyJsonCreateView(LoginRequiredMixin, UserPassesTestMixin, View):
+class ReplyJsonCreateView(LoginRequiredMixin, View):
     def post(self, *args, **kwargs):
         reply_message = self.request.POST['reply']
         reply = Reply(reply=reply_message)
@@ -56,6 +53,3 @@ class ReplyJsonCreateView(LoginRequiredMixin, UserPassesTestMixin, View):
             # 'current_user':User,
         }
         return JsonResponse(response_dict, safe=False)
-
-    def test_func(self):
-        return (self.request.user.is_editor)
