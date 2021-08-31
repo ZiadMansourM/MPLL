@@ -60,7 +60,8 @@
             <!-- TODO: check if needs .all -->
             {% if obj.comments %}
             {% for comment in obj.comments.all %}
-                {% include 'blog/components/sub_components/comment.html' with obj_id=obj.id comment_id=comment.id comment_msg=comment.comment image_url=comment.owner.image.url username=comment.owner.username only %}
+                {% include 'blog/components/sub_components/comment.html' with obj_id=obj.id comment_id=comment.id comment_msg=comment.comment image_url=comment.owner.image.url username=comment.owner.username %}
+                <!-- AppendRepliesHere -->
                 <div class="AppendRepliesHere {{ comment.id }}">
                     {% if comment.replies %}
                         {% for reply in comment.replies.all %}

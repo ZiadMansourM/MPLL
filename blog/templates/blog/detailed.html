@@ -142,7 +142,7 @@
             },
             success: function (data) {
                 // [1]: populate element @rendering with dummy data
-                var element = `{% include 'blog/components/sub_components/comment.html' with obj_id=post_id comment_id=comment_id comment_msg=test_msg image_url=image_url username=username only %}`
+                var element = `{% include 'blog/components/sub_components/comment.html' with obj_id=post_id comment_id=comment_id comment_msg=test_msg image_url=image_url username=username %}`
                 // [2]: update element object with actual data @runtime
                 let post_id = "{{post.id}}"
                 let image_url = data.image_url;
@@ -150,6 +150,7 @@
                 let comment_id = data.comment_id;
                 let comment_msg = data.comment;
                 element = element.replace(new RegExp("{{post_id}}", 'g'), "{{post.id}}").replace(new RegExp("{{comment_id}}", 'g'), comment_id).replace(new RegExp("{{test_msg}}", 'g'), comment_msg).replace(new RegExp("{{image_url}}", 'g'), image_url).replace(new RegExp("{{username}}", 'g'), owner_username);
+                element += `<div class="AppendRepliesHere ${comment_id}"></div>`
                 // [3]: Append element
                 $(".AppendCommentsHere").append(element);
                 // [4]: empty Comment Form
@@ -180,7 +181,7 @@
             },
             success: function (data) {
                 // [1]: populate element @rendering with dummy data
-                var element = `{% include 'blog/components/sub_components/reply.html' with obj_id=post_id comment_id=comment_id reply_id=reply_id_ex username=username image_url=image_url reply_msg=test_msg only %}`;
+                var element = `{% include 'blog/components/sub_components/reply.html' with obj_id=post_id comment_id=comment_id reply_id=reply_id_ex username=username image_url=image_url reply_msg=test_msg %}`;
                 // [2]: update element object with actual data @runtime
                 let post_id = "{{post.id}}"
                 let comment_id = data.comment_id;
