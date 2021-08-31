@@ -61,9 +61,17 @@
             {% if obj.comments %}
                 {% for comment in obj.comments.all %}
                     {% if user == comment.owner %}
-                        {% include 'blog/components/sub_components/comment.html' with obj_id=obj.id comment_id=comment.id ownership=True comment_msg=comment.comment image_url=comment.owner.image.url username=comment.owner.username is_liked=comment.likes.filter(id=user.id).exists() %}
+                        {% if user in comment.likes.all %}
+                            {% include 'blog/components/sub_components/comment.html' with obj_id=obj.id comment_id=comment.id ownership=True comment_msg=comment.comment image_url=comment.owner.image.url username=comment.owner.username is_liked=True %}
+                        {% else %}
+                            {% include 'blog/components/sub_components/comment.html' with obj_id=obj.id comment_id=comment.id ownership=True comment_msg=comment.comment image_url=comment.owner.image.url username=comment.owner.username is_liked=False %}
+                        {% endif %}                        
                     {% else %}
-                        {% include 'blog/components/sub_components/comment.html' with obj_id=obj.id comment_id=comment.id ownership=False comment_msg=comment.comment image_url=comment.owner.image.url username=comment.owner.username is_liked=comment.likes.filter(id=user.id).exists() %}
+                        {% if user in comment.likes.all %}
+                            {% include 'blog/components/sub_components/comment.html' with obj_id=obj.id comment_id=comment.id ownership=False comment_msg=comment.comment image_url=comment.owner.image.url username=comment.owner.username is_liked=True %}
+                        {% else %}
+                            {% include 'blog/components/sub_components/comment.html' with obj_id=obj.id comment_id=comment.id ownership=False comment_msg=comment.comment image_url=comment.owner.image.url username=comment.owner.username is_liked=False %}
+                        {% endif %}
                     {% endif %}
                     <!-- AppendRepliesHere -->
                     <div class="AppendRepliesHere {{ comment.id }}">
@@ -78,9 +86,9 @@
                                     reply_msg: reply.reply
                                 -->
                                 {% if user == comment.owner %}
-                                    {% include 'blog/components/sub_components/reply.html' with obj_id=obj.id comment_id=comment.id reply_id=reply.id ownership=True username=reply.owner.username image_url=reply.owner.image.url reply_msg=reply.reply is_liked=reply.likes.filter(id=user.id).exists() %}
+                                    {% include 'blog/components/sub_components/reply.html' with obj_id=obj.id comment_id=comment.id reply_id=reply.id ownership=True username=reply.owner.username image_url=reply.owner.image.url reply_msg=reply.reply is_liked=False %}
                                 {% else %}
-                                    {% include 'blog/components/sub_components/reply.html' with obj_id=obj.id comment_id=comment.id reply_id=reply.id ownership=False username=reply.owner.username image_url=reply.owner.image.url reply_msg=reply.reply is_liked=reply.likes.filter(id=user.id).exists() %}
+                                    {% include 'blog/components/sub_components/reply.html' with obj_id=obj.id comment_id=comment.id reply_id=reply.id ownership=False username=reply.owner.username image_url=reply.owner.image.url reply_msg=reply.reply is_liked=False %}
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
