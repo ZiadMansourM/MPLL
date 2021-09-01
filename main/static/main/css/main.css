@@ -91,11 +91,11 @@ a.a-cat-book-info {
   background-color: rgb(255, 255, 0, 0.8);
 }
 
-.imagefifty {
-  width: 40px;
-  height: 40px;
+.comment-section-image {
+  height: 60px;
   background-size: cover;
   border-radius: 4px;
+  max-width: 60px;
 }
 
 .book-read-more {
