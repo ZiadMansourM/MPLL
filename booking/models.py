@@ -69,7 +69,7 @@ class Author(models.Model):
     def save(self, *args, **kwargs):
         try:
             this = Author.objects.get(id=self.id)
-            if this.image != self.image:
+            if this.image != self.image and this.image.name != "default.jpg":
                 this.image.delete(save=False)
         except:
             pass

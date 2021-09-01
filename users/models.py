@@ -36,7 +36,7 @@ class CustomUser(AbstractUser):
     def save(self, *args, **kwargs):
         try:
             this = CustomUser.objects.get(id=self.id)
-            if this.image != self.image:
+            if this.image != self.image and this.image.name != "default.jpg":
                 this.image.delete(save=False)
         except: 
             pass
