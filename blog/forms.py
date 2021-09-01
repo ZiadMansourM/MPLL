@@ -14,7 +14,7 @@ class FilterSearchBlogHome(forms.ModelForm):
                     "style": "width: 100%"
                 },
             ),
-            'is_pinned': forms.CheckboxInput(attrs={"class": "customized-form-check-input"}),
+            'is_pinned': forms.CheckboxInput(attrs={"class": "form-check-input"}),
         }
 
 class PostCreateForm(forms.ModelForm):

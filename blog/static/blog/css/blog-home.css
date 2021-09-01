@@ -100,3 +100,7 @@
     appearance: none;
     -webkit-print-color-adjust: exact;   
 }
+.form-check .form-check-input {
+    float: initial; 
+    margin-left: 0;
+}
