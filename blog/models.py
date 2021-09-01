@@ -10,7 +10,7 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from .services.parser import cleanhtml
-
+from PIL import Image
 User = get_user_model()
 
 
@@ -88,7 +88,12 @@ class Post(models.Model):
             pass
 
         super(Post, self).save(*args, **kwargs)
+        img = Image.open(self.image.path)
 
+        if img.height > 900 or img.width >900:
+            output_size = (900, 900)
+            img.thumbnail(output_size)
+            img.save(self.image.path)
 
 class PostCategory(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
