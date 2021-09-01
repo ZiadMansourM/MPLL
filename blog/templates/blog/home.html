@@ -26,19 +26,21 @@
         <form action="{% url 'blog-home' %}" method="GET">
             <div class="card-body">
                 <div class="row justify-content-center">
-                    <div class="col-lg-5">
+                    <div class="col-lg-4 col-md-4 mb-md-0 col-sm-10 col-10 mb-2 ">
                         <input name="searchkey" class="form-control" type="text" placeholder="Enter search term..."
                         aria-label="Enter search term..." aria-describedby="button-search" />
                     </div>
-                    <div class="col-lg-5">
+                    <div class="col-lg-5 col-md-5 mb-md-0 col-sm-10 col-10 mb-2">
                         {{ categories_form.categories }}
                     </div>
                     <!-- is_pinned -->
-                    <div class="col-lg-1 mt-1 form-check">
-                        {{ categories_form.is_pinned }}
-                        <label for="{{ categories_form.is_pinned.id_for_label }}">Pinned</label>
+                    <div class="col-lg-2 col-md-2 text-md-start mb-md-0 col-sm-10 mt-1 col-10 mb-2 form-check text-center ">
+                        <div>
+                            {{ categories_form.is_pinned }}
+                            <label for="{{ categories_form.is_pinned.id_for_label }}">Pinned</label>
+                        </div>
                     </div>
-                    <div class="col-lg-1">
+                    <div class="col-lg-1 col-md-1 mb-md-0 col-sm-10 col-10 mb-2 text-center">
                         <button class="btn btn-outline-secondary" id="button-search" type="submit">Filter</button>
                     </div>
                 </div>
@@ -94,7 +96,8 @@
         $(document).ready(function() {
             $('#id_categories').select2({
                 placeholder: "Filter by categories",
-                allowClear: true
+                allowClear: true,
+                width: 'resolve'
             });
         });
     </script>
