@@ -190,6 +190,7 @@
                 ToggleAddComment();
                 // [6]: stop wait modal
                 $(".WaitBtnClassClose").click();
+                console.log("close");
             }
         });
     });
@@ -233,6 +234,7 @@
                 ToggleReply('AddReplyCard' + comment_id);
                 // [6]: close wait box
                 $(".WaitBtnClassClose").click();
+                console.log("close");
             }
         });
     });
@@ -258,6 +260,7 @@
                 button.classList.remove("btn-primary");
                 form.id="UnlikePostForm";
                 $(".WaitBtnClassClose").click();
+                console.log("close");
             }
         });
     });
@@ -282,6 +285,7 @@
                 button.classList.add("btn-primary");
                 form.id="LikePostForm";
                 $(".WaitBtnClassClose").click();
+                console.log("close");
             }
         });
     });
