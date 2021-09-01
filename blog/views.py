@@ -164,7 +164,7 @@ class PostDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(PostDetailView, self).get_context_data(**kwargs)
-        post=self.object
+        post = self.object
         total_likes = post.total_likes()
         context['form'] = CommentCreateForm
         context['total_likes'] = total_likes
@@ -261,43 +261,42 @@ class ReportListView(UserPassesTestMixin, ListView):
         return self.request.user.is_editor
 
 
-@login_required
-def LikeView(request, pk):
-    post = get_object_or_404(Post, id=pk)
 
-    if post.likes.filter(id=request.user.id).exists():
-        post.likes.remove(request.user)
-    else:
-        post.likes.add(request.user)
+@login_required
+def CommentLikeView(request, pk, id):
+    comment = get_object_or_404(Comment, id=id)
+
+    if not comment.likes.filter(id=request.user.id).exists():
+        comment.likes.add(request.user)
 
     return redirect('blog-detail', pk=pk)
 
 
 @login_required
-def CommentLikeView(request, pk, id):
+def CommentUnlikeView(request, pk, id):
     comment = get_object_or_404(Comment, id=id)
-    liked = False
 
     if comment.likes.filter(id=request.user.id).exists():
         comment.likes.remove(request.user)
-        liked = False
-    else:
-        comment.likes.add(request.user)
-        liked = True
 
-    return HttpResponseRedirect(reverse('blog-detail', args=[pk]))
+    return redirect('blog-detail', pk=pk)
 
 
 @login_required
 def ReplyLikeView(request, pk, id, num):
     reply = get_object_or_404(Reply, id=num)
-    liked = False
+
+    if not reply.likes.filter(id=request.user.id).exists():
+        reply.likes.add(request.user)
+
+    return redirect('blog-detail', pk=pk)
+
+
+@login_required
+def ReplyUnlikeView(request, pk, id, num):
+    reply = get_object_or_404(Reply, id=num)
 
     if reply.likes.filter(id=request.user.id).exists():
         reply.likes.remove(request.user)
-        liked = False
-    else:
-        reply.likes.add(request.user)
-        liked = True
 
-    return HttpResponseRedirect(reverse('blog-detail', args=[pk]))
+    return redirect('blog-detail', pk=pk)
