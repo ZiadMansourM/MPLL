@@ -2,7 +2,7 @@ import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
-
+from PIL import Image
 # Create your models here.
 
 
@@ -40,4 +40,11 @@ class CustomUser(AbstractUser):
                 this.image.delete(save=False)
         except: 
             pass
+
         super(CustomUser, self).save(*args, **kwargs)
+        img = Image.open(self.image.path)
+
+        if img.height > 100 or img.width >100:
+            output_size = (100, 100)
+            img.thumbnail(output_size)
+            img.save(self.image.path)

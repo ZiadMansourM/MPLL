@@ -11,7 +11,7 @@ class BookListView(ListView):
     model = Book
     template_name = 'booking/home.html'
     context_object_name = 'books'
-    paginate_by = 10
+    paginate_by = 12
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -81,7 +81,7 @@ class AuthorListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Author
     template_name = 'booking/author-list.html'
     context_object_name = 'authors'
-    paginate_by = 25
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -136,7 +136,7 @@ class PublisherListView(ListView):
     model = Publisher
     template_name = 'booking/Publisher-list.html'
     context_object_name = 'Publishers'
-    paginate_by = 25
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
