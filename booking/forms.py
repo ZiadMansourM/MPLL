@@ -5,6 +5,7 @@ from ckeditor.widgets import CKEditorWidget
 
 class BookCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
+        super(BookCreateForm, self).__init__(*args, **kwargs)
         self.fields['author'].queryset = Author.objects.all()
         self.fields['classification'].queryset = DeweyDecimalClassification.objects.all()
         self.fields['publisher'].queryset = Publisher.objects.all()
@@ -36,6 +37,7 @@ class BookCreateForm(forms.ModelForm):
 
 class AuthorCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
+        super(AuthorCreateForm, self).__init__(*args, **kwargs)
         self.fields['birth_place'].queryset = City.objects.all()
     
     class Meta:
