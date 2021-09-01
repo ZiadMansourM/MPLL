@@ -244,7 +244,8 @@
 <script type="text/javascript">
     $(document).on('submit', '#LikePostForm', function (e) {
         e.preventDefault();
-        $(".WaitBtnClassOpen")[0].click();
+        $('#WaitModel').modal('show');
+        //$(".WaitBtnClassOpen")[0].click();
         $.ajax({
             type: 'POST',
             url: '{% url "api-like-post" post.id %}',
@@ -259,7 +260,8 @@
                 button.classList.add("btn-danger");
                 button.classList.remove("btn-primary");
                 form.id="UnlikePostForm";
-                $(".WaitBtnClassClose")[0].click();
+                $('#WaitModel').modal('hide');
+                //$(".WaitBtnClassClose")[0].click();
                 console.log("close");
             }
         });
@@ -269,7 +271,8 @@
 <script type="text/javascript">
     $(document).on('submit', '#UnlikePostForm', function (e) {
         e.preventDefault();
-        $(".WaitBtnClassOpen")[0].click();
+        $('#WaitModel').modal('show');
+        //$(".WaitBtnClassOpen")[0].click();
         $.ajax({
             type: 'POST',
             url: '{% url "api-unlike-post" post.id %}',
@@ -284,7 +287,8 @@
                 button.classList.remove("btn-danger");
                 button.classList.add("btn-primary");
                 form.id="LikePostForm";
-                $(".WaitBtnClassClose")[0].click();
+                $('#WaitModel').modal('hide');
+                //$(".WaitBtnClassClose")[0].click();
                 console.log("close");
             }
         });
