@@ -163,7 +163,7 @@
 <script type="text/javascript">
     $(document).on('submit', '#AddCommentForm', function (e) {
         e.preventDefault();
-        $(".WaitBtnClassOpen").click();
+        $(".WaitBtnClassOpen")[0].click();
         $.ajax({
             type: 'POST',
             url: '{% url "api-comment-create" post.id %}',
@@ -189,7 +189,7 @@
                 // [5]: close Comment Form
                 ToggleAddComment();
                 // [6]: stop wait modal
-                $(".WaitBtnClassClose").click();
+                $(".WaitBtnClassClose")[0].click();
                 console.log("close");
             }
         });
@@ -200,7 +200,7 @@
 <script type="text/javascript">
     $(document).on('submit', '#AddReplyForm', function (e) {
         e.preventDefault();
-        $(".WaitBtnClassOpen").click();
+        $(".WaitBtnClassOpen")[0].click();
         var comment_id = e.target.classList[0];
 
         var reply_url_str = $(".dynamic-urls").attr("reply-create-url");
@@ -233,7 +233,7 @@
                 // [5]: close reply box
                 ToggleReply('AddReplyCard' + comment_id);
                 // [6]: close wait box
-                $(".WaitBtnClassClose").click();
+                $(".WaitBtnClassClose")[0].click();
                 console.log("close");
             }
         });
@@ -244,7 +244,7 @@
 <script type="text/javascript">
     $(document).on('submit', '#LikePostForm', function (e) {
         e.preventDefault();
-        $(".WaitBtnClassOpen").click();
+        $(".WaitBtnClassOpen")[0].click();
         $.ajax({
             type: 'POST',
             url: '{% url "api-like-post" post.id %}',
@@ -259,7 +259,7 @@
                 button.classList.add("btn-danger");
                 button.classList.remove("btn-primary");
                 form.id="UnlikePostForm";
-                $(".WaitBtnClassClose").click();
+                $(".WaitBtnClassClose")[0].click();
                 console.log("close");
             }
         });
@@ -269,7 +269,7 @@
 <script type="text/javascript">
     $(document).on('submit', '#UnlikePostForm', function (e) {
         e.preventDefault();
-        $(".WaitBtnClassOpen").click();
+        $(".WaitBtnClassOpen")[0].click();
         $.ajax({
             type: 'POST',
             url: '{% url "api-unlike-post" post.id %}',
@@ -284,7 +284,7 @@
                 button.classList.remove("btn-danger");
                 button.classList.add("btn-primary");
                 form.id="LikePostForm";
-                $(".WaitBtnClassClose").click();
+                $(".WaitBtnClassClose")[0].click();
                 console.log("close");
             }
         });
