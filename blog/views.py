@@ -300,3 +300,16 @@ def ReplyUnlikeView(request, pk, id, num):
         reply.likes.remove(request.user)
 
     return redirect('blog-detail', pk=pk)
+
+
+@login_required
+def PostLikeView(request, pk):
+    post = get_object_or_404(Post, id=pk)
+
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+    else:
+        post.likes.add(request.user)
+
+    return redirect('blog-detail', pk=pk)
+
