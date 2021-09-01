@@ -70,7 +70,6 @@ class PostJsonLikeView(LoginRequiredMixin, View):
 
 
 class PostJsonUnlikeView(LoginRequiredMixin, View):
-
     def post(self, *args, **kwargs):
         post = get_object_or_404(Post, id=self.kwargs['pk'])
         if post.likes.filter(id=self.request.user.id).exists():
@@ -79,3 +78,27 @@ class PostJsonUnlikeView(LoginRequiredMixin, View):
             'total_likes': post.total_likes()
         }
         return JsonResponse(response_dict, safe=False)
+
+
+class CommentJsonLikeView(LoginRequiredMixin, View):
+    def post(self, *args, **kwargs):
+        comment = get_object_or_404(Comment, id=self.kwargs['id'])
+        if not comment.likes.filter(id=self.request.user.id).exists():
+            comment.likes.add(self.request.user)
+        response_dict = {
+            'total_likes': 'success'
+        }
+        return JsonResponse(response_dict, safe=False)
+
+
+
+class CommentJsonUnlikeView(LoginRequiredMixin, View):
+    def post(self, *args, **kwargs):
+        comment = get_object_or_404(Comment, id=self.kwargs['id'])
+        if comment.likes.filter(id=self.request.user.id).exists():
+            comment.likes.remove(self.request.user)
+        response_dict = {
+            'total_likes': 'success'
+        }
+        return JsonResponse(response_dict, safe=False)
+

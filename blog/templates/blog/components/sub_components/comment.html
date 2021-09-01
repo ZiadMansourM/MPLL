@@ -8,7 +8,7 @@
             <div class="btn-group">
                 <a onclick="ToggleReply('AddReplyCard{{ comment_id }}')" class="svg-btn dropdown-item border-bottom-1" target="AddReplyCard{{ comment_id }}">Reply</a>
                 {% if is_liked %}
-                    <form action="{% url 'unlike-comment' obj_id comment_id %}"  method="POST" >
+                    <form id="UnlikeCommentForm" class="{{ comment_id }} UnlikeCommentForm">
                         {% csrf_token %}
                         <button type="submit" class="svg-btn dropdown-item" value="{{ comment_id }}" name="comment_id">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
@@ -17,7 +17,7 @@
                         </button>
                     </form>
                 {% else %}
-                    <form action="{% url 'like-comment' obj_id comment_id %}"  method="POST" >
+                    <form id="LikeCommentForm" class="{{ comment_id }} LikeCommentForm">
                         {% csrf_token %}
                         <button type="submit" class="svg-btn dropdown-item" value="{{ comment_id }}" name="comment_id">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">

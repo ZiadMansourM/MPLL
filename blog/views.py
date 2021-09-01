@@ -261,27 +261,6 @@ class ReportListView(UserPassesTestMixin, ListView):
         return self.request.user.is_editor
 
 
-
-@login_required
-def CommentLikeView(request, pk, id):
-    comment = get_object_or_404(Comment, id=id)
-
-    if not comment.likes.filter(id=request.user.id).exists():
-        comment.likes.add(request.user)
-
-    return redirect('blog-detail', pk=pk)
-
-
-@login_required
-def CommentUnlikeView(request, pk, id):
-    comment = get_object_or_404(Comment, id=id)
-
-    if comment.likes.filter(id=request.user.id).exists():
-        comment.likes.remove(request.user)
-
-    return redirect('blog-detail', pk=pk)
-
-
 @login_required
 def ReplyLikeView(request, pk, id, num):
     reply = get_object_or_404(Reply, id=num)

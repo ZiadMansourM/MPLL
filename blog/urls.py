@@ -1,12 +1,10 @@
 from django.urls import path, include
 from .views import (
-    CommentUnlikeView,
     DeleteComment,
     DeleteReply,
     ReplyUnlikeView,
     reportCreate,
     contact_us,
-    CommentLikeView,
     ReplyLikeView,
     PostListView, 
     PostDetailView,
@@ -29,8 +27,6 @@ urlpatterns = [
     path('<uuid:pk>/delete', PostDeleteView.as_view(), name='blog-delete'),
     path('<uuid:pk>/comment/<uuid:id>', CommentDetailView.as_view(), name='Comment-detail'),
     path('<uuid:pk>/comment/<uuid:id>/delete', DeleteComment, name='comment-delete'),
-    path('<uuid:pk>/comment/<uuid:id>/like', CommentLikeView, name='like-comment'),
-    path('<uuid:pk>/comment/<uuid:id>/unlike', CommentUnlikeView, name='unlike-comment'),
     path('<uuid:pk>/comment/<uuid:id>/reply/<uuid:num>', ReplyDetailView.as_view(), name='Comment-detail'),
     path('<uuid:pID>/comment/<uuid:cID>/reply/<uuid:rID>/delete', DeleteReply, name='reply-delete'),
     path('<uuid:pk>/comment/<uuid:id>/reply/<uuid:num>/like', ReplyLikeView, name='like-reply'),

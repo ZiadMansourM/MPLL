@@ -12,6 +12,8 @@
 	reply-create-url   = "{% url 'api-reply-create' post_id comment_id %}"
 	reply-remove-url   = "{% url 'reply-delete' post_id comment_id reply_id_ex %}"
 	report-url         = "{% url 'report' %}"
+    comment-unlike-url = "{% url 'api-unlike-comment' post_id comment_id %}"
+    comment-like-url   = "{% url 'api-like-comment' post_id comment_id %}"
     ></div>
     <!-- Comment Section -->
     <div class="my-3 p-3 bg-body rounded shadow">
