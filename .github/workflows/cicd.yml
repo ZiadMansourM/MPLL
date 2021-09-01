@@ -129,7 +129,7 @@ jobs:
           {
             "SECRET_KEY": $SECRET_KEY, 
             "DEBUG": $DEBUG,
-            "ALLOWED_HOSTS": ["$HOST_DOMAIN", "$SSH_HOST"],
+            "ALLOWED_HOSTS": [$HOST_DOMAIN, "$SSH_HOST"],
             "ENGINE": $ENGINE,
             "NAME": $NAME,
             "USER": $USER,
@@ -197,9 +197,6 @@ jobs:
         run: |
           cat >>~/AfterDeploy.sh<<EOF
           #!/bin/bash
-          sudo chown :www-data ~/mpll/db.sqlite3
-          sudo chmod 664 ~/mpll/db.sqlite3
-
           sudo chown :www-data ~/mpll/
           sudo chmod 775 ~/mpll/
 
