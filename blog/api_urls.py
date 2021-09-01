@@ -6,7 +6,9 @@ from .api_views import (
         PostJsonUnlikeView,
         ReplyJsonCreateView,
         CommentJsonLikeView,
-        CommentJsonUnlikeView
+        CommentJsonUnlikeView,
+        ReplyJsonLikeView,
+        ReplyJsonUnlikeView
     )
 
 
@@ -18,4 +20,6 @@ urlpatterns = [
     path('<uuid:pk>/unlike/', PostJsonUnlikeView.as_view(), name='api-unlike-post'),
     path('<uuid:pk>/comment/<uuid:id>/like', CommentJsonLikeView.as_view(), name='api-like-comment'),
     path('<uuid:pk>/comment/<uuid:id>/unlike', CommentJsonUnlikeView.as_view(), name='api-unlike-comment'),
+    path('<uuid:pk>/comment/<uuid:id>/reply/<uuid:num>/like', ReplyJsonLikeView.as_view(), name='api-like-reply'),
+    path('<uuid:pk>/comment/<uuid:id>/reply/<uuid:num>/unlike', ReplyJsonUnlikeView.as_view(), name='api-unlike-reply'),
 ]

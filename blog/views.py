@@ -262,26 +262,6 @@ class ReportListView(UserPassesTestMixin, ListView):
 
 
 @login_required
-def ReplyLikeView(request, pk, id, num):
-    reply = get_object_or_404(Reply, id=num)
-
-    if not reply.likes.filter(id=request.user.id).exists():
-        reply.likes.add(request.user)
-
-    return redirect('blog-detail', pk=pk)
-
-
-@login_required
-def ReplyUnlikeView(request, pk, id, num):
-    reply = get_object_or_404(Reply, id=num)
-
-    if reply.likes.filter(id=request.user.id).exists():
-        reply.likes.remove(request.user)
-
-    return redirect('blog-detail', pk=pk)
-
-
-@login_required
 def PostLikeView(request, pk):
     post = get_object_or_404(Post, id=pk)
 
