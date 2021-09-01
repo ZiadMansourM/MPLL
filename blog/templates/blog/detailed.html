@@ -45,20 +45,33 @@
                         {{ post.content|safe }}
                     </section>
                     <!-- likes -->
-                    <form action="{% url 'like-post' post.id %}" method="POST" class="d-flex justify-content-end">
-                        {% csrf_token %}
-                        {% if user.is_authenticated %}
-                            {% if liked %}
+                    {% if user.is_authenticated %}
+                        {% if liked %}
+                            <form  id="UnlikePostForm" class="d-flex justify-content-end">
+                                {% csrf_token %}
                                 <button button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-danger btn-sm me-2">Dislike</button>
-                            {% else %}
-                                <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-primary btn-sm me-2">like</button>
-                            {% endif %}
-                            - {{ total_likes }}  likes
+                                <span>
+                                    - {{ total_likes }}  likes
+                                </span>
+                            </form>
                         {% else %}
-                            <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-primary btn-sm me-2">like</button>
-                            - {{ total_likes }}  likes
+                            <form id="LikePostForm" class="d-flex justify-content-end">
+                                {% csrf_token %}
+                                <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-primary btn-sm me-2">like</button>
+                                <span>
+                                    - {{ total_likes }}  likes
+                                </span>
+                            </form>
                         {% endif %}
-                    </form>
+                    {% else %}
+                        <form  action="{% url 'like-post' post.id %}" method="POST" class="d-flex justify-content-end">
+                            {% csrf_token %}
+                            <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-primary btn-sm me-2">like</button>
+                            <span>
+                                - {{ total_likes }}  likes
+                            </span>
+                        </form>
+                    {% endif %}
                 </article>
             </div>
         </div>
@@ -146,6 +159,7 @@
 {% endblock js %}
 
 {% block ajax %}
+{% comment %} add comment block {% endcomment %}
 <script type="text/javascript">
     $(document).on('submit', '#AddCommentForm', function (e) {
         e.preventDefault();
@@ -181,6 +195,7 @@
     });
 </script>
 
+{% comment %} add reply block {% endcomment %}
 <script type="text/javascript">
     $(document).on('submit', '#AddReplyForm', function (e) {
         e.preventDefault();
@@ -217,6 +232,55 @@
                 // [5]: close reply box
                 ToggleReply('AddReplyCard' + comment_id);
                 // [6]: close wait box
+                $(".WaitBtnClassClose").click();
+            }
+        });
+    });
+</script>
+
+{% comment %} like post block {% endcomment %}
+<script type="text/javascript">
+    $(document).on('submit', '#LikePostForm', function (e) {
+        e.preventDefault();
+        $(".WaitBtnClassOpen").click();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "api-like-post" post.id %}',
+            data: {
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: function (data) {
+                var form = $('#LikePostForm')[0];    
+                var button = $('#LikePostForm button')[0];
+                button.textContent="Dislike";
+                $('#LikePostForm span')[0].textContent = `- ${data.total_likes} likes`;
+                button.classList.add("btn-danger");
+                button.classList.remove("btn-primary");
+                form.id="UnlikePostForm";
+                $(".WaitBtnClassClose").click();
+            }
+        });
+    });
+</script>
+{% comment %} unlike post block {% endcomment %}
+<script type="text/javascript">
+    $(document).on('submit', '#UnlikePostForm', function (e) {
+        e.preventDefault();
+        $(".WaitBtnClassOpen").click();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "api-unlike-post" post.id %}',
+            data: {
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: function (data) {
+                var form = $('#UnlikePostForm')[0];    
+                var button = $('#UnlikePostForm button')[0];
+                button.textContent="like";
+                $('#UnlikePostForm span')[0].textContent = `- ${data.total_likes} likes`;
+                button.classList.remove("btn-danger");
+                button.classList.add("btn-primary");
+                form.id="LikePostForm";
                 $(".WaitBtnClassClose").click();
             }
         });
