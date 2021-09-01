@@ -43,7 +43,7 @@ jobs:
           {
             "SECRET_KEY": $SECRET_KEY, 
             "DEBUG": $DEBUG,
-            "ALLOWED_HOSTS": ["$SSH_HOST"],
+            "ALLOWED_HOSTS": ["*"],
             "ENGINE": "django.db.backends.sqlite3",
             "NAME": "~/mpll/db.sqlite3",
             "USER": "",
@@ -129,7 +129,7 @@ jobs:
           {
             "SECRET_KEY": $SECRET_KEY, 
             "DEBUG": $DEBUG,
-            "ALLOWED_HOSTS": ["$SSH_HOST"],
+            "ALLOWED_HOSTS": ["$HOST_DOMAIN", "$SSH_HOST"],
             "ENGINE": $ENGINE,
             "NAME": $NAME,
             "USER": $USER,
@@ -145,6 +145,7 @@ jobs:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           DEBUG: ${{ secrets.DEBUG }}
           SSH_HOST: ${{ secrets.STAGING_SSH_HOST }}
+          HOST_DOMAIN: ${{ secrets.HOST_DOMAIN }}
           ENGINE: ${{ secrets.PRODUCTION_DB_ENGINE }}
           NAME: ${{ secrets.PRODUCTION_DB_NAME }}
           USER: ${{ secrets.PRODUCTION_DB_USER }}
