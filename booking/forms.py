@@ -50,8 +50,32 @@ class AuthorCreateForm(forms.ModelForm):
             'birth_place': forms.Select(attrs={"class": "form-control"}),
         }
 
+class AuthorUpdateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(AuthorUpdateForm, self).__init__(*args, **kwargs)
+        self.fields['birth_place'].queryset = City.objects.all()
+    
+    class Meta:
+        model = Author
+        fields = ['name', 'image', 'bio', 'birth_place', ]
+        widgets = {
+            'name': forms.TextInput(attrs={'placeholder': 'e.g. Naguib Mahfouz', "class": "form-control", 'id': 'AuthorName'}),
+            'image': forms.ClearableFileInput(attrs={"class": "form-control", "type": "file"}),
+            'bio': CKEditorWidget(attrs={"label": "bio"}),
+            'birth_place': forms.Select(attrs={"class": "form-control"}),
+        }
+
 
 class PublisherCreateForm(forms.ModelForm):
+    class Meta:
+        model = Publisher
+        fields = ['name','telephone' ]
+        widgets = {
+            'name': forms.TextInput(attrs={'placeholder': 'e.g. El-Nahda', "class": "form-control", 'id': 'PublisherName'}),
+            'telephone': forms.TextInput(attrs={'placeholder': 'e.g. 01200112233', "class": "form-control", 'id': 'PublisherTelephone'}),
+        }
+
+class PublisherUpdateForm(forms.ModelForm):
     class Meta:
         model = Publisher
         fields = ['name','telephone' ]
