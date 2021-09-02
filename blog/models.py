@@ -56,7 +56,8 @@ class Post(models.Model):
         default=False,
         help_text=_('Designates whether the post is pinned'),
     )
-    likes = models.ManyToManyField(User, related_name="liked_posts")
+    likes = models.ManyToManyField(
+        User, related_name="liked_posts", blank=True)
     categories = models.ManyToManyField(
         Category,
         blank=True,
@@ -90,10 +91,11 @@ class Post(models.Model):
         super(Post, self).save(*args, **kwargs)
         img = Image.open(self.image.path)
 
-        if img.height > 900 or img.width >900:
+        if img.height > 900 or img.width > 900:
             output_size = (900, 900)
             img.thumbnail(output_size)
             img.save(self.image.path)
+
 
 class PostCategory(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
