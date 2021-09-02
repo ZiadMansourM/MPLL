@@ -3,6 +3,7 @@ from booking.models import City, DeweyDecimalClassification, Book, Author, Publi
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import AuthorCreateForm, BookCreateForm, CityCreateForm, PublisherCreateForm
+from django.db.models import Q
 
 # Create your views here.
 
@@ -20,16 +21,14 @@ class BookListView(ListView):
         return context
 
     def get_queryset(self):
-        books = Book.objects.all()
-        try:
-            filter_key = self.request.GET["category"]
-        except:
-            filter_key = None
-
-        if filter_key:
-            books = books.filter(classification__family_num=filter_key)
-
-        return books
+        query = self.request.GET.get('searchkey')
+        category = self.request.GET.get("category")
+        filters = Q()
+        if category:
+            filters &= Q(classification__family_num=category)
+        if query:
+            filters &= Q(name__icontains=query)
+        return self.model.objects.filter(filters).distinct()
 
 
 class BookDetailView(DetailView):

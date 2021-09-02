@@ -23,7 +23,8 @@ if (element) {
 category = document.URL.split("=")[1];
 if (category) {
   targettedClass = ".category" + category + " a";
-  selectedElement = document.querySelector(targettedClass)
+  selectedElement = document.querySelector(targettedClass);
+  document.querySelector("#categoryHolder").value = category;
 }
 if (category) {
   selectedElement.parentElement.classList.add("selected")

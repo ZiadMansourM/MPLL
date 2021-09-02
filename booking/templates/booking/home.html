@@ -18,6 +18,17 @@
 {% block content %}
 <section class="main-section section-height-adjustment-header">
     <div class="container-lg">
+        <!-- Start Search -->
+        <form action="{% url 'booking-home' %}" method="GET">
+            <div class="card-body">
+                <div class="input-group">
+                    <input name="searchkey" class="form-control" type="text" placeholder="Enter search term..."
+                    aria-label="Enter search term..." aria-describedby="button-search" />
+                    <input id="categoryHolder" type="text" name=category value="" hidden>
+                    <button class="btn btn-outline-secondary" id="button-search" type="submit">Go!</button>
+                </div>
+            </div>
+        </form>
         <div class="row justify-content-center">
             <div class="col-lg-8 col-md-12 col-sm-12 col-12">
                 <div class="row justify-content-center">
