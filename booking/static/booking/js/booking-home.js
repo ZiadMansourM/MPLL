@@ -20,7 +20,8 @@ if (element) {
 }
 
 /******* filter using categories *******/
-category = document.URL.split("=")[1];
+var url = new URL(document.URL);
+category = url.searchParams.get("category");
 if (category) {
   targettedClass = ".category" + category + " a";
   selectedElement = document.querySelector(targettedClass);
