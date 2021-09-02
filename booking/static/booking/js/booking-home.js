@@ -22,9 +22,9 @@ if (element) {
 /******* filter using categories *******/
 category = document.URL.split("=")[1];
 if (category) {
-  teargettedClass = ".category" + category + " a";
+  targettedClass = ".category" + category + " a";
+  selectedElement = document.querySelector(targettedClass)
 }
-selectedElement = document.querySelector(teargettedClass)
 if (category) {
   selectedElement.parentElement.classList.add("selected")
   selectedElement.href = "?"
