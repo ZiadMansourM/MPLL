@@ -190,7 +190,7 @@
                 // [5]: close Comment Form
                 ToggleAddComment();
                 // [6]: stop wait modal
-                $(".WaitBtnClassClose")[0].click();
+                document.querySelector(".WaitBtnClassClose").click();
                 console.log("close");
             }
         });
@@ -235,7 +235,7 @@
                 // [5]: close reply box
                 ToggleReply('AddReplyCard' + comment_id);
                 // [6]: close wait box
-                $(".WaitBtnClassClose")[0].click();
+                document.querySelector(".WaitBtnClassClose").click();
                 console.log("close");
             }
         });
@@ -262,7 +262,7 @@
                 button.classList.add("btn-danger");
                 button.classList.remove("btn-primary");
                 form.id="UnlikePostForm";
-                $(".WaitBtnClassClose")[0].click();
+                document.querySelector(".WaitBtnClassClose").click();
                 console.log("close");
             }
         });
@@ -288,7 +288,7 @@
                 button.classList.remove("btn-danger");
                 button.classList.add("btn-primary");
                 form.id="LikePostForm";
-                $(".WaitBtnClassClose")[0].click();
+                document.querySelector(".WaitBtnClassClose").click();
                 console.log("close");
             }
         });
@@ -320,7 +320,7 @@
                 form.id="LikeCommentForm";
                 form.classList.add("LikeCommentForm");
                 form.classList.remove("UnlikeCommentForm");
-                $(".WaitBtnClassClose")[0].click();
+                document.querySelector(".WaitBtnClassClose").click();
                 console.log("close");
             }
         });
@@ -352,7 +352,7 @@
                 form.id="UnlikeCommentForm";
                 form.classList.add("UnlikeCommentForm");
                 form.classList.remove("LikeCommentForm");
-                $(".WaitBtnClassClose")[0].click();
+                document.querySelector(".WaitBtnClassClose").click();
                 console.log("close");
             }
         });
@@ -385,7 +385,7 @@
                 form.id="LikeReplyForm";
                 form.classList.add("LikeReplyForm");
                 form.classList.remove("UnlikeReplyForm");
-                $(".WaitBtnClassClose")[0].click();
+                document.querySelector(".WaitBtnClassClose").click();
                 console.log("close");
             }
         });
@@ -418,7 +418,7 @@
                 form.id="UnlikeReplyForm";
                 form.classList.add("UnlikeReplyForm");
                 form.classList.remove("LikeReplyForm");
-                $(".WaitBtnClassClose")[0].click();
+                document.querySelector(".WaitBtnClassClose").click();
                 console.log("close");
             }
         });
