@@ -1,6 +1,6 @@
 .cardo {
   display: grid;
-  /* grid-template-columns: 300px; */
+  grid-template-columns: 100%;
   grid-template-rows: 350px 240px;
   grid-template-areas: "image" "text";
   border-radius: 18px;
@@ -59,6 +59,14 @@ a.a-cat {
   -webkit-line-clamp: 2 !important;
   min-height: 56px;
 }
+.ellipses-handler-author {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  min-height: 28px;
+}
 .list-group-item.list-group-item-light.selected {
   background-color: darkgray;
   transform: scale(1.02);
@@ -66,4 +74,10 @@ a.a-cat {
 .list-group-item.list-group-item-light.selected a{
   color: black;
 }
+
+/* *,
+*::before,
+*::after {
+  box-sizing:content-box;
+} */
 

@@ -25,8 +25,8 @@
                     <div class="cardo col-xl-3 col-lg-4 col-md-3 col-sm-4 col-7">
                         <div style='background-image: url(" {{ book.image.url }} ");' class="cardo-image"></div>
                         <div class="cardo-text">
-                            <h2 title = "{{book.name}}" class="card-title ellipses-handler-title">{{book.name}}</h2>
-                            <div class="cardo-owner">
+                            <h2 title = "{{book.name}}" class="card-title ellipses-handler-title tt">{{book.name}}</h2>
+                            <div title = "{{book.author}}" class="cardo-owner ellipses-handler-author tt">
                                 By {% if book.author %} {{ book.author }} {% else %} unknown {% endif %}
                             </div>
                             <p class="card-text ellipses-handler">{{book.snippet}}</p>

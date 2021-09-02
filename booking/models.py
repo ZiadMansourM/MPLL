@@ -4,6 +4,7 @@ from django.db.models.fields.related import ForeignKey
 from ckeditor.fields import RichTextField
 from blog.services.parser import cleanhtml
 from django.urls import reverse
+from PIL import Image
 # Create your models here.
 
 
@@ -110,7 +111,22 @@ class Book(models.Model):
 
     def save(self, *args, **kwargs):
         self.snippet = cleanhtml(self.brief)
+
+        try:
+            this = Book.objects.get(id=self.id)
+            if this.image != self.image and this.image.name != "default.jpg":
+                this.image.delete(save=False)
+        except:
+            pass
+
         super(Book, self).save(*args, **kwargs)
+        # img = Image.open(self.image.path)
+
+        # if img.height > 100 or img.width >100:
+        #     output_size = (50, 100)
+        #     img.thumbnail(output_size)
+        #     img.save(self.image.path)
+
 
     def get_absolute_url(self):
         return reverse('book-detail', kwargs={'pk': self.pk})

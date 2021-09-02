@@ -6,3 +6,6 @@
     opacity: 1 !important;
     color: black;
 }
+.min-width-100{
+    min-width: 100%;
+}

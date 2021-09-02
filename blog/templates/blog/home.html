@@ -13,7 +13,9 @@
         <div class="text-center my-5">
             <h1 class="fw-bolder">MPLL Blog</h1>
             <p class="lead mb-3">Here we discuss, share, and preview</p>
-            <a class="btn btn-outline-secondary" href="{% url 'blog-create' %}">Add Post</a>
+            {% if user.is_editor %}
+                <a class="btn btn-outline-secondary" href="{% url 'blog-create' %}">Add Post</a>
+            {% endif %}
         </div>
     </div>
 </header>
