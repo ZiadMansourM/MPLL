@@ -190,7 +190,9 @@
                 // [5]: close Comment Form
                 ToggleAddComment();
                 // [6]: stop wait modal
-                document.querySelector(".WaitBtnClassClose").click();
+                for (i=0;i<15;i++){
+                    document.querySelector(".WaitBtnClassClose").click();
+                }
                 console.log("close");
             }
         });
@@ -235,7 +237,9 @@
                 // [5]: close reply box
                 ToggleReply('AddReplyCard' + comment_id);
                 // [6]: close wait box
-                document.querySelector(".WaitBtnClassClose").click();
+                for (i=0;i<15;i++){
+                    document.querySelector(".WaitBtnClassClose").click();
+                }
                 console.log("close");
             }
         });
@@ -262,7 +266,9 @@
                 button.classList.add("btn-danger");
                 button.classList.remove("btn-primary");
                 form.id="UnlikePostForm";
-                document.querySelector(".WaitBtnClassClose").click();
+                for (i=0;i<15;i++){
+                    document.querySelector(".WaitBtnClassClose").click();
+                }
                 console.log("close");
             }
         });
@@ -288,7 +294,9 @@
                 button.classList.remove("btn-danger");
                 button.classList.add("btn-primary");
                 form.id="LikePostForm";
-                document.querySelector(".WaitBtnClassClose").click();
+                for (i=0;i<15;i++){
+                    document.querySelector(".WaitBtnClassClose").click();
+                }
                 console.log("close");
             }
         });
@@ -320,7 +328,9 @@
                 form.id="LikeCommentForm";
                 form.classList.add("LikeCommentForm");
                 form.classList.remove("UnlikeCommentForm");
-                document.querySelector(".WaitBtnClassClose").click();
+                for (i=0;i<15;i++){
+                    document.querySelector(".WaitBtnClassClose").click();
+                }
                 console.log("close");
             }
         });
@@ -352,7 +362,9 @@
                 form.id="UnlikeCommentForm";
                 form.classList.add("UnlikeCommentForm");
                 form.classList.remove("LikeCommentForm");
-                document.querySelector(".WaitBtnClassClose").click();
+                for (i=0;i<15;i++){
+                    document.querySelector(".WaitBtnClassClose").click();
+                }
                 console.log("close");
             }
         });
@@ -385,7 +397,9 @@
                 form.id="LikeReplyForm";
                 form.classList.add("LikeReplyForm");
                 form.classList.remove("UnlikeReplyForm");
-                document.querySelector(".WaitBtnClassClose").click();
+                for (i=0;i<15;i++){
+                    document.querySelector(".WaitBtnClassClose").click();
+                }
                 console.log("close");
             }
         });
@@ -418,7 +432,9 @@
                 form.id="UnlikeReplyForm";
                 form.classList.add("UnlikeReplyForm");
                 form.classList.remove("LikeReplyForm");
-                document.querySelector(".WaitBtnClassClose").click();
+                for (i=0;i<15;i++){
+                    document.querySelector(".WaitBtnClassClose").click();
+                }
                 console.log("close");
             }
         });
