@@ -163,7 +163,7 @@
 <script type="text/javascript">
     $(document).on('submit', '#AddCommentForm', function (e) {
         e.preventDefault();
-        $('#WaitModel').modal('show');
+        $(".WaitBtnClassOpen")[0].click();
         $.ajax({
             type: 'POST',
             url: '{% url "api-comment-create" post.id %}',
@@ -172,6 +172,7 @@
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
             success: function (data) {
+                console.log("success");
                 // [1]: populate element @rendering with dummy data
                 var element = `{% include 'blog/components/sub_components/comment.html' with obj_id=post_id comment_id=comment_id ownership=True comment_msg=test_msg image_url=image_url username=username %}`
                 // [2]: update element object with actual data @runtime
@@ -189,7 +190,7 @@
                 // [5]: close Comment Form
                 ToggleAddComment();
                 // [6]: stop wait modal
-                $('#WaitModel').modal('hide');
+                $(".WaitBtnClassClose")[0].click();
                 console.log("close");
             }
         });
@@ -200,7 +201,7 @@
 <script type="text/javascript">
     $(document).on('submit', '#AddReplyForm', function (e) {
         e.preventDefault();
-        $('#WaitModel').modal('show');
+        $(".WaitBtnClassOpen")[0].click();
         var comment_id = e.target.classList[0];
 
         var reply_url_str = $(".dynamic-urls").attr("reply-create-url");
@@ -216,6 +217,7 @@
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
             success: function (data) {
+                console.log("success");
                 // [1]: populate element @rendering with dummy data
                 var element = `{% include 'blog/components/sub_components/reply.html' with obj_id=post_id comment_id=comment_id reply_id=reply_id_ex ownership=True username=username image_url=image_url reply_msg=test_msg %}`;
                 // [2]: update element object with actual data @runtime
@@ -233,7 +235,7 @@
                 // [5]: close reply box
                 ToggleReply('AddReplyCard' + comment_id);
                 // [6]: close wait box
-                $('#WaitModel').modal('hide');
+                $(".WaitBtnClassClose")[0].click();
                 console.log("close");
             }
         });
@@ -244,8 +246,7 @@
 <script type="text/javascript">
     $(document).on('submit', '#LikePostForm', function (e) {
         e.preventDefault();
-        $('#WaitModel').modal('show');
-        //$('#WaitModel').modal('show');
+        $(".WaitBtnClassOpen")[0].click();
         $.ajax({
             type: 'POST',
             url: '{% url "api-like-post" post.id %}',
@@ -253,6 +254,7 @@
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
             success: function (data) {
+                console.log("success");
                 var form = $('#LikePostForm')[0];    
                 var button = $('#LikePostForm button')[0];
                 button.textContent="Dislike";
@@ -260,8 +262,7 @@
                 button.classList.add("btn-danger");
                 button.classList.remove("btn-primary");
                 form.id="UnlikePostForm";
-                $('#WaitModel').modal('hide');
-                //$('#WaitModel').modal('hide');
+                $(".WaitBtnClassClose")[0].click();
                 console.log("close");
             }
         });
@@ -271,8 +272,7 @@
 <script type="text/javascript">
     $(document).on('submit', '#UnlikePostForm', function (e) {
         e.preventDefault();
-        $('#WaitModel').modal('show');
-        //$('#WaitModel').modal('show');
+        $(".WaitBtnClassOpen")[0].click();
         $.ajax({
             type: 'POST',
             url: '{% url "api-unlike-post" post.id %}',
@@ -280,6 +280,7 @@
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
             success: function (data) {
+                console.log("success");
                 var form = $('#UnlikePostForm')[0];    
                 var button = $('#UnlikePostForm button')[0];
                 button.textContent="like";
@@ -287,8 +288,7 @@
                 button.classList.remove("btn-danger");
                 button.classList.add("btn-primary");
                 form.id="LikePostForm";
-                $('#WaitModel').modal('hide');
-                //$('#WaitModel').modal('hide');
+                $(".WaitBtnClassClose")[0].click();
                 console.log("close");
             }
         });
@@ -298,7 +298,7 @@
 <script type="text/javascript">
     $(document).on('submit', '#UnlikeCommentForm', function (e) {
         e.preventDefault();
-        $('#WaitModel').modal('show');
+        $(".WaitBtnClassOpen")[0].click();
         // get url
         var comment_id = e.target.classList[0];
         var commenl_unlike_url = $(".dynamic-urls").attr("comment-unlike-url");
@@ -311,6 +311,7 @@
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
             success: function (data) {
+                console.log("success");
                 var form = $(`.${comment_id}.UnlikeCommentForm`)[0];    
                 var button = $(`.${comment_id}.UnlikeCommentForm button`)[0];
                 button.innerHTML=`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">
@@ -319,7 +320,7 @@
                 form.id="LikeCommentForm";
                 form.classList.add("LikeCommentForm");
                 form.classList.remove("UnlikeCommentForm");
-                $('#WaitModel').modal('hide');
+                $(".WaitBtnClassClose")[0].click();
                 console.log("close");
             }
         });
@@ -329,7 +330,7 @@
 <script type="text/javascript">
     $(document).on('submit', '#LikeCommentForm', function (e) {
         e.preventDefault();
-        $('#WaitModel').modal('show');
+        $(".WaitBtnClassOpen")[0].click();
         // get url
         var comment_id = e.target.classList[0];
         var comment_like_url = $(".dynamic-urls").attr("comment-like-url");
@@ -342,6 +343,7 @@
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
             success: function (data) {
+                console.log("success");
                 var form = $(`.${comment_id}.LikeCommentForm`)[0];
                 var button = $(`.${comment_id}.LikeCommentForm button`)[0];
                 button.innerHTML=`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
@@ -350,7 +352,7 @@
                 form.id="UnlikeCommentForm";
                 form.classList.add("UnlikeCommentForm");
                 form.classList.remove("LikeCommentForm");
-                $('#WaitModel').modal('hide');
+                $(".WaitBtnClassClose")[0].click();
                 console.log("close");
             }
         });
@@ -360,7 +362,7 @@
 <script type="text/javascript">
     $(document).on('submit', '#UnlikeReplyForm', function (e) {
         e.preventDefault();
-        $('#WaitModel').modal('show');
+        $(".WaitBtnClassOpen")[0].click();
         // get url
         var reply_id = e.target.classList[0];
         var comment_id = e.target.classList[1];
@@ -374,6 +376,7 @@
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
             success: function (data) {
+                console.log("success");
                 var form = $(`.${reply_id}.${comment_id}.UnlikeReplyForm`)[0];    
                 var button = $(`.${reply_id}.${comment_id}.UnlikeReplyForm button`)[0];
                 button.innerHTML=`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">
@@ -382,7 +385,7 @@
                 form.id="LikeReplyForm";
                 form.classList.add("LikeReplyForm");
                 form.classList.remove("UnlikeReplyForm");
-                $('#WaitModel').modal('hide');
+                $(".WaitBtnClassClose")[0].click();
                 console.log("close");
             }
         });
@@ -392,7 +395,7 @@
 <script type="text/javascript">
     $(document).on('submit', '#LikeReplyForm', function (e) {
         e.preventDefault();
-        $('#WaitModel').modal('show');
+        $(".WaitBtnClassOpen")[0].click();
         // get url
         var reply_id = e.target.classList[0];
         var comment_id = e.target.classList[1];
@@ -406,6 +409,7 @@
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
             success: function (data) {
+                console.log("success");
                 var form = $(`.${reply_id}.${comment_id}.LikeReplyForm`)[0];    
                 var button = $(`.${reply_id}.${comment_id}.LikeReplyForm button`)[0];
                 button.innerHTML=`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
@@ -414,7 +418,7 @@
                 form.id="UnlikeReplyForm";
                 form.classList.add("UnlikeReplyForm");
                 form.classList.remove("LikeReplyForm");
-                $('#WaitModel').modal('hide');
+                $(".WaitBtnClassClose")[0].click();
                 console.log("close");
             }
         });
