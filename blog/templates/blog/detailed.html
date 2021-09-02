@@ -167,6 +167,7 @@
         $.ajax({
             type: 'POST',
             url: '{% url "api-comment-create" post.id %}',
+            async: true,
             data: {
                 comment: $('#floatingCommentInput').val(),
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
@@ -213,6 +214,7 @@
         $.ajax({
             type: 'POST',
             url: reply_url_str,
+            async: true,
             data: {
                 comment_id: e.target.classList[0],
                 reply: $(textarea_id).val(),
@@ -254,6 +256,7 @@
         $.ajax({
             type: 'POST',
             url: '{% url "api-like-post" post.id %}',
+            async: true,
             data: {
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
@@ -282,6 +285,7 @@
         $.ajax({
             type: 'POST',
             url: '{% url "api-unlike-post" post.id %}',
+            async: true,
             data: {
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
@@ -315,6 +319,7 @@
         $.ajax({
             type: 'POST',
             url: commenl_unlike_url,
+            async: true,
             data: {
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
@@ -349,6 +354,7 @@
         $.ajax({
             type: 'POST',
             url: comment_like_url,
+            async: true,
             data: {
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
@@ -384,6 +390,7 @@
         $.ajax({
             type: 'POST',
             url: reply_unlike_url,
+            async: true,
             data: {
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
@@ -419,6 +426,7 @@
         $.ajax({
             type: 'POST',
             url: reply_like_url,
+            async: true,
             data: {
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
