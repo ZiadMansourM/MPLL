@@ -8,52 +8,60 @@
 {% block content %}
 <section class="main-section section-height-adjustment">
     <div class="container-lg">
-        <div class="row">
-            <div class="col-lg-8">
-                <div class="row">
-                    <div class="col-lg-4">
-                        <!-- Preview image figure-->
-                        <figure class="mb-4"><img class="img-fluid rounded card-beau" src="{{ book.image.url }}"
-                                alt="..." />
-                        </figure>
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-10">
+                <div class="row justify-content-center">
+                    <div class="col-sm-4 col-12">
+                        <div class="row justify-content-center ">
+                            <div class="col-10 col-sm-12">
+                                <!-- Preview image figure-->
+                                <figure class="mb-4"><img class="img-fluid rounded card-beau min-width-100" src="{{ book.image.url }}"
+                                        alt="..." />
+                                </figure>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-lg-8">
-
+                    <div class="col-sm-8 col-12">
                         <!-- Book content-->
                         <article>
-                            <div class='row'>
-                                <!-- Book header-->
-                                <header class=" mb-4">
-                                    <!-- Book title-->
-                                    <h1 class="fw-bolder mb-1">{{ book.name }}</h1>
-                                    <!-- Book meta content-->
-                                    <div class="text-muted fst-italic mb-2">published on
-                                        <span class="date-published-handler">
-                                            {{book.date_published|date:"F d, Y " }}
-                                        </span>
-                                        by {{ book.author }}
-                                    </div>
-                                    <!-- Book categories-->
-                                    <a class="badge bg-secondary text-decoration-none link-light"
-                                        href="#!">{{book.classification.family}}</a>
-                                </header>
-                                <!-- Book content-->
-                                <section class="mb-5">
-                                    {{ book.brief|safe }}
-                                </section>
+                            <div class='row justify-content-center'>
+                                <div class="col-11 col-sm-12"> 
+                                    <!-- Book header-->
+                                    <header class=" mb-4">
+                                        <!-- Book title-->
+                                        <h1 class="fw-bolder mb-1">{{ book.name }}</h1>
+                                        <!-- Book meta content-->
+                                        <div class="text-muted fst-italic mb-2">published
+                                            {% if bbok.date_published %}
+                                                on
+                                                <span class="date-published-handler">
+                                                    {{book.date_published|date:"F d, Y " }}
+                                                </span>
+                                            {% endif %}
+                                            by {{ book.author }}
+                                        </div>
+                                        <!-- Book categories-->
+                                        <a class="badge bg-secondary text-decoration-none link-light"
+                                            href="{% url 'booking-home' %}?category={{book.classification.family_num}}">{{book.classification.family}}</a>
+                                    </header>
+                                    <!-- Book content-->
+                                    <section class="mb-5">
+                                        {{ book.brief|safe }}
+                                    </section>
+                                </div>
                             </div>
                         </article>
                     </div>
                 </div>
             </div>
             <!-- Side widgets-->
-            <div class="col-lg-4">
+            <div class="col-md-4 col-sm-10">
 
                 <!-- Categories widget-->
                 <div class="card-beau mb-4">
                     <div class="card-header">Book Info</div>
                     <div class="card-body">
-                        <div class="row">
+                        <div class="row justify-content-center ">
                             <div class="col-sm-12 ">
                                 <ul class="list-group">
 
@@ -89,46 +97,48 @@
 
                                     <!--avialble book start -->
                                     {% if book.available %}
-                                    <li class="list-group-item list-group-item-light ">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value=""
-                                                id="libraryavvailable" disabled checked>
-                                            <label class="form-check-label" for="libraryavvailable">
-                                                available in the library
-                                            </label>
-                                        </div>
+                                        <li class="list-group-item list-group-item-light ">
+                                            <a class="a-cat-book-info " href="#">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value=""
+                                                        id="libraryavvailable" disabled checked>
+                                                    <label class="form-check-label" for="libraryavvailable">
+                                                        available in the library
+                                                    </label>
+                                                </div>
                                         <!--avialble borrowing start -->
-                                        {%if book.available_borrowing %}
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value=""
-                                                id="borrowingavailable" disabled checked>
-                                            <label class="form-check-label" for="borrowingavailable">
-                                                available for borrowing
-                                            </label>
-                                        </div>
-                                        {% else %}
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value=""
-                                                id="borrowingavailable" disabled>
-                                            <label class="form-check-label" for="borrowingavailable">
-                                                available for borrowing
-                                            </label>
-                                        </div>
-                                        {% endif %}
-
-                                        <!--avialble borrowing end -->
-                                        {% else %}
-                                    <li class="list-group-item list-group-item-light  ">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value=""
-                                                id="libraryavvailable" disabled>
-                                            <label class="form-check-label" for="libraryavvailable">
-                                                available in the library
-                                            </label>
-                                        </div>
-                                    </li>
+                                                {%if book.available_borrowing %}
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value=""
+                                                        id="borrowingavailable" disabled checked>
+                                                    <label class="form-check-label" for="borrowingavailable">
+                                                        available for borrowing
+                                                    </label>
+                                                </div>
+                                                {% else %}
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value=""
+                                                        id="borrowingavailable" disabled>
+                                                    <label class="form-check-label" for="borrowingavailable">
+                                                        available for borrowing
+                                                    </label>
+                                                </div>
+                                                {% endif %}
+                                            
+                                    <!--avialble borrowing end -->
+                                    {% else %}
+                                        <li class="list-group-item list-group-item-light  ">
+                                            <a class="a-cat-book-info " href="#">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value=""
+                                                        id="libraryavvailable" disabled>
+                                                    <label class="form-check-label" for="libraryavvailable">
+                                                        available in the library
+                                                    </label>
+                                                </div>
                                     {% endif %}
                                     <!--avialble book end -->
+                                            </a>
                                     </li>
 
                                     {% if user.is_librarian %}
