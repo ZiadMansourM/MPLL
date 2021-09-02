@@ -70,12 +70,56 @@ class PostJsonLikeView(LoginRequiredMixin, View):
 
 
 class PostJsonUnlikeView(LoginRequiredMixin, View):
-
     def post(self, *args, **kwargs):
         post = get_object_or_404(Post, id=self.kwargs['pk'])
         if post.likes.filter(id=self.request.user.id).exists():
             post.likes.remove(self.request.user)
         response_dict = {
             'total_likes': post.total_likes()
+        }
+        return JsonResponse(response_dict, safe=False)
+
+
+class CommentJsonLikeView(LoginRequiredMixin, View):
+    def post(self, *args, **kwargs):
+        comment = get_object_or_404(Comment, id=self.kwargs['id'])
+        if not comment.likes.filter(id=self.request.user.id).exists():
+            comment.likes.add(self.request.user)
+        response_dict = {
+            'total_likes': 'success'
+        }
+        return JsonResponse(response_dict, safe=False)
+
+
+
+class CommentJsonUnlikeView(LoginRequiredMixin, View):
+    def post(self, *args, **kwargs):
+        comment = get_object_or_404(Comment, id=self.kwargs['id'])
+        if comment.likes.filter(id=self.request.user.id).exists():
+            comment.likes.remove(self.request.user)
+        response_dict = {
+            'total_likes': 'success'
+        }
+        return JsonResponse(response_dict, safe=False)
+
+
+class ReplyJsonLikeView(LoginRequiredMixin, View):
+    def post(self, *args, **kwargs):
+        reply = get_object_or_404(Reply, id=self.kwargs["num"])
+        if not reply.likes.filter(id=self.request.user.id).exists():
+            reply.likes.add(self.request.user)
+        response_dict = {
+            'total_likes': 'success'
+        }
+        return JsonResponse(response_dict, safe=False)
+
+
+class ReplyJsonUnlikeView(LoginRequiredMixin, View):
+    def post(self, *args, **kwargs):
+        reply = get_object_or_404(Reply, id=self.kwargs["num"])
+        if reply.likes.filter(id=self.request.user.id).exists():
+            reply.likes.remove(self.request.user)
+        response_dict = {
+            'total_likes': 'success'
         }
         return JsonResponse(response_dict, safe=False)

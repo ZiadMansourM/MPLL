@@ -14,7 +14,7 @@
             <strong class="text-gray-dark">@{{ username }}</strong>
             <div class="btn-group">
                 {% if is_liked %}
-                    <form action="{% url 'unlike-reply' obj_id comment_id reply_id %}"  method="POST" > 
+                    <form id="UnlikeReplyForm" class="{{ reply_id }} {{ comment_id }} UnlikeReplyForm"> 
                         {% csrf_token %}
                         <button class="dropdown-item" name="reply_id" type="submit" value="{{ reply_id }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
@@ -23,7 +23,7 @@
                         </button>
                     </form>
                 {% else %}
-                    <form action="{% url 'like-reply' obj_id comment_id reply_id %}"  method="POST" > 
+                    <form id="LikeReplyForm" class="{{ reply_id }} {{ comment_id }} LikeReplyForm"> 
                         {% csrf_token %}
                         <button class="dropdown-item" name="reply_id" type="submit" value="{{ reply_id }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">
