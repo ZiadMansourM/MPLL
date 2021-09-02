@@ -167,6 +167,7 @@
         $.ajax({
             type: 'POST',
             url: '{% url "api-comment-create" post.id %}',
+            async: true,
             data: {
                 comment: $('#floatingCommentInput').val(),
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
@@ -191,6 +192,8 @@
                 ToggleAddComment();
                 // [6]: stop wait modal
                 $(".WaitBtnClassClose")[0].click();
+                $("#WaitModel").modal("hide");
+                $('.modal').modal('hide');
                 console.log("close");
             }
         });
@@ -211,6 +214,7 @@
         $.ajax({
             type: 'POST',
             url: reply_url_str,
+            async: true,
             data: {
                 comment_id: e.target.classList[0],
                 reply: $(textarea_id).val(),
@@ -236,6 +240,8 @@
                 ToggleReply('AddReplyCard' + comment_id);
                 // [6]: close wait box
                 $(".WaitBtnClassClose")[0].click();
+                $("#WaitModel").modal("hide");
+                $('.modal').modal('hide');
                 console.log("close");
             }
         });
@@ -250,6 +256,7 @@
         $.ajax({
             type: 'POST',
             url: '{% url "api-like-post" post.id %}',
+            async: true,
             data: {
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
@@ -263,6 +270,8 @@
                 button.classList.remove("btn-primary");
                 form.id="UnlikePostForm";
                 $(".WaitBtnClassClose")[0].click();
+                $("#WaitModel").modal("hide");
+                $('.modal').modal('hide');
                 console.log("close");
             }
         });
@@ -276,6 +285,7 @@
         $.ajax({
             type: 'POST',
             url: '{% url "api-unlike-post" post.id %}',
+            async: true,
             data: {
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
@@ -289,6 +299,8 @@
                 button.classList.add("btn-primary");
                 form.id="LikePostForm";
                 $(".WaitBtnClassClose")[0].click();
+                $("#WaitModel").modal("hide");
+                $('.modal').modal('hide');
                 console.log("close");
             }
         });
@@ -307,6 +319,7 @@
         $.ajax({
             type: 'POST',
             url: commenl_unlike_url,
+            async: true,
             data: {
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
@@ -321,6 +334,8 @@
                 form.classList.add("LikeCommentForm");
                 form.classList.remove("UnlikeCommentForm");
                 $(".WaitBtnClassClose")[0].click();
+                $("#WaitModel").modal("hide");
+                $('.modal').modal('hide');
                 console.log("close");
             }
         });
@@ -339,6 +354,7 @@
         $.ajax({
             type: 'POST',
             url: comment_like_url,
+            async: true,
             data: {
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
@@ -353,6 +369,8 @@
                 form.classList.add("UnlikeCommentForm");
                 form.classList.remove("LikeCommentForm");
                 $(".WaitBtnClassClose")[0].click();
+                $("#WaitModel").modal("hide");
+                $('.modal').modal('hide');
                 console.log("close");
             }
         });
@@ -372,6 +390,7 @@
         $.ajax({
             type: 'POST',
             url: reply_unlike_url,
+            async: true,
             data: {
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
@@ -386,6 +405,8 @@
                 form.classList.add("LikeReplyForm");
                 form.classList.remove("UnlikeReplyForm");
                 $(".WaitBtnClassClose")[0].click();
+                $("#WaitModel").modal("hide");
+                $('.modal').modal('hide');
                 console.log("close");
             }
         });
@@ -405,6 +426,7 @@
         $.ajax({
             type: 'POST',
             url: reply_like_url,
+            async: true,
             data: {
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
@@ -419,6 +441,8 @@
                 form.classList.add("UnlikeReplyForm");
                 form.classList.remove("LikeReplyForm");
                 $(".WaitBtnClassClose")[0].click();
+                $("#WaitModel").modal("hide");
+                $('.modal').modal('hide');
                 console.log("close");
             }
         });
