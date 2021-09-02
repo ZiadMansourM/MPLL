@@ -190,9 +190,7 @@
                 // [5]: close Comment Form
                 ToggleAddComment();
                 // [6]: stop wait modal
-                for (i=0;i<15;i++){
-                    document.querySelector(".WaitBtnClassClose").click();
-                }
+                $(".WaitBtnClassClose")[0].click(function(e){$("#WaitModel").modal('hide');});
                 console.log("close");
             }
         });
@@ -237,9 +235,7 @@
                 // [5]: close reply box
                 ToggleReply('AddReplyCard' + comment_id);
                 // [6]: close wait box
-                for (i=0;i<15;i++){
-                    document.querySelector(".WaitBtnClassClose").click();
-                }
+                $(".WaitBtnClassClose")[0].click(function(e){$("#WaitModel").modal('hide');});
                 console.log("close");
             }
         });
@@ -266,9 +262,7 @@
                 button.classList.add("btn-danger");
                 button.classList.remove("btn-primary");
                 form.id="UnlikePostForm";
-                for (i=0;i<15;i++){
-                    document.querySelector(".WaitBtnClassClose").click();
-                }
+                $(".WaitBtnClassClose")[0].click(function(e){$("#WaitModel").modal('hide');});
                 console.log("close");
             }
         });
@@ -294,9 +288,7 @@
                 button.classList.remove("btn-danger");
                 button.classList.add("btn-primary");
                 form.id="LikePostForm";
-                for (i=0;i<15;i++){
-                    document.querySelector(".WaitBtnClassClose").click();
-                }
+                $(".WaitBtnClassClose")[0].click(function(e){$("#WaitModel").modal('hide');});
                 console.log("close");
             }
         });
@@ -328,9 +320,7 @@
                 form.id="LikeCommentForm";
                 form.classList.add("LikeCommentForm");
                 form.classList.remove("UnlikeCommentForm");
-                for (i=0;i<15;i++){
-                    document.querySelector(".WaitBtnClassClose").click();
-                }
+                $(".WaitBtnClassClose")[0].click(function(e){$("#WaitModel").modal('hide');});
                 console.log("close");
             }
         });
@@ -362,9 +352,7 @@
                 form.id="UnlikeCommentForm";
                 form.classList.add("UnlikeCommentForm");
                 form.classList.remove("LikeCommentForm");
-                for (i=0;i<15;i++){
-                    document.querySelector(".WaitBtnClassClose").click();
-                }
+                $(".WaitBtnClassClose")[0].click(function(e){$("#WaitModel").modal('hide');});
                 console.log("close");
             }
         });
@@ -397,9 +385,7 @@
                 form.id="LikeReplyForm";
                 form.classList.add("LikeReplyForm");
                 form.classList.remove("UnlikeReplyForm");
-                for (i=0;i<15;i++){
-                    document.querySelector(".WaitBtnClassClose").click();
-                }
+                $(".WaitBtnClassClose")[0].click(function(e){$("#WaitModel").modal('hide');});
                 console.log("close");
             }
         });
@@ -432,9 +418,7 @@
                 form.id="UnlikeReplyForm";
                 form.classList.add("UnlikeReplyForm");
                 form.classList.remove("LikeReplyForm");
-                for (i=0;i<15;i++){
-                    document.querySelector(".WaitBtnClassClose").click();
-                }
+                $(".WaitBtnClassClose")[0].click(function(e){$("#WaitModel").modal('hide');});
                 console.log("close");
             }
         });
