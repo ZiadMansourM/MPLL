@@ -2,7 +2,7 @@ from django.shortcuts import render
 from booking.models import City, DeweyDecimalClassification, Book, Author, Publisher
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .forms import AuthorCreateForm, BookCreateForm, CityCreateForm, PublisherCreateForm
+from .forms import AuthorCreateForm, AuthorUpdateForm, BookCreateForm, CityCreateForm, PublisherCreateForm, PublisherUpdateForm
 from django.db.models import Q
 
 # Create your views here.
@@ -12,7 +12,7 @@ class BookListView(ListView):
     model = Book
     template_name = 'booking/home.html'
     context_object_name = 'books'
-    paginate_by = 12
+    paginate_by = 12   
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -28,7 +28,7 @@ class BookListView(ListView):
             filters &= Q(classification__family_num=category)
         if query:
             filters &= Q(name__icontains=query)
-        return self.model.objects.filter(filters).distinct()
+        return self.model.objects.filter(filters).distinct().order_by('-id')
 
 
 class BookDetailView(DetailView):
@@ -80,6 +80,7 @@ class AuthorListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Author
     template_name = 'booking/author-list.html'
     context_object_name = 'authors'
+    ordering = ('name',)
     paginate_by = 10
 
     def get_context_data(self, **kwargs):
@@ -122,8 +123,15 @@ class AuthorDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class AuthorUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Author
-    fields = ['name', 'image', 'bio', 'birth_place', ]
+    # removed because Specifying both 'fields' and 'form_class' is not permitted.
+    # fields = ['name', 'image', 'bio', 'birth_place', ]
     template_name = 'booking/author-update.html'
+    form_class = AuthorUpdateForm
+
+    def get_context_data(self, **kwargs):
+        context = super(AuthorUpdateView, self).get_context_data(**kwargs)
+        context['city_form'] = CityCreateForm
+        return context
 
     def test_func(self):
         return (self.request.user.is_librarian)
@@ -171,8 +179,13 @@ class PublisherDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class PublisherUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Publisher
-    template_name = 'booking/author-update.html'
-    fields = ['name', 'telephone']
+    template_name = 'booking/publisher-update.html'
+    form_class = PublisherUpdateForm
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(PublisherUpdateView, self).get_context_data(**kwargs)
+    #     context['city_form'] = CityCreateForm
+    #     return context
 
     def test_func(self):
         return (self.request.user.is_librarian)
