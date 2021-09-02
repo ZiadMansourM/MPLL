@@ -21,7 +21,7 @@
                 <table class="table table-striped table-sm">
                     <thead>
                         <tr>
-                            <th scope="col">ID</th>
+                            {% comment %} <th scope="col">ID</th> {% endcomment %}
                             <th scope="col">Name</th>
                             <th scope="col">Birth Place</th>
                             <th scope="col">Bio</th>
@@ -32,9 +32,13 @@
                     <tbody>
                         {% for author in authors %}
                         <tr>
-                            <td class="align-middle">{{ author.id }}</td>
+                            {% comment %} <td class="align-middle">{{ author.id }}</td> {% endcomment %}
                             <td class="align-middle">{{ author.name }}</td>
-                            <td class="align-middle">{{ author.birth_place }}</td>
+                            <td class="align-middle">
+                                {% if author.birth_place %}
+                                    {{ author.birth_place }}
+                                {% endif %}
+                            </td>
                             <td class="align-middle">{{ author.bio |truncatechars:30}}</td>
                             <td class="align-middle"><a class="btn btn-info" href="{% url 'author-update' author.id%}"> Edit </a></td>
                             <td class="align-middle"><a class="btn btn-danger" href="{% url 'author-delete' author.id%}"> Delete </a></td>
