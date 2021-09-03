@@ -2,6 +2,10 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
+{% block css %}
+    <link rel="stylesheet" href="{% static 'blog/css/blog-detailed.css' %}">
+{% endblock css %}
+
 {% block content %}
 <section class="main-section section-height-adjustment">
     <div class="container-lg">
@@ -30,7 +34,12 @@
                             </div>
                         </div>
                         <!-- Post meta content-->
-                        <div class="text-muted fst-italic mb-2">Posted on {{ post.date_posted|date:"F d, Y - P" }} by {{ post.author }}</div>
+                        <div class="text-muted fst-italic mb-2">
+                            Posted on {{ post.date_posted|date:"F d, Y - P" }} by
+                            <span class="author-handler">
+                                {{ post.author }}
+                            </span>
+                        </div>
                         <!-- Post categories-->
                         {% if post.categories.all %}
                             {% for category in post.categories.all %}
