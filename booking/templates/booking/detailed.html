@@ -32,7 +32,7 @@
                                         <h1 class="fw-bolder mb-1">{{ book.name }}</h1>
                                         <!-- Book meta content-->
                                         <div class="text-muted fst-italic mb-2">published
-                                            {% if bbok.date_published %}
+                                            {% if book.date_published %}
                                                 on
                                                 <span class="date-published-handler">
                                                     {{book.date_published|date:"F d, Y " }}
