@@ -38,7 +38,10 @@
                                                     {{book.date_published|date:"F d, Y " }}
                                                 </span>
                                             {% endif %}
-                                            by {{ book.author }}
+                                            by 
+                                            <span class="date-published-handler">
+                                                {{ book.author }}
+                                            </span>
                                         </div>
                                         <!-- Book categories-->
                                         <a class="badge bg-secondary text-decoration-none link-light"
