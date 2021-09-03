@@ -60,7 +60,7 @@
                                 <div style='background-image: url(" {{ post.image.url }} ");' class="cardo-image"></div>
                                 <div class="cardo-text position-relative">
                                     <div class="small text-muted">{{ post.date_posted|date:"F d, Y - P" }}</div>
-                                    <h2 class="card-title ellipses-handler-title">{{ post.title }}</h2>
+                                    <h2 title="{{ post.title }}" class="card-title ellipses-handler-title tt">{{ post.title }}</h2>
                                     <p class="card-text ellipses-handler">{{ post.snippet|safe }}</p>
                                     <a class="btn btn-primary" href="{% url 'blog-detail' post.id %}">Read more</a>
                                     <div class="our-pin-holder"> 
@@ -80,7 +80,7 @@
                             <div style='background-image: url(" {{ post.image.url }} ");' class="cardo-image"></div>
                             <div class="cardo-text">
                                 <div class="small text-muted">{{ post.date_posted|date:"F d, Y - P" }}</div>
-                                <h2 class="card-title ellipses-handler-title">{{ post.title }}</h2>
+                                <h2 title= "{{ post.title }}" class="card-title ellipses-handler-title tt">{{ post.title }}</h2>
                                 <p class="card-text ellipses-handler">{{ post.snippet|safe }}</p>
                                 <a class="btn btn-primary" href="{% url 'blog-detail' post.id %}">Read more</a>
                             </div>
