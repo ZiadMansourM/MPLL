@@ -71,9 +71,15 @@
 /* -------------------------------------------------------------------- */
 
 .cardo-pinned {
-    grid-template-rows: 500px 210px !important;
+    grid-template-rows: 210px 210px !important;
     position: relative;
 }
+
+@media (min-width: 576px){
+.cardo-pinned{
+    grid-template-rows: 500px 210px !important;
+    position: relative;
+}}
 
 .cardo-pinned::after {
     content: '';
