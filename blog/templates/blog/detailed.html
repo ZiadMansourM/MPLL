@@ -172,7 +172,7 @@
 <script type="text/javascript">
     $(document).on('submit', '#AddCommentForm', function (e) {
         e.preventDefault();
-        //$(".WaitBtnClassOpen")[0].click();
+        $(".WaitBtnClassOpen")[0].click();
         $.ajax({
             type: 'POST',
             url: '{% url "api-comment-create" post.id %}',
@@ -200,9 +200,7 @@
                 // [5]: close Comment Form
                 ToggleAddComment();
                 // [6]: stop wait modal
-                /*$(".WaitBtnClassClose")[0].click();
-                $("#WaitModel").modal("hide");
-                $('.modal').modal('hide');*/
+                $(".WaitBtnClassClose")[0].click();
                 console.log("close");
             }
         });
@@ -213,7 +211,7 @@
 <script type="text/javascript">
     $(document).on('submit', '#AddReplyForm', function (e) {
         e.preventDefault();
-        //$(".WaitBtnClassOpen")[0].click();
+        $(".WaitBtnClassOpen")[0].click();
         var comment_id = e.target.classList[0];
 
         var reply_url_str = $(".dynamic-urls").attr("reply-create-url");
@@ -248,9 +246,7 @@
                 // [5]: close reply box
                 ToggleReply('AddReplyCard' + comment_id);
                 // [6]: close wait box
-                /*$(".WaitBtnClassClose")[0].click();
-                $("#WaitModel").modal("hide");
-                $('.modal').modal('hide');*/
+                $(".WaitBtnClassClose")[0].click();
                 console.log("close");
             }
         });
@@ -261,7 +257,7 @@
 <script type="text/javascript">
     $(document).on('submit', '#LikePostForm', function (e) {
         e.preventDefault();
-        //$(".WaitBtnClassOpen")[0].click();
+        $(".WaitBtnClassOpen")[0].click();
         $.ajax({
             type: 'POST',
             url: '{% url "api-like-post" post.id %}',
@@ -278,9 +274,7 @@
                 button.classList.add("btn-danger");
                 button.classList.remove("btn-primary");
                 form.id="UnlikePostForm";
-                /*$(".WaitBtnClassClose")[0].click();
-                $("#WaitModel").modal("hide");
-                $('.modal').modal('hide');*/
+                $(".WaitBtnClassClose")[0].click();
                 console.log("close");
             }
         });
@@ -290,7 +284,7 @@
 <script type="text/javascript">
     $(document).on('submit', '#UnlikePostForm', function (e) {
         e.preventDefault();
-        //$(".WaitBtnClassOpen")[0].click();
+        $(".WaitBtnClassOpen")[0].click();
         $.ajax({
             type: 'POST',
             url: '{% url "api-unlike-post" post.id %}',
@@ -307,9 +301,7 @@
                 button.classList.remove("btn-danger");
                 button.classList.add("btn-primary");
                 form.id="LikePostForm";
-                /*$(".WaitBtnClassClose")[0].click();
-                $("#WaitModel").modal("hide");
-                $('.modal').modal('hide');*/
+                $(".WaitBtnClassClose")[0].click();
                 console.log("close");
             }
         });
@@ -319,7 +311,7 @@
 <script type="text/javascript">
     $(document).on('submit', '#UnlikeCommentForm', function (e) {
         e.preventDefault();
-        //$(".WaitBtnClassOpen")[0].click();
+        $(".WaitBtnClassOpen")[0].click();
         // get url
         var comment_id = e.target.classList[0];
         var commenl_unlike_url = $(".dynamic-urls").attr("comment-unlike-url");
@@ -342,9 +334,7 @@
                 form.id="LikeCommentForm";
                 form.classList.add("LikeCommentForm");
                 form.classList.remove("UnlikeCommentForm");
-                /*$(".WaitBtnClassClose")[0].click();
-                $("#WaitModel").modal("hide");
-                $('.modal').modal('hide');*/
+                $(".WaitBtnClassClose")[0].click();
                 console.log("close");
             }
         });
@@ -354,7 +344,7 @@
 <script type="text/javascript">
     $(document).on('submit', '#LikeCommentForm', function (e) {
         e.preventDefault();
-        //$(".WaitBtnClassOpen")[0].click();
+        $(".WaitBtnClassOpen")[0].click();
         // get url
         var comment_id = e.target.classList[0];
         var comment_like_url = $(".dynamic-urls").attr("comment-like-url");
@@ -377,9 +367,7 @@
                 form.id="UnlikeCommentForm";
                 form.classList.add("UnlikeCommentForm");
                 form.classList.remove("LikeCommentForm");
-                /*$(".WaitBtnClassClose")[0].click();
-                $("#WaitModel").modal("hide");
-                $('.modal').modal('hide');*/
+                $(".WaitBtnClassClose")[0].click();
                 console.log("close");
             }
         });
@@ -389,7 +377,7 @@
 <script type="text/javascript">
     $(document).on('submit', '#UnlikeReplyForm', function (e) {
         e.preventDefault();
-        //$(".WaitBtnClassOpen")[0].click();
+        $(".WaitBtnClassOpen")[0].click();
         // get url
         var reply_id = e.target.classList[0];
         var comment_id = e.target.classList[1];
@@ -413,9 +401,7 @@
                 form.id="LikeReplyForm";
                 form.classList.add("LikeReplyForm");
                 form.classList.remove("UnlikeReplyForm");
-                /*$(".WaitBtnClassClose")[0].click();
-                $("#WaitModel").modal("hide");
-                $('.modal').modal('hide');*/
+                $(".WaitBtnClassClose")[0].click();
                 console.log("close");
             }
         });
@@ -425,7 +411,7 @@
 <script type="text/javascript">
     $(document).on('submit', '#LikeReplyForm', function (e) {
         e.preventDefault();
-        //$(".WaitBtnClassOpen")[0].click();
+        $(".WaitBtnClassOpen")[0].click();
         // get url
         var reply_id = e.target.classList[0];
         var comment_id = e.target.classList[1];
@@ -449,9 +435,7 @@
                 form.id="UnlikeReplyForm";
                 form.classList.add("UnlikeReplyForm");
                 form.classList.remove("LikeReplyForm");
-                /*$(".WaitBtnClassClose")[0].click();
-                $("#WaitModel").modal("hide");
-                $('.modal').modal('hide');*/
+                $(".WaitBtnClassClose")[0].click();
                 console.log("close");
             }
         });
