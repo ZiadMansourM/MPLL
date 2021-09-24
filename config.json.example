@@ -1,0 +1,14 @@
+{
+    "SECRET_KEY": Generate long string and put it here",
+    "DEBUG": true,
+    "ALLOWED_HOSTS": [],
+    "ENGINE": "django.db.backends.sqlite3",
+    "NAME": "directory to your BD file e.g. C:/Users/ziadm/Desktop/MPLL/site/MPLL/db.sqlite3",
+    "USER": "",
+    "PASSWORD": "",
+    "HOST": "",
+    "PORT": "",
+    "EMAIL_HOST_USER": "",
+    "EMAIL_HOST_PASSWORD": "",
+    "DEFAULT_FROM_EMAIL": ""
+}
